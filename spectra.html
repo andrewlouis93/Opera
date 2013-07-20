@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Opera</title>    
+	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.crosshair.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.navigate.js"></script>
+	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/opera-scripts.js"></script>
+	<script language="javascript" type="text/javascript" src="js/toastr.js"></script>
+	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
+	<script language="javascript" type="text/javascript">
+
+
+		function plotList(data_list){
+			$.plot("#placeholder", [{data:data_list,
+								lines: { show: true },
+								points: { show: false },
+								}],
+								{
+								xaxes: [{position:'bottom',axisLabel:'Ra'}],
+								yaxes: [{position:'left',axisLabel:'Rd'}],
+								grid:{hoverable:true,color:'white',clickable:true}
+								});		
+			}
+			
+		function Tf_rightAction(){
+			sessvars.currTf = LocalSafeCount(sessvars.currTf,"add",3);
+				if (sessvars.dampertype == "hyster"){
+					hyst_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					hyst_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);
+				}
+				else if (sessvars.dampertype=="visco"){
+					visc_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					visc_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);					
+				}
+					//Marking the labels
+					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
+					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);
+		}
+		
+		function Tf_leftAction(){
+				sessvars.currTf = LocalSafeCount(sessvars.currTf,"sub",3);
+				if (sessvars.dampertype == "hyster"){
+					hyst_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					hyst_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);
+				}
+				else if (sessvars.dampertype == "visco"){
+					visc_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					visc_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);					
+				}
+					//Marking the labels
+					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
+					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);		
+		}
+		
+		function Vf_rightAction(){
+				sessvars.currVf = LocalSafeCount(sessvars.currVf,"add",3);
+				if (sessvars.dampertype == "hyster"){
+					hyst_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					hyst_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);
+				}
+				else if (sessvars.dampertype=="visco"){
+					visc_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					visc_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);					
+				}
+					//Marking the labels
+					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
+					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);				
+		}
+		
+		function Vf_leftAction(){
+				sessvars.currVf = LocalSafeCount(sessvars.currVf,"sub",3);
+				if (sessvars.dampertype == "hyster"){
+					hyst_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					hyst_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					hyst_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);
+				}
+				else if (sessvars.dampertype =="visco"){
+					visc_graph1(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph2(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf]);
+					visc_graph3(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1]);
+					visc_graph4(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf]);					
+				}
+				
+					//Marking the labels
+					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
+					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);	
+		}
+	</script>
+	<!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="form_stylesheet_spectra.css" type="text/css" />
+	<link rel="stylesheet" href="css/toastr.css" type="text/css" />
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+	
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap" style="overflow:hidden;">
+      <!-- Begin page content -->
+<span style="margin-top:18px;margin-left:95%;float:right;font-size:47px;opacity:0.7;color:#FF2B32;position:absolute;">
+		<a  id="navigator"><i class="icon-circle-arrow-right"></i></a>
+</span>
+      <div class="container" style="overflow:hidden;">
+
+			<div class="basic_form">
+				<span id="title">
+						Spectra
+				</span> 
+				
+				<!-- Tf, Vf labels -->
+				<span id="Tf1_label">Tf1</span>
+				<span id="Tf2_label">Tf2</span>
+				<span id="Vf1_label">Vf1</span>
+				<span id="Vf2_label">Vf2</span>
+				
+
+				<div id="placeholder"></div> 
+				<div id="placeholder2"></div>
+				<div id="placeholder3"></div>
+				<div id="placeholder4"></div>
+				
+				<span id="Tf_nav">
+					<i id="Tf_right" onclick="Tf_rightAction()" class="icon-double-angle-right about_nav"></i>
+					<i id="Tf_left"  onclick="Tf_leftAction()" class="icon-double-angle-left about_nav"></i>
+					<span class="spectrum_leg">T<sub>f</sub></span>
+				</span>
+				
+				<span id="Vf_nav">
+
+					<i id="Vf_right"  onclick="Vf_rightAction()" class="icon-double-angle-right about_nav"></i>
+					<i id="Vf_left"   onclick="Vf_leftAction()" class="icon-double-angle-left about_nav"></i>
+					<span class="spectrum_leg">V<sub>f</sub></span>
+				</span>
+			</div>
+			
+     </div>
+
+      <div id="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">University of Toronto &copy; 2013</p>
+      </div>
+    </div>
+  </body>
+</html>
