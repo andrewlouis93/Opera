@@ -374,17 +374,11 @@ input[type=number] {
 	position:relative;
 }
 
-#placeholder .xbutton {
+.xbutton {
 		position: absolute;
 		cursor: pointer;
 	}
 
-	#placeholder div.xbutton {
-		font-size: smaller;
-		color: #999;
-		background-color: #eee;
-		padding: 2px;
-	}
 
 #placeholder2{
 	margin-top:5px;
