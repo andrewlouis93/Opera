@@ -23,8 +23,10 @@ function LocalSafeCount(val,op,limit){
 			
 	return val;		
 }
-			function visc_graph1(Tf, Vf)
+			function visc_graph(Tf, Vf,placeholder_id)
 			{
+				
+				var placeholder = $(placeholder_id);
 				//Check logic!!!
 				var intervals = 4;//for alpha use 4 --> This used to be 20.
 				var d1 = [];
@@ -40,7 +42,7 @@ function LocalSafeCount(val,op,limit){
 				}
 				//Defined in control script
 				//var spectraplot = $.plot("#placeholder", [d1] );
-			var plot = $.plot("#placeholder", [{data:d1,label:"x: 0 y: 0",
+			var plot = $.plot(placeholder, [{data:d1,label:"x: 0 y: 0",
 								lines: { show: true },
 								points: { show: false },
 								}],
@@ -48,219 +50,78 @@ function LocalSafeCount(val,op,limit){
 								crosshair:{mode:"xy",color:'white',lineWidth:2},								
 								xaxes: [{position:'bottom',axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
-								grid:{hoverable:true,color:'white',clickable:true}
+								pan:{interactive:true},
+								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}								
 								});			
-										
 					$('.xaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
 
 					$('.yaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
 			
-				var legends = $("#placeholder .legendLabel");
 				
-					
 				 var updateLegendTimeout = null;
-				 var latestPosition = null;
-				 function updateLegend(){
-						var pos = latestPosition;
-						
-						var axes = plot.getAxes();
-						if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-							pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
-							return;
-						//pos.x is going to be the x variable.
+
+				 
+				 function updateLegend(x,y){
 						var series = (plot.getData())[0];
-						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ (pos.y).toFixed(2));
+						var legends = $(placeholder_id+ ".legendLabel");
+						series.label ="x: " + (x)+" y: "+ (y);
+						plot.setupGrid();
+						clearTimeout(updateLegendTimeout);
 				 }	
-				 			$("#placeholder").bind("plothover",  function (event, pos, item) {
-						latestPosition = pos;
-							if (!updateLegendTimeout){
-								updateLegendTimeout = setTimeout(updateLegend, 50);
-								updateLegendTimeout = null;
-							}
+				 
+				 
+
+				 
+				placeholder.bind("plothover",  function (event, pos, item) {
+						if (item){
+							var local_x = item.datapoint[0].toFixed(2);
+							var local_y = item.datapoint[1].toFixed(2);
+							console.log(local_x);console.log(local_y);
+							
+
+									if (!updateLegendTimeout){
+										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
+										updateLegendTimeout = null;
+									}
+						}
+									
+						
+
+							
 				});
+				// show pan/zoom messages to illustrate events 
+				placeholder.bind('plotpan', function (event, plot) {
+					var axes = plot.getAxes();
+				});
+							  
+				$("<i class='icon-plus-sign xbutton' style='font-size:20px;right:50px;top:40px'></i>")
+					.appendTo(placeholder)
+					.click(function (event) {
+							event.preventDefault();
+							plot.zoom();
+					});
+										
+				$("<i class='icon-minus-sign xbutton' style='font-size:20px;right:20px;top:40px'></i>")
+					.appendTo(placeholder)
+					.click(function (event) {
+							event.preventDefault();
+							plot.zoomOut();
+					});
+
+				panning = false;				
+				$(placeholder_id+' canvas').bind('drag',function(){
+					panning = true; 
+				});
+				
+				$(placeholder_id+' canvas').bind('dragend',function(){
+					function stopPan(){
+						panning = false;
+					}
+					setTimeout(stopPan, 100);
+   			    });  
 			}
-
-function visc_graph2(Tf, Vf)
-			{
-				//Check logic!!!
-				var intervals = 4;//for alpha use 4 --> This used to be 20.
-				var d1 = [];
-				var temp = Math.pow((Tf/(2*Math.PI)),2);
-				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
-				var x_inter = numeric.linspace(0.1,0.6,intervals);
-				for (var i = 0; i < intervals; i += 1) {
-					var alpha = x_inter[i];
-					var temp = visc_SPECTRA(alpha, i, Tf, Vf,SdTf_temp,42,2,2,2);//42 is irrelevant! 4 is SdTf
-					
-					var Ra = temp["Ra"];
-					var Rd = temp["Rd"];
-					d1.push([Rd, Ra]);
-				}
-				//Defined in control script
-				//var spectraplot = $.plot("#placeholder", [d1] );
-			var plot = $.plot("#placeholder2", [{data:d1,label:"x: 0 y: 0",
-								lines: { show: true },
-								points: { show: false },
-								}],
-								{
-								crosshair:{mode:"xy",color:'white',lineWidth:2},								
-								xaxes: [{position:'bottom',axisLabel:'Rd'}],
-								yaxes: [{position:'left',axisLabel:'Ra'}],
-								grid:{hoverable:true,color:'white',clickable:true}
-								});			
-										
-					$('.xaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-
-					$('.yaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-			
-				var legends = $("#placeholder2 .legendLabel");
-				
-					
-				 var updateLegendTimeout = null;
-				 var latestPosition = null;
-				 function updateLegend(){
-						var pos = latestPosition;
-						
-						var axes = plot.getAxes();
-						if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-							pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
-							return;
-						//pos.x is going to be the x variable.
-						var series = (plot.getData())[0];
-						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ (pos.y).toFixed(2));
-				 }	
-				 			$("#placeholder2").bind("plothover",  function (event, pos, item) {
-						latestPosition = pos;
-							if (!updateLegendTimeout){
-								updateLegendTimeout = setTimeout(updateLegend, 50);
-								updateLegendTimeout = null;
-							}
-				});
-			}			
-
-function visc_graph3(Tf, Vf)
-			{
-				//Check logic!!!
-				var intervals = 4;//for alpha use 4 --> This used to be 20.
-				var d1 = [];
-				var temp = Math.pow((Tf/(2*Math.PI)),2);
-				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
-				var x_inter = numeric.linspace(0.1,0.6,intervals);
-				for (var i = 0; i < intervals; i += 1) {
-					var alpha = x_inter[i];
-					var temp = visc_SPECTRA(alpha, i, Tf, Vf,SdTf_temp,42,2,2,2);//42 is irrelevant! 4 is SdTf
-					
-					var Ra = temp["Ra"];
-					var Rd = temp["Rd"];
-					d1.push([Rd, Ra]);
-				}
-				//Defined in control script
-				//var spectraplot = $.plot("#placeholder", [d1] );
-			var plot = $.plot("#placeholder3", [{data:d1,label:"x: 0 y: 0",
-								lines: { show: true },
-								points: { show: false },
-								}],
-								{
-								crosshair:{mode:"xy",color:'white',lineWidth:2},								
-								xaxes: [{position:'bottom',axisLabel:'Rd'}],
-								yaxes: [{position:'left',axisLabel:'Ra'}],
-								grid:{hoverable:true,color:'white',clickable:true}
-								});			
-										
-					$('.xaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-
-					$('.yaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-			
-				var legends = $("#placeholder3 .legendLabel");
-				
-					
-				 var updateLegendTimeout = null;
-				 var latestPosition = null;
-				 function updateLegend(){
-						var pos = latestPosition;
-						
-						var axes = plot.getAxes();
-						if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-							pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
-							return;
-						//pos.x is going to be the x variable.
-						var series = (plot.getData())[0];
-						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ (pos.y).toFixed(2));
-				 }	
-				 			$("#placeholder3").bind("plothover",  function (event, pos, item) {
-						latestPosition = pos;
-							if (!updateLegendTimeout){
-								updateLegendTimeout = setTimeout(updateLegend, 50);
-								updateLegendTimeout = null;
-							}
-				});
-			}
-
-function visc_graph4(Tf, Vf)
-			{
-				//Check logic!!!
-				var intervals = 4;//for alpha use 4 --> This used to be 20.
-				var d1 = [];
-				var temp = Math.pow((Tf/(2*Math.PI)),2);
-				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
-				var x_inter = numeric.linspace(0.1,0.6,intervals);
-				for (var i = 0; i < intervals; i += 1) {
-					var alpha = x_inter[i];
-					var temp = visc_SPECTRA(alpha, i, Tf, Vf,SdTf_temp,42,2,2,2);//42 is irrelevant! 4 is SdTf
-					
-					var Ra = temp["Ra"];
-					var Rd = temp["Rd"];
-					d1.push([Rd, Ra]);
-				}
-				//Defined in control script
-				//var spectraplot = $.plot("#placeholder", [d1] );
-			var plot = $.plot("#placeholder4", [{data:d1,label:"x: 0 y: 0",
-								lines: { show: true },
-								points: { show: false },
-								}],
-								{
-								crosshair:{mode:"xy",color:'white',lineWidth:2},								
-								xaxes: [{position:'bottom',axisLabel:'Rd'}],
-								yaxes: [{position:'left',axisLabel:'Ra'}],
-								grid:{hoverable:true,color:'white',clickable:true}
-								});			
-										
-					$('.xaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-
-					$('.yaxisLabel').css('color','white');
-					$('.xaxisLabel').css('font-size','1.2em');
-			
-				var legends = $("#placeholder4 .legendLabel");
-				
-					
-				 var updateLegendTimeout = null;
-				 var latestPosition = null;
-				 function updateLegend(){
-						var pos = latestPosition;
-						
-						var axes = plot.getAxes();
-						if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-							pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
-							return;
-						//pos.x is going to be the x variable.
-						var series = (plot.getData())[0];
-						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ (pos.y).toFixed(2));
-				 }	
-				 			$("#placeholder4").bind("plothover",  function (event, pos, item) {
-						latestPosition = pos;
-							if (!updateLegendTimeout){
-								updateLegendTimeout = setTimeout(updateLegend, 50);
-								updateLegendTimeout = null;
-							}
-				});
-			}				
 	
 			function hyst_graph(Tf, Vf,placeholder_id)
 			{
@@ -390,36 +251,34 @@ function visc_graph4(Tf, Vf)
 					
 				 var updateLegendTimeout = null;
 				 var latestPosition = null;
-				 function updateLegend(){
+				 function updateLegend(x,y){
 						var series = (plot.getData())[0];
-						legends.eq(0).text(series.label ="x: " + (local_x)+" y: "+ (local_y));
-				 }	
+						var legends = $(placeholder_id+ ".legendLabel");
+						series.label ="x: " + (x)+" y: "+ (y);
+						console.log("x is" + x);
+						plot.setupGrid();
+						clearTimeout(updateLegendTimeout);
+				}	
 				 
-				 function stopPan(){
-					sessvars.panning = false;
-				 }
-				 			placeholder.bind("plothover",  function (event, pos, item) {
-									if (item){
-										local_x = item.datapoint[0].toFixed(2);
-										local_y = item.datapoint[1].toFixed(2);
-										console.log("x:" + local_x + ", " + "y:" + local_y);
-									}
-									
+
+				placeholder.bind("plothover",  function (event, pos, item) {
+						if (item){
+							var local_x = item.datapoint[0].toFixed(2);
+							var local_y = item.datapoint[1].toFixed(2);
+							console.log(local_x);console.log(local_y);
+							
+
 									if (!updateLegendTimeout){
-										updateLegendTimeout = setTimeout(updateLegend, 50);
+										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
 										updateLegendTimeout = null;
 									}
-							
-							});
+						}
+				});
 							
 							sessvars.panning = false;
 							// show pan/zoom messages to illustrate events 
 							  placeholder.bind('plotpan', function (event, plot) {
 								var axes = plot.getAxes();
-								$(".message").html("Panning to x: "  + axes.xaxis.min.toFixed(2)
-										   + " &ndash; " + axes.xaxis.max.toFixed(2)
-										   + " and y: " + axes.yaxis.min.toFixed(2)
-										   + " &ndash; " + axes.yaxis.max.toFixed(2));
 							  });
 							  
 							  		$("<i class='icon-plus-sign xbutton' style='font-size:20px;right:50px;top:40px'></i>")
@@ -436,11 +295,14 @@ function visc_graph4(Tf, Vf)
 											plot.zoomOut();
 										});
 
-
+								panning_h = false;
 							  $(placeholder_id+' canvas').bind('drag',function(){
-								sessvars.panning = true; 
+								panning_h = true; 
 							  });
 							  $(placeholder_id+' canvas').bind('dragend',function(){
+							  	function stopPan(){
+									panning_h = false;
+								}
 								setTimeout(stopPan, 100);
 							 });  
 			}
@@ -476,10 +338,10 @@ function visc_graph4(Tf, Vf)
 					hyst_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
 				}
 				else{
-					visc_graph1(sessvars.Tf_index[0],sessvars.Vf_index[0]);
-					visc_graph2(sessvars.Tf_index[0],sessvars.Vf_index[1]);
-					visc_graph3(sessvars.Tf_index[1],sessvars.Vf_index[0]);
-					visc_graph4(sessvars.Tf_index[1],sessvars.Vf_index[1]);
+					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[0],'#placeholder');
+					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[1],'#placeholder2');
+					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
+					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
 				}	
 			});
 	});
