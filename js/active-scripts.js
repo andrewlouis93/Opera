@@ -318,7 +318,12 @@ panning = false;
 				var globalDesignCount = 0;
 				sessvars.DesignContainer = [];
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
-					if (!panning || !panning_h){
+					
+					var temp;
+					if (sessvars.dampertype =="hyster"){temp = panning_h;}
+					else {temp = panning;}
+					
+					if (!temp){
 						globalDesignCount+=1;
 						toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
 						sessvars.DesignContainer.push([local_x,local_y]);
