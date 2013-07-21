@@ -90,6 +90,32 @@
 					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
 					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);	
 		}
+					$(document).ready(function() {
+
+				sessvars.currTf = 1;
+				sessvars.currVf = 1;
+				
+				
+				//Marking the labels
+				document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[0].toFixed(2);
+				document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[1].toFixed(2);
+				
+				document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
+				document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
+				
+				if (sessvars.dampertype == "hyster"){
+					hyst_graph(sessvars.Tf_index[0],sessvars.Vf_index[0],'#placeholder');
+					hyst_graph(sessvars.Tf_index[0],sessvars.Vf_index[1],'#placeholder2');
+					hyst_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
+					hyst_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
+				}
+				else{
+					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[0],'#placeholder');
+					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[1],'#placeholder2');
+					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
+					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
+				}	
+			});
 	</script>
 	<!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">

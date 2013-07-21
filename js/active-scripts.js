@@ -23,9 +23,11 @@ function LocalSafeCount(val,op,limit){
 			
 	return val;		
 }
+
+panning_h = false;
+panning = false;
 			function visc_graph(Tf, Vf,placeholder_id)
 			{
-				
 				var placeholder = $(placeholder_id);
 				//Check logic!!!
 				var intervals = 4;//for alpha use 4 --> This used to be 20.
@@ -125,6 +127,7 @@ function LocalSafeCount(val,op,limit){
 	
 			function hyst_graph(Tf, Vf,placeholder_id)
 			{
+
 				var placeholder = $(placeholder_id);
 				var mud_intervals = 4;//for alpha use 4 --> This used to be 20.
 				//Each of the following is a container for a curve on the spectrum. 
@@ -148,6 +151,7 @@ function LocalSafeCount(val,op,limit){
 					dick_var[alpha] = [];
 					
 					for  (var j = 0; j < mud_array.length; j += 1){
+						
 						var temp = hyst_SPECTRA(alpha, mud_array[j], Tf, Vf, SdTf_temp, 42, 2);//42 is irrelevant! 4 is SdTf
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];	
@@ -263,8 +267,8 @@ function LocalSafeCount(val,op,limit){
 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
-							var local_x = item.datapoint[0].toFixed(2);
-							var local_y = item.datapoint[1].toFixed(2);
+							local_x = item.datapoint[0].toFixed(2);
+							local_y = item.datapoint[1].toFixed(2);
 							console.log(local_x);console.log(local_y);
 							
 
@@ -275,7 +279,6 @@ function LocalSafeCount(val,op,limit){
 						}
 				});
 							
-							sessvars.panning = false;
 							// show pan/zoom messages to illustrate events 
 							  placeholder.bind('plotpan', function (event, plot) {
 								var axes = plot.getAxes();
@@ -313,16 +316,17 @@ function LocalSafeCount(val,op,limit){
 				var globalDesignCount = 0;
 				sessvars.DesignContainer = [];
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
-				if (!sessvars.panning){
+				if (!panning || !panning_h){
 					globalDesignCount+=1;
 					toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
 					sessvars.DesignContainer.push([local_x,local_y]);
 				}
 			  });
 			$(document).ready(function() {
-				
+
 				sessvars.currTf = 1;
 				sessvars.currVf = 1;
+				
 				
 				//Marking the labels
 				document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[0].toFixed(2);

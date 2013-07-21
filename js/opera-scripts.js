@@ -1,3 +1,4 @@
+
 function getPoint(x1,y1,x2,y2,x){
     var inter1 = (x - x1)/(x2 - x1);
     inter1 = inter1*(y2 - y1);
@@ -88,8 +89,12 @@ function calResidualFOen(p,mu1,mu2,g)
     /*computes the free-oscillation residual drift for system with post-yield
       stiffness ratio p, primary ductility mu1, secondary ductiliy mu2 after*/
 
-    cont_flag = 1;
-    pr = p;
+    var cont_flag = 1;
+    var pr = p;
+	
+	var mu_cur;
+	var mu_init;
+	
     if (mu2 > 1){
         mu_cur = mu1/mu2;
         mu_init = mu_cur;
@@ -99,14 +104,14 @@ function calResidualFOen(p,mu1,mu2,g)
         mu_init = mu_cur;
     }
 
-
     if (g<1)  {
         mu_crit = (1-p)/p+2*g/Math.sqrt(1-g)*Math.sqrt((1-p)/p);
     }
     else {
         mu_crit = Number.POSITIVE_INFINITY;
     }
-
+	
+	var Rsf_bl;
     if (g == 0 && p>=0.5){
         Rsf_bl = 0;
     }
@@ -119,12 +124,13 @@ function calResidualFOen(p,mu1,mu2,g)
         }
     }
 
-   Rsm = calMaxResidual(p, mu1, mu2, 1);
+   var Rsm = calMaxResidual(p, mu1, mu2, 1);
    
     if (Rsf_bl>Rsm){
         Rsf_bl = Rsm;
     }
-
+	
+	var Rsfe;
     if (mu2 >1){
         Rsfe = Math.abs(Rsf_bl*mu_init/mu1+1-1/mu2);
     }
