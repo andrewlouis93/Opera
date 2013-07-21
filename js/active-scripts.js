@@ -310,20 +310,21 @@ panning = false;
 							 });  
 			}
 			
-		$(function() {	
 				
+
+			$(document).ready(function() {
+
 				//Info pop-ups		
 				var globalDesignCount = 0;
 				sessvars.DesignContainer = [];
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
-				if (!panning || !panning_h){
-					globalDesignCount+=1;
-					toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
-					sessvars.DesignContainer.push([local_x,local_y]);
-				}
-			  });
-			$(document).ready(function() {
-
+					if (!panning || !panning_h){
+						globalDesignCount+=1;
+						toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
+						sessvars.DesignContainer.push([local_x,local_y]);
+					}
+				});	
+			
 				sessvars.currTf = 1;
 				sessvars.currVf = 1;
 				
@@ -348,4 +349,3 @@ panning = false;
 					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
 				}	
 			});
-	});

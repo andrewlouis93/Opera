@@ -101,7 +101,7 @@
                     fgColor : this.$.data('fgcolor') || '#87CEEB',
                     inputColor: this.$.data('inputcolor') || this.$.data('fgcolor') || '#87CEEB',
                     inline : false,
-                    step : this.$.data('step') || 1,
+                    step : this.$.data('step'),
 
                     // Hooks
                     draw : null, // function () {}

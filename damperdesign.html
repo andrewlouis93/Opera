@@ -14,16 +14,20 @@
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="form_stylesheet_damperdesign.css" type="text/css" />
+	<link rel="stylesheet" href="js/jQRangeSlider/demo/lib/jquery-ui/css/smoothness/jquery-ui-1.8.10.custom.css"> 
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/iThing.css" type="text/css" />
 	
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="lib/jquery-1.7.1.min.js"></script>
+	<script src="lib/jquery-ui-1.8.16.custom.min.js"></script>
+    <script src="js/jQAllRangeSliders-min.js"></script>
 	<script type="text/javascript" src="js/jquery.knob.js"></script>
 	<script type="text/javascript" src="js/sessvars.js"></script>	
 	<script type="text/javascript">
@@ -108,17 +112,16 @@
 
 			function damperdesign_payload(){
 			
-				var Center = parseFloat(document.getElementById('Tf').value);
-				var Delta = parseFloat(document.getElementById('delta_T').value);
+
 				//sessvars.Tf = document.getElementById('Tf').value;
-				sessvars.Tfmin = Center + Delta;
-				sessvars.Tfmax = Center - Delta;
+				sessvars.Tfmin = Tf_Bounds.min;
+				sessvars.Tfmax = Tf_Bounds.max;
 				
-				Center = parseFloat(document.getElementById('Vf').value);
-				Delta = parseFloat(document.getElementById('delta_V').value);
+
 				//sessvars.Vf = document.getElementById('Vf').value;
-				sessvars.Vmin = Center + Delta;
-				sessvars.Vmax = Center - Delta;
+				sessvars.Vmin = Vf_Bounds.min;
+				sessvars.Vmax = Vf_Bounds.max;
+				
 													
 				document.location.href='spectra.html';
 			}
@@ -133,10 +136,32 @@
 				jQuery(document).ready(function($) {
 								// Code that uses jQuery's $ can follow here.
 								//Tf knobs -> Tf dial, Vf knobs -> Vf dial
-								$(".dial").knob({'step':0.101});
+								
+								    $("#Tf_spinners").editRangeSlider({
+											formatter:function(val){
+													var value = Math.round(val * 100) / 100;
+													console.log("value is "+value);
+													decimal = value - Math.round(val);
+													Tf_Bounds = $("#Tf_spinners").editRangeSlider("values");
+
+													return decimal == 0 ? value.toString() + ".0" : value.toString();
+											}
+									});
+									
+									$("#Vf_spinners").editRangeSlider({
+											formatter:function(val){
+													var value = Math.round(val * 100) / 100;
+													console.log("value is "+value);
+													Vf_Bounds =  $("#Vf_spinners").editRangeSlider("values");
+													decimal = value - Math.round(val);
+													return decimal == 0 ? value.toString() + ".0" : value.toString();
+											}
+									});
+								
+								//$(".dial").knob();
 								var dd = new DropDown( $('#dd') );
 								var ff = new DropDown( $('#ff') );
-				
+								
 								$(document).click(function() {
 									// all dropdowns
 
@@ -151,7 +176,6 @@
   </head>
 
   <body>
-
 
     <!-- Part 1: Wrap all page content here -->
     <div id="wrap" style="overflow:hidden;">
@@ -204,27 +228,19 @@
 					</div>
 					
 					<div id="elastic_period">
-							<span style="font-family:'Lato';font-size:35px;">Elastic Period(s)</span><br><br>
+							<span style="font-family:'Lato';font-size:35px;">Elastic Period(s)</span>
 								<div id="Tf_spinners">
-										<input id="Tf" type="text"  data-width="110"data-fgColor="#FF2B32" data-skin="tron" data-thickness=".2" data-displayPrevious=true  class="dial">	
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input id="delta_T" type="text"  data-width="100"data-fgColor="#FF2B32" data-skin="tron" data-thickness=".2" data-displayPrevious=true  class="dial">	
+									<br><br>
 								</div>
 								<br>
-										<span id = "Tf_inputs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T<sub>f</sub> (s)
-										      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Delta;T
-										</span>
+										<span id = "Tf_inputs">T<sub>f</sub> (s)</span>
 							<br><br><br>
-							<span style="font-family:'Lato';font-size:35px;">Normalized Strength</span><br><br>
+							<span style="font-family:'Lato';font-size:35px;">Normalized Strength</span>
 								<div id="Vf_spinners">
-										<input id="Vf" type="text"  data-width="110"data-fgColor="#FF2B32" data-skin="tron" data-thickness=".2" data-displayPrevious=true  class="dial">	
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;										
-										<input id="delta_V" type="text"  data-width="100"data-fgColor="#FF2B32" data-skin="tron" data-thickness=".2" data-displayPrevious=true  class="dial">	
+									<br><br>
 								</div>
 								<br>
-										<span id = "Vf_inputs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V<sub>f</sub> (s)
-										      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Delta;V
-										</span>
+										<span id = "Vf_inputs">V<sub>f</sub> (s)</span>
 										<br><br><br>
 							<div id="generate2_pos" onclick="damperdesign_payload();" class="button">Generate P-Spectra</div>
 						
