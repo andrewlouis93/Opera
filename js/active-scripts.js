@@ -30,24 +30,165 @@ panning = false;
 			{
 				var placeholder = $(placeholder_id);
 				//Check logic!!!
-				var intervals = 4;//for alpha use 4 --> This used to be 20.
+				var intervals = 5;//for alpha use 4 --> This used to be 20.
 				var d1 = [];
 				var temp = Math.pow((Tf/(2*Math.PI)),2);
-				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
-				var x_inter = numeric.linspace(0.1,0.6,intervals);
-				for (var i = 0; i < intervals; i += 1) {
-					var alpha = x_inter[i];
-					var temp = visc_SPECTRA(alpha, i, Tf, Vf,SdTf_temp,42,2,2,2);//42 is irrelevant!					
-					var Ra = temp["Ra"];
-					var Rd = temp["Rd"];
-					d1.push([Rd, Ra]);
+				var SaTf_temp = (grabPoint(Tf)[1]);
+				
+				
+				var x_inter = [0,0.05,0.1,0.2,0.3,0.4];
+				//var x_inter = numeric.linspace(0,0.4,intervals);
+				var a_inter = [0.5,0.75,0.99];
+				printout = a_inter;
+				var d0 = [];
+				var d1 = [];
+				var d2 = [];
+				var d3 = [];
+				var d4 = [];
+				var d5 = [];
+				var d6 = [];
+				var d7 = [];
+				
+				var dict_var = {};
+				
+
+				
+				for (var i = 0; i < a_inter.length; i += 1) {
+					//Initializing dictionary
+					dict_var[a_inter[i]] = [];
+					for (var j = 0; j < x_inter.length; j+=1){
+						var alpha = a_inter[i];
+						var x = x_inter[j];
+						var temp = visc_SPECTRA(alpha, x, Tf, Vf,SaTf_temp,42,2,2,2);//42 is irrelevant!		
+						var Ra = temp["Ra"];
+						var Rd = temp["Rd"];
+						//d1.push([Rd, Ra]);						
+						
+						if (Rd > 4){
+							alert("Beep, beep: alpha:" + alpha + "\nSaTf: " + SdTf_temp +"\nTf: " + Tf + "\nVf: " + Vf + "\nC: " + x+ "\nRa: "+Ra+ "\nRd: "+Rd);
+						}
+						
+						
+						if (j == 0){d0.push([Rd,Ra])}
+						if (j == 1){d1.push([Rd,Ra])}
+						if (j == 2){d2.push([Rd,Ra])}
+						if (j == 3){d3.push([Rd,Ra])}
+						if (j == 4){d4.push([Rd,Ra])}
+						if (j == 5){d5.push([Rd,Ra])}
+						if (j == 6){d6.push([Rd,Ra])}
+						if (j == 7){d7.push([Rd,Ra])}
+						
+						dict_var[alpha].push([Rd,Ra]);
+					}
+
 				}
+				
+			global_temp = dict_var;
+			global_temp2 = dict_var[a_inter[2]];
 				//Defined in control script
 				//var spectraplot = $.plot("#placeholder", [d1] );
-			var plot = $.plot(placeholder, [{data:d1,label:"x: 0 y: 0",
+			var plot = $.plot(placeholder, [{data:dict_var[a_inter[2]],label:"x: 0 y: 0",
+								color: 'white',
 								lines: { show: true },
 								points: { show: false },
-								}],
+								},/*
+								{
+									data:d0,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d1,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d2,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d3,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d4,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d5,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d6,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:d7,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},*/
+								{
+									data:dict_var[a_inter[0]],
+									lines: { show: true },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[1]],
+									lines: { show: true },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[2]],
+									lines: { show: true },
+									color: '#white',
+									points: { show: false },								
+								}/*,
+								{
+									data:dict_var[a_inter[3]],
+									lines: { show: true },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[4]],
+									lines: { show: true },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[5]],
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[6]],
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dict_var[a_inter[7]],
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								}*/
+								],
 								{
 								crosshair:{mode:"xy",color:'white',lineWidth:2},								
 								xaxes: [{position:'bottom',axisLabel:'Rd'}],
@@ -60,7 +201,7 @@ panning = false;
 
 					$('.yaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
-			
+				
 				
 				 var updateLegendTimeout = null;
 
@@ -78,8 +219,8 @@ panning = false;
 				 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
-							var local_x = item.datapoint[0].toFixed(2);
-							var local_y = item.datapoint[1].toFixed(2);
+							local_x = item.datapoint[0].toFixed(5);
+							local_y = item.datapoint[1].toFixed(5);
 							console.log(local_x);console.log(local_y);
 							
 
