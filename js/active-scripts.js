@@ -89,9 +89,9 @@ panning = false;
 				//var spectraplot = $.plot("#placeholder", [d1] );
 			var plot = $.plot(placeholder, [{data:dict_var[a_inter[2]],label:"x: 0 y: 0",
 								color: 'white',
-								lines: { show: true },
+								lines: { show: true, lineWidth:3 },
 								points: { show: false },
-								},/*
+								},
 								{
 									data:d0,
 									lines: { show: true },
@@ -133,7 +133,7 @@ panning = false;
 									lines: { show: true },
 									color: '#edc240',
 									points: { show: false },								
-								},
+								},/*,
 								{
 									data:d7,
 									lines: { show: true },
@@ -142,19 +142,19 @@ panning = false;
 								},*/
 								{
 									data:dict_var[a_inter[0]],
-									lines: { show: true },
+									lines: { show: true , lineWidth:3},
 									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dict_var[a_inter[1]],
-									lines: { show: true },
+									lines: { show: true, lineWidth:3 },
 									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dict_var[a_inter[2]],
-									lines: { show: true },
+									lines: { show: true, lineWidth:3 },
 									color: '#white',
 									points: { show: false },								
 								}/*,
@@ -191,7 +191,7 @@ panning = false;
 								],
 								{
 								crosshair:{mode:"xy",color:'white',lineWidth:2},								
-								xaxes: [{position:'bottom',axisLabel:'Rd'}],
+								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
 								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}								
@@ -324,61 +324,62 @@ panning = false;
 								{	data:d0,
 									label:"x: 0 y: 0",
 									lines: { show: true },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },
 								},
 								{
 									data:d1,
 									lines: { show: true },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:d2,
 									lines: { show: true },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:d3,
 									lines: { show: true },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:d4,
 									lines: { show: true },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[0]],
-									lines: { show: true },
+									lines: { show: true, lineWidth:3 },
 									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[1]],
-									lines: { show: true },
+									lines: { show: true , lineWidth:3 },
 									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[2]],
-									lines: { show: true },
+									lines: { show: true, lineWidth:3 },
 									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[3]],
-									lines: { show: true },
+									lineWidth:3,
+									lines: { show: true, lineWidth:3 },
 									color: '#edc240',
 									points: { show: false },								
 								}								
 								],
 								{
 								crosshair:{mode:"xy",color:'white',lineWidth:2},								
-								xaxes: [{position:'bottom',axisLabel:'Rd'}],
+								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
 								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}

@@ -138,6 +138,7 @@
 								//Tf knobs -> Tf dial, Vf knobs -> Vf dial
 								
 								    $("#Tf_spinners").editRangeSlider({
+											defaultValues:{min: 0.6, max: 2},
 											formatter:function(val){
 													var value = Math.round(val * 100) / 100;
 													console.log("value is "+value);
@@ -149,6 +150,7 @@
 									});
 									
 									$("#Vf_spinners").editRangeSlider({
+											defaultValues:{min: 0.5, max: 0.67},
 											formatter:function(val){
 													var value = Math.round(val * 100) / 100;
 													console.log("value is "+value);
@@ -156,7 +158,17 @@
 													decimal = value - Math.round(val);
 													return decimal == 0 ? value.toString() + ".0" : value.toString();
 											}
-									});
+									}
+									);
+									
+									//Default bounds
+									$("#Tf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 4});
+									$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 1});
+									
+						
+									//$("#Tf_spinners").editRangeSlider();
+
+
 								
 								//$(".dial").knob();
 								var dd = new DropDown( $('#dd') );
