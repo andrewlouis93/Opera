@@ -292,7 +292,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
 	console.log("Rs is "+Rs);
    //fprintf('Rdp Rvp Rap Rsp = %g %g %g %g\n', Rd, Rv, Ra, Rs);
 
-    var return_container = {"Rv":Rv,"Ra":Ra,"Rd":Rd};
+    var return_container = {"Rv":Rv,"Ra":Ra,"Rd":Rd,"Rs":Rs};
     return return_container;
 }
 

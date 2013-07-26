@@ -49,13 +49,24 @@ panning = false;
 				var d6 = [];
 				var d7 = [];
 				
+				var dr0 = [];
+				var dr1 = [];
+				var dr2 = [];
+				var dr3 = [];
+				var dr4 = [];
+				var dr5 = [];	
+				var dr6 = [];				
+				
+				
 				var dict_var = {};
+				var dict2_var = {};
 				
 
 				
 				for (var i = 0; i < a_inter.length; i += 1) {
 					//Initializing dictionary
 					dict_var[a_inter[i]] = [];
+					dict2_var[a_inter[i]] = [];
 					for (var j = 0; j < x_inter.length; j+=1){
 						var alpha = a_inter[i];
 						var x = x_inter[j];
@@ -69,16 +80,17 @@ panning = false;
 						}
 						
 						
-						if (j == 0){d0.push([Rd,Ra])}
-						if (j == 1){d1.push([Rd,Ra])}
-						if (j == 2){d2.push([Rd,Ra])}
-						if (j == 3){d3.push([Rd,Ra])}
-						if (j == 4){d4.push([Rd,Ra])}
-						if (j == 5){d5.push([Rd,Ra])}
-						if (j == 6){d6.push([Rd,Ra])}
-						if (j == 7){d7.push([Rd,Ra])}
+						if (j == 0){d0.push([Rd,Ra]);dr0.push([Rd,Rs]);}
+						if (j == 1){d1.push([Rd,Ra]);dr1.push([Rd,Rs]);}
+						if (j == 2){d2.push([Rd,Ra]);dr2.push([Rd,Rs]);}
+						if (j == 3){d3.push([Rd,Ra]);dr3.push([Rd,Rs]);}
+						if (j == 4){d4.push([Rd,Ra]);dr4.push([Rd,Rs]);}
+						if (j == 5){d5.push([Rd,Ra]);dr5.push([Rd,Rs]);}
+						if (j == 6){d6.push([Rd,Ra]);dr6.push([Rd,Rs]);}
+						if (j == 7){d7.push([Rd,Ra]);dr7.push([Rd,Rs]);}
 						
 						dict_var[alpha].push([Rd,Ra]);
+						dict2_var[alpha].push([Rd,Rs]);
 					}
 
 				}
@@ -133,6 +145,48 @@ panning = false;
 									lines: { show: true },
 									color: '#edc240',
 									points: { show: false },								
+								},
+								{
+									data:dr0,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr1,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr2,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr3,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr4,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr5,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
+								},
+								{
+									data:dr6,
+									lines: { show: true },
+									color: '#edc240',
+									points: { show: false },								
 								},/*,
 								{
 									data:d7,
@@ -157,7 +211,25 @@ panning = false;
 									lines: { show: true, lineWidth:3 },
 									color: '#white',
 									points: { show: false },								
-								}/*,
+								},
+								{
+									data:dict2_var[a_inter[0]],
+									lines: { show: true , lineWidth:3},
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict2_var[a_inter[1]],
+									lines: { show: true , lineWidth:3},
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dict2_var[a_inter[2]],
+									lines: { show: true , lineWidth:3},
+									color: 'white',
+									points: { show: false },								
+								},/*,
 								{
 									data:dict_var[a_inter[3]],
 									lines: { show: true },
@@ -277,6 +349,13 @@ panning = false;
 				var d2 = [];
 				var d3 = [];
 				var d4 = [];
+				
+				var dr0 = [];
+				var dr1 = [];
+				var dr2 = [];
+				var dr3 = [];
+				var dr4 = [];
+				
 				var temp = Math.pow((Tf/(2*Math.PI)),2);
 				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
 				//Changed to scopeless so that I can access in plot. 
@@ -284,36 +363,45 @@ panning = false;
 				
 				var mud_array = [1,2,5,10,20];
 				var dick_var = {};
+				var dick2_var = {};
 				
 				for (var i = 0; i < mud_intervals; i += 1) {
 					var alpha = alpha_intervals[i];
 					
 					//Initializing dictionary
 					dick_var[alpha] = [];
+					dick2_var[alpha] = [];
 					
 					for  (var j = 0; j < mud_array.length; j += 1){
 						
 						var temp = hyst_SPECTRA(alpha, mud_array[j], Tf, Vf, SdTf_temp, 42, 2);//42 is irrelevant! 4 is SdTf
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];	
+						var Rs = temp["Rs"];
 						
 						if (j == 0){
 							d0.push([Rd, Ra]);
+							dr0.push([Rd, Rs]);
 						}
 						else if (j == 1){
 							d1.push([Rd, Ra]);
+							dr1.push([Rd, Rs]);
 						}
 						else if (j == 2){
 							d2.push([Rd, Ra]);
+							dr2.push([Rd, Rs]);
 						}
 						else if (j == 3){
 							d3.push([Rd, Ra]);
+							dr3.push([Rd, Rs]);
 						}
 						else if (j == 4){
 							d4.push([Rd, Ra]);
+							dr4.push([Rd, Rs]);
 						}
 
 						dick_var[alpha].push([Rd,Ra]);
+						dick2_var[alpha].push([Rd,Rs]);
 					}
 				}
 				//Defined in control script
@@ -352,6 +440,36 @@ panning = false;
 									points: { show: false },								
 								},
 								{
+									data:dr0,
+									lines: { show: true },
+									color: 'blue',
+									points: { show: false },								
+								},
+								{
+									data:dr1,
+									lines: { show: true },
+									color: 'blue',
+									points: { show: false },								
+								},
+								{
+									data:dr2,
+									lines: { show: true },
+									color: 'blue',
+									points: { show: false },								
+								},
+								{
+									data:dr3,
+									lines: { show: true },
+									color: 'blue',
+									points: { show: false },								
+								},
+								{
+									data:dr4,
+									lines: { show: true },
+									color: 'blue',
+									points: { show: false },								
+								},
+								{
 									data:dick_var[alpha_intervals[0]],
 									lines: { show: true, lineWidth:3 },
 									color: '#edc240',
@@ -375,7 +493,31 @@ panning = false;
 									lines: { show: true, lineWidth:3 },
 									color: '#edc240',
 									points: { show: false },								
-								}								
+								},
+								{
+									data:dick2_var[alpha_intervals[0]],
+									lines: { show: true, lineWidth:3 },
+									color: 'green',
+									points: { show: false },								
+								},
+								{
+									data:dick2_var[alpha_intervals[1]],
+									lines: { show: true, lineWidth:3 },
+									color: 'green',
+									points: { show: false },								
+								},
+								{
+									data:dick2_var[alpha_intervals[2]],
+									lines: { show: true, lineWidth:3 },
+									color: 'green',
+									points: { show: false },								
+								},
+								{
+									data:dick2_var[alpha_intervals[3]],
+									lines: { show: true, lineWidth:3 },
+									color: 'green',
+									points: { show: false },								
+								}									
 								],
 								{
 								crosshair:{mode:"xy",color:'white',lineWidth:2},								
