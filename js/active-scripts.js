@@ -1,4 +1,8 @@
+/*LIST CONTROL PORTION OF SPECTRA.HTML (CALLS AND SETUP FOR LIST.JS) */
 
+
+
+/*GRAPHING AND CONTROL PORTION OF SPECTRA.HTML*/
 		sessvars.Tf_index = numeric.linspace(sessvars.Tfmin,sessvars.Tfmax,6);
 		sessvars.Vf_index = numeric.linspace(sessvars.Vmin,sessvars.Vmax,6);
 		
@@ -598,6 +602,28 @@ panning = false;
 
 			$(document).ready(function() {
 
+			var options = {
+				valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
+			};
+			// Init list
+			var contactList = new List('contacts', options);
+			//alert('Fixes made, bitches fucked.');
+			
+			var editBtn = $('#edit-btn').hide(),
+				removeBtns = $('.remove-item-btn'),
+				editBtns = $('.edit-item-btn');
+			// Sets callbacks to the buttons in the list
+			refreshCallbacks();
+			
+			function refreshCallbacks() {
+				// Needed to add new buttons to jQuery-extended object
+				removeBtns = $(removeBtns.selector);
+				editBtns = $(editBtns.selector);
+				removeBtns.click(function() {
+				   var itemId = $(this).closest('tr').find('.id').text();
+				   contactList.remove('id', itemId);
+				});
+			}
 				//Info pop-ups		
 				var globalDesignCount = 0;
 				sessvars.DesignContainer = [];
@@ -609,7 +635,9 @@ panning = false;
 					
 					if (!temp){
 						globalDesignCount+=1;
-						toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
+						//toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
+						 contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: 0});
+						 refreshCallbacks();
 						sessvars.DesignContainer.push([local_x,local_y]);
 					}
 				});	
