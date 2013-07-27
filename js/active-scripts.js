@@ -446,31 +446,31 @@ panning = false;
 								{
 									data:dr0,
 									lines: { show: true },
-									color: 'blue',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dr1,
 									lines: { show: true },
-									color: 'blue',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dr2,
 									lines: { show: true },
-									color: 'blue',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dr3,
 									lines: { show: true },
-									color: 'blue',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dr4,
 									lines: { show: true },
-									color: 'blue',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
@@ -501,25 +501,25 @@ panning = false;
 								{
 									data:dick2_var[alpha_intervals[0]],
 									lines: { show: true, lineWidth:3 },
-									color: 'green',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[1]],
 									lines: { show: true, lineWidth:3 },
-									color: 'green',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[2]],
 									lines: { show: true, lineWidth:3 },
-									color: 'green',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[3]],
 									lines: { show: true, lineWidth:3 },
-									color: 'green',
+									color: '#edc240',
 									points: { show: false },								
 								}									
 								],
