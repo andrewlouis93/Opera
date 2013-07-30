@@ -56,6 +56,15 @@ a {text-decoration:none}
 	display:inline;
 }
 
+.user-def-element{
+	background:red;
+}
+
+.user-def-element:hover{
+	opacity:0.4;
+}
+
+
 table, th, td{
 	border: 1px solid white;
 	
