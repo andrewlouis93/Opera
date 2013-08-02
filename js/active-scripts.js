@@ -1,3 +1,15 @@
+/*THE LOOK UP TABLES*/
+
+var hysteretic_points_table = [];
+var visco_points_table = [];
+
+function clear_htable(){
+	hysteretic_points_table = [];
+}
+			
+function clear_vtable(){
+	visco_points_table = [];
+}
 /*OPERA COMPUTATION SCRIPTS BELOW*/
 
 function getPoint(x1,y1,x2,y2,x){
@@ -512,12 +524,14 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 		function Tf_rightAction(){
 			sessvars.currTf = LocalSafeCount(sessvars.currTf,"add",3);
 				if (sessvars.dampertype == "hyster"){
+					clear_htable();
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
 				}
 				else if (sessvars.dampertype=="visco"){
+					clear_vtable();
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
@@ -531,12 +545,14 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 		function Tf_leftAction(){
 				sessvars.currTf = LocalSafeCount(sessvars.currTf,"sub",3);
 				if (sessvars.dampertype == "hyster"){
+					clear_htable();
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
 				}
 				else if (sessvars.dampertype == "visco"){
+					clear_vtable();
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
@@ -550,12 +566,14 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 		function Vf_rightAction(){
 				sessvars.currVf = LocalSafeCount(sessvars.currVf,"add",3);
 				if (sessvars.dampertype == "hyster"){
+					clear_htable();
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
 				}
 				else if (sessvars.dampertype=="visco"){
+					clear_vtable();
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
@@ -569,12 +587,14 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 		function Vf_leftAction(){
 				sessvars.currVf = LocalSafeCount(sessvars.currVf,"sub",3);
 				if (sessvars.dampertype == "hyster"){
+					clear_htable();
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
 					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
 				}
 				else if (sessvars.dampertype =="visco"){
+					clear_vtable();
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
 					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
@@ -664,6 +684,16 @@ panning = false;
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];
 						//d1.push([Rd, Ra]);						
+						
+						var object = {
+							Ra: Ra.toFixed(2),
+							Rd: Rd.toFixed(2),
+							Rs: Rs.toFixed(2),
+							mud: mud_array[j],
+							alpha: alpha
+						}
+						
+						visco_points_table.push(object);
 						
 						if (Rd > 4){
 							alert("Beep, beep: alpha:" + alpha + "\nSaTf: " + SdTf_temp +"\nTf: " + Tf + "\nVf: " + Vf + "\nC: " + x+ "\nRa: "+Ra+ "\nRd: "+Rd);
@@ -927,7 +957,7 @@ panning = false;
 					setTimeout(stopPan, 100);
    			    });  
 			}
-	
+				
 			function hyst_graph(Tf, Vf,placeholder_id)
 			{
 
@@ -968,6 +998,16 @@ panning = false;
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];	
 						var Rs = temp["Rs"];
+						
+						var object = {
+							Ra: Ra.toFixed(2),
+							Rd: Rd.toFixed(2),
+							Rs: Rs.toFixed(2),
+							mud: mud_array[j],
+							alpha: alpha
+						}
+						
+						hysteretic_points_table.push(object);
 						
 						if (j == 0){
 							d0.push([Rd, Ra]);
@@ -1240,12 +1280,14 @@ panning = false;
 				document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
 				
 				if (sessvars.dampertype == "hyster"){
+					clear_htable();
 					hyst_graph(sessvars.Tf_index[0],sessvars.Vf_index[0],'#placeholder');
 					hyst_graph(sessvars.Tf_index[0],sessvars.Vf_index[1],'#placeholder2');
 					hyst_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
 					hyst_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
 				}
 				else{
+					clear_vtable();
 					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[0],'#placeholder');
 					visc_graph(sessvars.Tf_index[0],sessvars.Vf_index[1],'#placeholder2');
 					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
