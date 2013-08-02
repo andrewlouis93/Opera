@@ -11,88 +11,8 @@
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
 	<script language="javascript" type="text/javascript" src="js/list.js"></script>
-	<script language="javascript" type="text/javascript" src="js/opera-scripts.js"></script>
 	<script language="javascript" type="text/javascript" src="js/toastr.js"></script>
 	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
-	<script language="javascript" type="text/javascript">
-		function Tf_rightAction(){
-			sessvars.currTf = LocalSafeCount(sessvars.currTf,"add",3);
-				if (sessvars.dampertype == "hyster"){
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
-				}
-				else if (sessvars.dampertype=="visco"){
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
-				}
-					//Marking the labels
-					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
-					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);
-		}
-		
-		function Tf_leftAction(){
-				sessvars.currTf = LocalSafeCount(sessvars.currTf,"sub",3);
-				if (sessvars.dampertype == "hyster"){
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
-				}
-				else if (sessvars.dampertype == "visco"){
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
-				}
-					//Marking the labels
-					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
-					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);		
-		}
-		
-		function Vf_rightAction(){
-				sessvars.currVf = LocalSafeCount(sessvars.currVf,"add",3);
-				if (sessvars.dampertype == "hyster"){
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
-				}
-				else if (sessvars.dampertype=="visco"){
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
-				}
-					//Marking the labels
-					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
-					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);				
-		}
-		
-		function Vf_leftAction(){
-				sessvars.currVf = LocalSafeCount(sessvars.currVf,"sub",3);
-				if (sessvars.dampertype == "hyster"){
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					hyst_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');
-				}
-				else if (sessvars.dampertype =="visco"){
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf-1],'#placeholder');
-					visc_graph(sessvars.Tf_index[sessvars.currTf-1],sessvars.Vf_index[sessvars.currVf],'#placeholder2');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf-1],'#placeholder3');
-					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
-				}
-				
-					//Marking the labels
-					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
-					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);	
-		}
-		
-	</script>
 	<!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
