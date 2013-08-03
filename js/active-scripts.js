@@ -184,7 +184,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
         mud = mu_d;
     }
 
-	console.log("a is " + a + "\nmu_d is " + mud + "\nTf is " + Tf + "\nVf is " + Vf + "\nSdTf is " + SdTf + "\noption1 is " + option1);
+	//console.log("a is " + a + "\nmu_d is " + mud + "\nTf is " + Tf + "\nVf is " + Vf + "\nSdTf is " + SdTf + "\noption1 is " + option1);
     var converge = 0;
     var tol = 0.01;
     var numb_iter = 0;
@@ -194,17 +194,17 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
     while (converge == 0){
         numb_iter = numb_iter + 1;
         //step2: compute Teff
-        Teff = Tf*Math.sqrt(a*mud/(1-a+a*(mud/muf_cur))); console.log("Teff is " + Teff);
+        Teff = Tf*Math.sqrt(a*mud/(1-a+a*(mud/muf_cur))); //console.log("Teff is " + Teff);
         if (Teff>4){
             Teff_flag=1;}
         else{
             Teff_flag=0;}
-        Ti = Tf*Math.sqrt(a);console.log("Ti is " + Ti);
+        Ti = Tf*Math.sqrt(a);//console.log("Ti is " + Ti);
         //step3: compute Xeff
-        I1 = 1/a*Math.log((1-a+a*(mud/muf_cur))/Math.pow((mud/muf_cur),a));console.log("I1 is " + I1);
+        I1 = 1/a*Math.log((1-a+a*(mud/muf_cur))/Math.pow((mud/muf_cur),a));//console.log("I1 is " + I1);
         theta = 2;
-        I2 = mud*(1-1/muf_cur)-(a*Math.pow(mud,2)+(1-a)*Math.pow(muf_cur,2))/(a*mud*muf_cur+(1-a)*Math.pow(muf_cur,2))*Math.log(muf_cur);console.log("I2 is " + I2);
-        Xeff = 2/Math.PI/mud*(I1+I2)*theta;console.log("Xeff is " + Xeff);
+        I2 = mud*(1-1/muf_cur)-(a*Math.pow(mud,2)+(1-a)*Math.pow(muf_cur,2))/(a*mud*muf_cur+(1-a)*Math.pow(muf_cur,2))*Math.log(muf_cur);//console.log("I2 is " + I2);
+        Xeff = 2/Math.PI/mud*(I1+I2)*theta;//console.log("Xeff is " + Xeff);
 
         //Step4: compute DT
         if (option1 == 1) {
@@ -218,26 +218,26 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
             SaTe = spectralA([Teff EQ]);
             SaTf = spectralA([Tf EQ]);*/
 			
-            SaTi = (grabPoint(Ti))[1];console.log("SaTi is " + SaTi);
-            SaTe = (grabPoint(Teff))[1];console.log("SaTe is " + SaTe);
-            SaTf = (grabPoint(Tf))[1];console.log("SaTf is " + SaTf);
+            SaTi = (grabPoint(Ti))[1];//console.log("SaTi is " + SaTi);
+            SaTe = (grabPoint(Teff))[1];//console.log("SaTe is " + SaTe);
+            SaTf = (grabPoint(Tf))[1];//console.log("SaTf is " + SaTf);
 			
             b1 = 22.2;
             b2 = 8.2;
-            fa = 0.5*Math.exp(-(mud-1)/b1);console.log("fa is " + fa);
-            fb = 0.5-0.5*Math.exp(-(mud-1)/b2);console.log("fb is " + fb);
+            fa = 0.5*Math.exp(-(mud-1)/b1);//console.log("fa is " + fa);
+            fb = 0.5-0.5*Math.exp(-(mud-1)/b2);//console.log("fb is " + fb);
 
             fc=1-fa-fb;
-            Spa = (fa*SaTi+fb*SaTf+fc*SaTe);console.log("Spa " + Spa);
+            Spa = (fa*SaTi+fb*SaTf+fc*SaTe);//console.log("Spa " + Spa);
         }
-    SdTeff = Spa*Math.pow((Teff/2/Math.PI),2)*9.81;console.log("SdTeff is " + SdTeff);
-    DT = SdTeff/SdTf;console.log("DT is " + DT); //DT --> RDT
+    SdTeff = Spa*Math.pow((Teff/2/Math.PI),2)*9.81;//console.log("SdTeff is " + SdTeff);
+    DT = SdTeff/SdTf;//console.log("DT is " + DT); //DT --> RDT
 
     //%step5: computer Da
-    Da = Math.exp(-1.35*Math.pow(Xeff,0.5));console.log("Da is " + Da);//Da --> Rdx
+    Da = Math.exp(-1.35*Math.pow(Xeff,0.5));//console.log("Da is " + Da);//Da --> Rdx
 
     //%step6: compute Rv
-    Rd_trial = DT*Da;console.log("Rd_trial is " + Rd_trial);
+    Rd_trial = DT*Da;//console.log("Rd_trial is " + Rd_trial);
 
     if (option1 ==1)
     {
@@ -249,7 +249,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
     }
 
     //%step7: compute muf
-    muf_next = Rd_trial/Vf;console.log("muf_next is " + muf_next);
+    muf_next = Rd_trial/Vf;//console.log("muf_next is " + muf_next);
     if (muf_next < 1){
         muf_next = 1;
     }
@@ -302,7 +302,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
         Ra = Rv+2*Rd*(0.05)*Math.sqrt((1-a+a*mud/muf_cur)/(a*mud));
     }
     Rs = calResidualFOen(a, mud, muf_cur,0);
-	console.log("Rs is "+Rs);
+	//console.log("Rs is "+Rs);
    //fprintf('Rdp Rvp Rap Rsp = %g %g %g %g\n', Rd, Rv, Ra, Rs);
 
     var return_container = {"Rv":Rv,"Ra":Ra,"Rd":Rd,"Rs":Rs};
@@ -333,7 +333,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
 
 function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 
-	SdTf = SaTf*Math.pow((Tf/2/Math.PI),2)*9.81;console.log("SdTf is" + SdTf);
+	SdTf = SaTf*Math.pow((Tf/2/Math.PI),2)*9.81;//console.log("SdTf is" + SdTf);
     
 	var converge = 0;
     var tol = 0.01;
@@ -344,7 +344,7 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
     }
 
     var k = (1-a)/a;
-	console.log("k is " + k);
+	//console.log("k is " + k);
     //Step 1: Guess mu_f
     var muf_cur = 1;
 
@@ -353,7 +353,7 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
         numb_iter = numb_iter + 1;
 
         //Step 2: Compute Teff
-        Teff = Tf*Math.sqrt(a/(1-a+a/muf_cur)); console.log("Teff is "+Teff);
+        Teff = Tf*Math.sqrt(a/(1-a+a/muf_cur)); //console.log("Teff is "+Teff);
         //Track if Teff > 4
         if (Teff>4)
         {
@@ -363,12 +363,12 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
             Teff_flag = 0;
         }
 
-        Ti = Tf*Math.sqrt(a); console.log("Ti is " + Ti);
+        Ti = Tf*Math.sqrt(a); //console.log("Ti is " + Ti);
         //Step 3: Compute Xeff
         I1 = (Math.sqrt(k*muf_cur*(k*muf_cur+1)) - Math.sqrt(k*(k+1)) - Math.log ((Math.sqrt(k*muf_cur+1) + Math.sqrt(k*muf_cur))/(Math.sqrt(k+1) + Math.sqrt(k))))/Math.pow(k,1.5);
-        theta = 2;console.log("I1 is " + I1);
-        I2 = ((k+1)/k)*Math.log((k*muf_cur+1)/(k+1))   - Math.log(muf_cur);console.log("I2 is " + I2);
-        Xeff = x*Math.sqrt(a)+1/muf_cur*(x*I1+2/Math.PI*theta*I2);console.log("Xeff is " + Xeff);
+        theta = 2;//console.log("I1 is " + I1);
+        I2 = ((k+1)/k)*Math.log((k*muf_cur+1)/(k+1))   - Math.log(muf_cur);//console.log("I2 is " + I2);
+        Xeff = x*Math.sqrt(a)+1/muf_cur*(x*I1+2/Math.PI*theta*I2);//console.log("Xeff is " + Xeff);
 
         //Step 4: Compute DT
         if (option1 == 1)
@@ -379,20 +379,20 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
         }
         else{
             SaTe = (grabPoint(Teff))[1];
-            SaTi = (grabPoint(Ti))[1];console.log("SaTi is " + SaTi);
-            Spa = ((SaTi+SaTe)/2);console.log("Spa is "+Spa);
+            SaTi = (grabPoint(Ti))[1];//console.log("SaTi is " + SaTi);
+            Spa = ((SaTi+SaTe)/2);//console.log("Spa is "+Spa);
         }
 
 		
-        SdTeff = Spa*Math.pow((Teff/2/Math.PI),2)*9.81;console.log("Teff is "+Teff);console.log("SdTeff is "+SdTeff);
-        DT = SdTeff/SdTf; console.log("R_dt is "+DT);
+        SdTeff = Spa*Math.pow((Teff/2/Math.PI),2)*9.81;//console.log("Teff is "+Teff);console.log("SdTeff is "+SdTeff);
+        DT = SdTeff/SdTf; //console.log("R_dt is "+DT);
 
         //Step 5: Compute Da
-        Da = Math.exp(-1.35*Math.pow(Xeff,0.50)); console.log("Da is "+Da);console.log("Da is "+Da);
+        Da = Math.exp(-1.35*Math.pow(Xeff,0.50));// console.log("Da is "+Da);console.log("Da is "+Da);
 
 
         //Step 6: Compute Rv
-        Rd_trial = DT*Da; console.log("Rd_trial is "+Rd_trial);
+        Rd_trial = DT*Da;// console.log("Rd_trial is "+Rd_trial);
 
         //Step 7: Compute muf
         muf_next = Rd_trial/Vf;
@@ -424,7 +424,7 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
         if (muf_cur <= 1)
         {
             Rv = Rd/a;
-            Ra = Rv*Math.sqrt(1+4*Math.pow((Xeff+0.05*Math.sqrt(a)),2)); console.log
+            Ra = Rv*Math.sqrt(1+4*Math.pow((Xeff+0.05*Math.sqrt(a)),2)); 
         }
         else{
             Rv = Rd*k+Vf;
@@ -455,10 +455,10 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
             {
             Ra=Vf+ Rd/a*Math.sqrt(Math.pow((1-a),2)+Math.pow(((2*x*Math.sqrt(a)*Math.sqrt(1-a+a/muf)*Math.sqrt(2/(1+gamma)))),2));}
             else{
-				r = 2*a*gamma/(1+gamma);console.log("r is "+r);
-                u1 = 1/Math.sqrt(1+4*r*Math.pow(x,2));console.log("u1 is "+ u1);
-                u2 = 1/Math.sqrt(1+4*r*Math.pow(x,2)/Math.pow((1-a),2));console.log("u2 is "+ u2);
-                uhat = (2/muf)-gamma;console.log("uhat is "+ uhat);console.log("gamma is "+ gamma);console.log("muf is" + muf);
+				r = 2*a*gamma/(1+gamma);//console.log("r is "+r);
+                u1 = 1/Math.sqrt(1+4*r*Math.pow(x,2));//console.log("u1 is "+ u1);
+                u2 = 1/Math.sqrt(1+4*r*Math.pow(x,2)/Math.pow((1-a),2));//console.log("u2 is "+ u2);
+                uhat = (2/muf)-gamma;//console.log("uhat is "+ uhat);console.log("gamma is "+ gamma);console.log("muf is" + muf);
 				
 				
                 if (u1<=uhat){
@@ -467,13 +467,13 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
                 Ra=Vf+ Rd/a*Math.sqrt(Math.pow((1-a),2)+Math.pow(((2*x*Math.sqrt(a)*Math.sqrt(1-a+a/muf)*Math.sqrt(2/(1+gamma)))),2));}
                 else{
 				
-					console.log("alpha" + a);
+					//console.log("alpha" + a);
 					intera = Math.pow(a,2);
 					interb = 1- Math.pow(uhat,2);
 					interc = Math.sqrt(r*interb/intera);
 					
-					inter1 = 1/muf; inter2 = (uhat/a); inter3 = 2*x*Math.sqrt(r*interb/intera);console.log("X IS "+x);
-					Ra = Rd*(gamma-inter1+inter2+inter3);console.log("Ra is "+Ra);
+					inter1 = 1/muf; inter2 = (uhat/a); inter3 = 2*x*Math.sqrt(r*interb/intera);//console.log("X IS "+x);
+					Ra = Rd*(gamma-inter1+inter2+inter3);//console.log("Ra is "+Ra);
 					//Ra = Rd*(gamma-1/muf+1/a*(2/muf-gamma)+2*x*Math.sqrt((1-a+a/muf)/a)*Math.sqrt(2/(1+gamma))*Math.sqrt(1-Math.pow((2/muf-gamma),2)));
 					//Ra = Rd*(gamma-1/muf+1/a*(2/muf-gamma)); console.log("1");
 				}
@@ -489,11 +489,11 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
         Ram = Ra*A;
     }
     else if (option3 == 2){
-		SaTe = (grabPoint(Teff))[1];console.log("SaTe op32 is "+ SaTe);
-		PGA = ((grabPoint(0))[1])*0.4;console.log("PGA op32 is "+ PGA);
+		SaTe = (grabPoint(Teff))[1];//console.log("SaTe op32 is "+ SaTe);
+		PGA = ((grabPoint(0))[1])*0.4;//console.log("PGA op32 is "+ PGA);
 		R = SaTe/PGA;
-		A=1+x/(5.161*R+0.0414);console.log("A is "+A);
-		Ram = Ra*A; console.log("Ram is "+Ram);
+		A=1+x/(5.161*R+0.0414);//console.log("A is "+A);
+		Ram = Ra*A; //console.log("Ram is "+Ram);
     }
     else{		
 		if (sessvars.standard == "NBCC"){
@@ -913,7 +913,7 @@ panning = false;
 						if (item){
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
-							console.log(local_x);console.log(local_y);
+							//console.log(local_x);console.log(local_y);
 							
 
 									if (!updateLegendTimeout){
@@ -1173,7 +1173,7 @@ panning = false;
 						var series = (plot.getData())[0];
 						var legends = $(placeholder_id+ ".legendLabel");
 						series.label ="x: " + (x)+" y: "+ (y);
-						console.log("x is" + x);
+						//console.log("x is" + x);
 						plot.setupGrid();
 						clearTimeout(updateLegendTimeout);
 				}	
@@ -1183,7 +1183,7 @@ panning = false;
 						if (item){
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
-							console.log(local_x);console.log(local_y);
+							//console.log(local_x);console.log(local_y);
 							
 
 									if (!updateLegendTimeout){
