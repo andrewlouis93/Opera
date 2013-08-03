@@ -689,7 +689,7 @@ panning = false;
 							Ra: Ra.toFixed(2),
 							Rd: Rd.toFixed(2),
 							Rs: Rs.toFixed(2),
-							mud: mud_array[j],
+							x: x,
 							alpha: alpha
 						}
 						
@@ -911,8 +911,8 @@ panning = false;
 				 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
-							local_x = item.datapoint[0].toFixed(5);
-							local_y = item.datapoint[1].toFixed(5);
+							local_x = item.datapoint[0].toFixed(2);
+							local_y = item.datapoint[1].toFixed(2);
 							console.log(local_x);console.log(local_y);
 							
 
