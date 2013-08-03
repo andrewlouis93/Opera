@@ -10,6 +10,21 @@ function clear_htable(){
 function clear_vtable(){
 	visco_points_table = [];
 }
+
+function lookupTable(table,x,y){
+	for (var index = 0; index < table.length; ++index) {
+		//table[index]
+		var object = table[index];
+		var sol = "no-match";
+		if (object.Rd == x && object.Ra){
+			//these may appear more than once, but sure always match back to the same params. so multiple matches are ignored.
+			console.log(JSON.stringify(object));
+			sol = object;
+		}
+	}
+	return sol;
+}
+
 /*OPERA COMPUTATION SCRIPTS BELOW*/
 
 function getPoint(x1,y1,x2,y2,x){
