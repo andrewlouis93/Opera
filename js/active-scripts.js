@@ -15,14 +15,15 @@ function lookupTable(table,x,y){
 	for (var index = 0; index < table.length; ++index) {
 		//table[index]
 		var object = table[index];
-		var sol = "no-match";
-		if (object.Rd == x && object.Ra){
+		if ((object.Rd == x) && (object.Ra==y)){
 			//these may appear more than once, but sure always match back to the same params. so multiple matches are ignored.
 			console.log(JSON.stringify(object));
-			sol = object;
+			return object;
 		}
 	}
-	return sol;
+	
+	var message = "no-match";
+	return message;
 }
 
 /*OPERA COMPUTATION SCRIPTS BELOW*/
@@ -1277,9 +1278,20 @@ panning = false;
 					if (!temp){
 						globalDesignCount+=1;
 						//toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
-						 contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: 0});
+						 
+						 var pointObject = "No match?";
+						 if (sessvars.dampertype == "hyster"){
+							pointObject = lookupTable(hysteretic_points_table,local_x,local_y);
+						 }
+						 else if (sessvars.dampertype == "visco"){
+							pointObject = lookupTable(visco_points_table, local_x, local_y);
+						 }
+						 
+						 //alert(JSON.stringify(pointObject));
+						 
+						 contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: pointObject.Rs});
 						 refreshCallbacks();
-						sessvars.DesignContainer.push([local_x,local_y]);
+						 sessvars.DesignContainer.push([local_x,local_y]);
 					}
 				});	
 			
