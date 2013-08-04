@@ -1268,6 +1268,7 @@ panning = false;
 			}
 				//Info pop-ups		
 				var globalDesignCount = 0;
+				var validPoint = false; //Not valid if plot of residual graph
 				sessvars.DesignContainer = [];
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
 					
@@ -1279,7 +1280,7 @@ panning = false;
 						globalDesignCount+=1;
 						//toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
 						 
-						 var pointObject = "No match?";
+						 var pointObject;
 						 if (sessvars.dampertype == "hyster"){
 							pointObject = lookupTable(hysteretic_points_table,local_x,local_y);
 						 }
@@ -1289,9 +1290,12 @@ panning = false;
 						 
 						 //alert(JSON.stringify(pointObject));
 						 
-						 contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: pointObject.Rs});
-						 refreshCallbacks();
-						 sessvars.DesignContainer.push([local_x,local_y]);
+						 //The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
+						 if (pointObject != "no-match"){
+							contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: pointObject.Rs});
+							refreshCallbacks();
+							sessvars.DesignContainer.push([local_x,local_y]);
+						}
 					}
 				});	
 			
