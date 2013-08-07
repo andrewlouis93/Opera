@@ -851,19 +851,19 @@ panning = false;
 								},
 								{
 									data:dict2_var[a_inter[0]],
-									lines: { show: true , lineWidth:3},
+									lines: { show: true , lineWidth:1},
 									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dict2_var[a_inter[1]],
-									lines: { show: true , lineWidth:3},
+									lines: { show: true , lineWidth:1},
 									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dict2_var[a_inter[2]],
-									lines: { show: true , lineWidth:3},
+									lines: { show: true , lineWidth:1},
 									color: 'white',
 									points: { show: false },								
 								},/*,
@@ -1057,35 +1057,34 @@ panning = false;
 			var plot = $.plot(placeholder,
 								[
 								{	data:d0,
-									label:"x: 0 y: 0",
 									lines: { show: true },
-									color: 'white',
+									color: '#edc240',
 									points: { show: false },
 								},
 								{
 									data:d1,
 									lines: { show: true },
-									color: 'white',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:d2,
 									lines: { show: true },
-									color: 'white',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:d3,
 									lines: { show: true },
-									color: 'white',
+									color: '#edc240',
 									points: { show: false },								
 								},
 								{
 									data:d4,
 									lines: { show: true },
-									color: 'white',
+									color: '#edc240',
 									points: { show: false },								
-								},
+								},/*
 								{
 									data:dr0,
 									lines: { show: true },
@@ -1115,54 +1114,54 @@ panning = false;
 									lines: { show: true },
 									color: 'white',
 									points: { show: false },								
-								},
+								},*/
 								{
 									data:dick_var[alpha_intervals[0]],
 									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[1]],
 									lines: { show: true , lineWidth:3 },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[2]],
 									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick_var[alpha_intervals[3]],
 									lineWidth:3,
 									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[0]],
-									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[1]],
-									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[2]],
-									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
 									points: { show: false },								
 								},
 								{
 									data:dick2_var[alpha_intervals[3]],
-									lines: { show: true, lineWidth:3 },
-									color: '#edc240',
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
 									points: { show: false },								
 								}									
 								],
@@ -1309,7 +1308,7 @@ panning = false;
 				document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[1].toFixed(2)+"s";
 				
 				document.getElementById('Vf1_label').innerHTML = (sessvars.Vf_index[0]*100).toFixed(2)+"%";
-				document.getElementById('Vf2_label').innerHTML = (sessvars.Vf_index[1]*100).toFixed(2)*100+"%";
+				document.getElementById('Vf2_label').innerHTML = (sessvars.Vf_index[1]*100).toFixed(2)+"%";
 				
 				if (sessvars.dampertype == "hyster"){
 					clear_htable();
