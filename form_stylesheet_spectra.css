@@ -25,9 +25,9 @@ a {text-decoration:none}
 	background:rgba(0,0,0,0.3);
 	padding:50px;
 	top:11%;
-	width:1300px;
+	width:1150px;
 	margin-top:5px;
-	margin-left:-300px;
+	margin-left:-230px;
 	height:83%; /*height:600px*/
 	position:absolute;
 }
@@ -409,7 +409,7 @@ input[type=number] {
 #placeholder{
 	margin-top:5px;
 	width:50%;
-	height:230px;
+	height:200px;
 	float:left;
 	position:relative;
 }
@@ -423,19 +423,19 @@ input[type=number] {
 #placeholder2{
 	margin-top:5px;
 	width:50%;
-	height:230px;
+	height:200px;
 	float:right;
 	position:relative;
 }
 #placeholder3{
 	width:50%;
-	height:230px;
+	height:200px;
 	float:left;
 	position:relative;
 }
 #placeholder4{
 	width:50%;
-	height:230px;
+	height:200px;
 	float:right;
 	position:relative;
 }
