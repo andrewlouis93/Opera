@@ -1308,7 +1308,7 @@ panning = false;
 				document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[1].toFixed(2);
 				
 				document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
-				document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
+				document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[1].toFixed(2);
 				
 				if (sessvars.dampertype == "hyster"){
 					clear_htable();

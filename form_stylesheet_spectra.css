@@ -56,13 +56,28 @@ a {text-decoration:none}
 	display:inline;
 }
 
-.user-def-element{
+
+.list tr{
+	color:white;
 	background:red;
 }
 
-.user-def-element:hover{
-	opacity:0.4;
+.list tr:hover td{
+	color:red;
+	background:black;
+	opacity:0.9;
 }
+
+
+
+/*
+.user-def-element{
+	background:green;
+}
+
+.user-def-element :hover{
+	opacity:0.4;
+}*/
 
 
 table, th, td{
