@@ -554,8 +554,8 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
 				}
 					//Marking the labels
-					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
-					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);
+					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2)+"s";
+					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2)+"s";
 		}
 		
 		function Tf_leftAction(){
@@ -575,8 +575,8 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
 				}
 					//Marking the labels
-					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2);
-					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2);		
+					document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[sessvars.currTf-1].toFixed(2)+"s";
+					document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[sessvars.currTf].toFixed(2)+"s";		
 		}
 		
 		function Vf_rightAction(){
@@ -596,8 +596,9 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 					visc_graph(sessvars.Tf_index[sessvars.currTf],sessvars.Vf_index[sessvars.currVf],'#placeholder4');					
 				}
 					//Marking the labels
-					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
-					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);				
+					document.getElementById('Vf1_label').innerHTML = ((sessvars.Vf_index[sessvars.currVf-1]*100).toFixed(2))+"%";
+					
+					document.getElementById('Vf2_label').innerHTML = ((sessvars.Vf_index[sessvars.currVf]*100).toFixed(2))+"%";				
 		}
 		
 		function Vf_leftAction(){
@@ -618,8 +619,8 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 				}
 				
 					//Marking the labels
-					document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[sessvars.currVf-1].toFixed(2);
-					document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[sessvars.currVf].toFixed(2);	
+					document.getElementById('Vf1_label').innerHTML = (sessvars.Vf_index[sessvars.currVf-1]*100).toFixed(2)+"%";
+					document.getElementById('Vf2_label').innerHTML = (sessvars.Vf_index[sessvars.currVf]*100).toFixed(2)+"%";	
 		}
 		
 
@@ -1304,11 +1305,11 @@ panning = false;
 				
 				
 				//Marking the labels
-				document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[0].toFixed(2);
-				document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[1].toFixed(2);
+				document.getElementById('Tf1_label').innerHTML = sessvars.Tf_index[0].toFixed(2)+"s";
+				document.getElementById('Tf2_label').innerHTML = sessvars.Tf_index[1].toFixed(2)+"s";
 				
-				document.getElementById('Vf1_label').innerHTML = sessvars.Vf_index[0].toFixed(2);
-				document.getElementById('Vf2_label').innerHTML = sessvars.Vf_index[1].toFixed(2);
+				document.getElementById('Vf1_label').innerHTML = (sessvars.Vf_index[0]*100).toFixed(2)+"%";
+				document.getElementById('Vf2_label').innerHTML = (sessvars.Vf_index[1]*100).toFixed(2)*100+"%";
 				
 				if (sessvars.dampertype == "hyster"){
 					clear_htable();
