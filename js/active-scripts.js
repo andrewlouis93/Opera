@@ -1283,9 +1283,11 @@ panning = false;
 						 var pointObject;
 						 if (sessvars.dampertype == "hyster"){
 							pointObject = lookupTable(hysteretic_points_table,local_x,local_y);
+							sessvars.table = hysteretic_points_table;
 						 }
 						 else if (sessvars.dampertype == "visco"){
 							pointObject = lookupTable(visco_points_table, local_x, local_y);
+							sessvars.table = visco_points_table;
 						 }
 						 
 						 //alert(JSON.stringify(pointObject));

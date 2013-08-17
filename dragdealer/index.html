@@ -26,11 +26,17 @@
 			  left: 100px;
 			  top: 250px;
 			}
+			
+			#drag-button1{z-index:99;}
+			#drag-button2{z-index:99;}
+			#drag-button3{z-index:99;}
+			
+			._jsPlumb_hover{z-index:99;}
 		</style>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="jquery.jsPlumb-1.4.1-all.js "></script>
     	<script language="javascript" type="text/javascript" src="dragdealer.js"></script>
+		<script type="text/javascript" src="jquery.jsPlumb-1.4.1-all.js "></script>
     	<script>
     		$(document).ready(function() {
   				// Handler for .ready() called.
@@ -72,7 +78,15 @@
 			});
 			
 			jsPlumb.ready(function() {
-			jsPlumb.connect({ source:"state1", target: "state3" });
+
+				jsPlumb.connect({ source:"drag-button", target: "drag-button2",
+								      paintStyle:{ lineWidth:4, strokeStyle:'rgba(0, 0, 200, 0.5)' },
+										anchors:["Center", "Center"],
+										connector:"Straight",
+										endpoint:[ "Rectangle", { width:1, height:1 }]
+								});
+				jsPlumb.draggable("drag-button");
+				jsPlumb.draggable("drag-button2");
 			});
     	</script>
     	<link href='dragdealer.css' rel='stylesheet' type='text/css'>
