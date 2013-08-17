@@ -24,15 +24,18 @@ a {text-decoration:none}
 .basic_form{
 	color:white;
 	background:rgba(0,0,0,0.3);
-	overflow:scroll;
+	overflow-y:scroll;
+	overflow-x:hidden;
 	top:11%;
 	width:1300px;
 	margin-top:5px;
 	margin-left:-300px;
-	height:560px;
+	height:530px;
 	position:absolute;
 	padding:30px;
 }
+
+
 
 #navigator{
 	text-decoration: none;color:#FF2B32; opacity:0.7;
