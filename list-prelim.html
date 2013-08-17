@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/list.js"></script>
+	<script>
+	$(document).ready(function() {
+		var options = {
+			valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
+		};
+		
+		// Init list
+		var contactList = new List('contacts', options);
+		//alert('Fixes made, bitches fucked.');
+			
+		var editBtn = $('#edit-btn').hide(),
+			removeBtns = $('.remove-item-btn'),
+			editBtns = $('.edit-item-btn');
+		
+		// Sets callbacks to the buttons in the list
+		function lookupTable(table,x,y){
+			for (var index = 0; index < table.length; ++index) {
+				//table[index]
+				var object = table[index];
+				if ((object.Rd == x) && (object.Ra==y)){
+					//these may appear more than once, but sure always match back to the same params. so multiple matches are ignored.
+					console.log(JSON.stringify(object));
+					return object;
+				}
+			}
+			
+			var message = "no-match";
+			return message;
+		}
+		
+		function refreshCallbacks() {
+			// Needed to add new buttons to jQuery-extended object
+			removeBtns = $(removeBtns.selector);
+			editBtns = $(editBtns.selector);
+			removeBtns.click(function() {
+			   var itemId = $(this).closest('tr').find('.id').text();
+			   contactList.remove('id', itemId);
+			});
+		}
+			
+		function loadTable(){
+			for (var i = 0; i < sessvars.DesignContainer.length; i++){
+					var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
+					contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs});
+			}
+		}
+		contactList.remove('id',1); 
+		refreshCallbacks();
+		loadTable();	
+	});
+	</script>
+	<style>
+		table {
+			width: 40%;
+			margin-left:auto;
+			margin-right:auto;
+			margin-bottom: 10px;
+			border-collapse: collapse;
+		}
+		th {
+		  background-color: rgba(255, 255, 255, 0.1);
+		  border: solid 1px rgba(0, 0, 0, 0.1);
+		  padding: 10px 10px;
+		  text-align: center;
+		  font-weight: bold;
+		  color: red;
+		}
+		td {
+		  padding: 10px 10px;
+		  text-align:center;
+		  border: solid 1px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+  </head>
+  <body>
+		<div id="contacts">
+			<table>
+				<thead>
+					<tr>
+						<th class="sort" data-sort="Rv">Rv</th> <!-- Name, Age, City ==> Rv, Ra, Rs -->
+						<th class="sort" data-sort="Ra">Ra</th>
+						<th class="sort" data-sort="Rs">Rs</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<tr>
+						<!-- The following entry needs to be there as a template for some reason? It is removed on page load. -->
+						<td class="id" style="display:none;">1</td>
+						<td class="Rv user-def-element">0</td>
+						<td class="Ra user-def-element">1</td>
+						<td class="Rs user-def-element">2</td>
+						<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
+					</tr>
+				</tbody>
+			</table>
+		</div>
+  </body>
+</html>
