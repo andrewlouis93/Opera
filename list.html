@@ -69,7 +69,17 @@
 		contactList.remove('id',1); 
 		refreshCallbacks();
 		loadTable();	
+		
+		//Control shit
+		$(".list tr").click(function(){
+			$(this).addClass("selected").siblings().removeClass("selected");
+			 var x = parseFloat($(this).find('.Rv').html());
+			 var y = parseFloat($(this).find('.Ra').html());
+			 
+			sessvars.pointObject = lookupTable(sessvars.table,x,y);
+		});
 	});
+	
 	</script>
   </head>
 
@@ -86,6 +96,8 @@
 					<span id="seismic_title">
 							Design Choices
 					</span>
+					<input id="storey_count" type="number" placeholder="Storey Count">
+					<input id="storey_height" type="number" step="any" placeholder="Storey Height">					
 					<div id="contacts">
 						<table>
 							<thead>
