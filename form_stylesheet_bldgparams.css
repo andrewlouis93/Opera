@@ -54,3 +54,9 @@ a {text-decoration:none}
 	float:right;
 	margin-right:15%;
 }
+
+.custom_label{
+	font-family:'Lato';
+	font-size:2em;
+	text-align:center;
+}
