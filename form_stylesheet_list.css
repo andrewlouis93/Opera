@@ -10,6 +10,10 @@ a {text-decoration:none}
 .tickLabel {color:white ;}
 .legendLabel{color:white;}
 		
+.alert{
+	display:none;
+}
+		
 #seismic_title{
 	display:block;
 	color:white;

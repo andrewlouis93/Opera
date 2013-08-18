@@ -11,6 +11,8 @@
 	
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>		
 	<script language="javascript" type="text/javascript" src="js/list.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/bootstrap.js"></script>		
+
 	<!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/jquery.jscrollpane.css" rel="stylesheet">
@@ -21,6 +23,16 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
 	<script>
+	
+	function checkStoreyInputs(){
+			if ((document.getElementById('storey_count').value) && (document.getElementById('storey_height').value)){
+				return true;
+			}
+			else{
+				return false;
+			}
+	}
+	
 	$(document).ready(function() {
 		var options = {
 			valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
@@ -78,13 +90,22 @@
 			 
 			sessvars.pointObject = lookupTable(sessvars.table,x,y);
 		});
+		$('#navigator').click(function(){
+			if (sessvars.pointObject && checkStoreyInputs()){
+				sessvars.storey_count = document.getElementById('storey_count').value;
+				console.log('Proceed');
+			}
+			else{
+				$(".alert").fadeIn();
+			}
+		});
 	});
 	
 	</script>
   </head>
 
   <body>
-	
+
     <!-- Part 1: Wrap all page content here -->
     <div id="wrap" style="overflow:hidden;">
       <!-- Begin page content -->
@@ -96,6 +117,10 @@
 					<span id="seismic_title">
 							Design Choices
 					</span>
+					<div class="alert">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>Warning!</strong> Select one design choice and building information before proceeding
+					</div>
 					<input id="storey_count" type="number" placeholder="Storey Count">
 					<input id="storey_height" type="number" step="any" placeholder="Storey Height">					
 					<div id="contacts">
