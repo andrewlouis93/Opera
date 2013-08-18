@@ -36,8 +36,23 @@
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
     	<script language="javascript" type="text/javascript" src="dragdealer.js"></script>
+		<script type="text/javascript" src="../js/sessvars.js"></script>	
 		<script type="text/javascript" src="jquery.jsPlumb-1.4.1-all.js "></script>
     	<script>
+			function NewDiv(){
+				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
+					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";
+					$("body").append(string);
+					
+					var slider_id ="my-slider"+count;
+					var drag_button_id = "drag-button"+count;
+					new Dragdealer(slider_id,{horizontal: true,x:Math.random(),animationCallback: function(x, y){
+							document.getElementById(drag_button_id).innerHTML = x.toFixed(2);
+							//alert(x);
+							}
+					});
+				}
+			}
     		$(document).ready(function() {
   				// Handler for .ready() called.
   				 new Dragdealer('my-slider',
@@ -76,7 +91,7 @@
 					}
 				});
 			});
-			
+			/*
 			jsPlumb.ready(function() {
 
 				jsPlumb.connect({ source:"drag-button", target: "drag-button2",
@@ -88,6 +103,7 @@
 				jsPlumb.draggable("drag-button");
 				jsPlumb.draggable("drag-button2");
 			});
+			*/
     	</script>
     	<link href='dragdealer.css' rel='stylesheet' type='text/css'>
   </head>
@@ -99,21 +115,7 @@
 		</div>
 	</div>
 	<br>
-  	<div id="my-slider2" class="dragdealer">
-		<div class="red-bar handle">
-				<span id="drag-button2">drag me</span>
-		</div>
-	</div>
-	<br>
-  	<div id="my-slider3" class="dragdealer">
-		<div class="red-bar handle">
-				<span id="drag-button3">drag me</span>
-		</div>
-	</div>
-	
-	<div id="state1" class="item"></div>
-    <div id="state2" class="item"></div>
-    <div id="state3" class="item"></div>
-  
+
+ 
   </body>
 </html>
