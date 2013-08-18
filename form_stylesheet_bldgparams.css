@@ -1,0 +1,56 @@
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+a {text-decoration:none}
+		
+/*Graph options*/		
+.tickLabel {color:white ;}
+.legendLabel{color:white;}
+		
+.alert{
+	display:none;
+}
+		
+#seismic_title{
+	display:block;
+	color:white;
+	font-family:'Lato';
+	font-size:40px;
+	float:left;
+	position:fixed;
+	margin-top:-75px;
+}
+
+
+.basic_form{
+	color:white;
+	background:rgba(0,0,0,0.3);
+	overflow-y:auto;
+	top:11%;
+	width:1300px;
+	margin-top:5px;
+	margin-left:-300px;
+	height:530px;
+	position:absolute;
+	padding:30px;
+}
+
+#navigator{
+	text-decoration: none;color:#FF2B32; opacity:0.7;
+}
+
+#bldg_specs
+{
+	width:350px;
+	float:left;
+	margin-left:15%;
+}
+			
+#bldg_target{
+	width:350px;
+	float:right;
+	margin-right:15%;
+}

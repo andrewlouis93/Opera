@@ -28,7 +28,7 @@ a {text-decoration:none}
 .basic_form{
 	color:white;
 	background:rgba(0,0,0,0.3);
-	overflow-y:scroll;
+	overflow-y:auto;
 	overflow-x:hidden;
 	top:11%;
 	width:1300px;
