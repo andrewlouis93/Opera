@@ -33,7 +33,8 @@ a {text-decoration:none}
 	width:1300px;
 	margin-top:5px;
 	margin-left:-300px;
-	height:530px;
+	min-height:530px;/*ADD THIS TO EVERYTHING ELSE!*/
+	height:auto;
 	position:absolute;
 	padding:30px;
 }
