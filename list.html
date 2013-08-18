@@ -92,11 +92,13 @@
 		});
 		$('#navigator').click(function(){
 			if (sessvars.pointObject && checkStoreyInputs()){
+				$(".alert").fadeOut();
 				sessvars.storey_count = document.getElementById('storey_count').value;
 				console.log('Proceed');
 			}
 			else{
 				$(".alert").fadeIn();
+				$(".alert").fadeOut(10000);
 			}
 		});
 	});
@@ -113,16 +115,15 @@
 				<a id="navigator"><i class="icon-circle-arrow-right"></i></a>
 			</span>
 			<div class="container" style="overflow:hidden;">
+				<div class="alert" style="position:fixed;left:30%;top:25px;">
+							<strong>Error!</strong> Select one design choice and building information before proceeding
+				</div>
 				<div class="basic_form">
 					<span id="seismic_title">
 							Design Choices
 					</span>
-					<div class="alert">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<strong>Warning!</strong> Select one design choice and building information before proceeding
-					</div>
 					<input id="storey_count" type="number" placeholder="Storey Count">
-					<input id="storey_height" type="number" step="any" placeholder="Storey Height">					
+					<input id="storey_height" type="number" step="any" placeholder="Storey Height">		
 					<div id="contacts">
 						<table>
 							<thead>
