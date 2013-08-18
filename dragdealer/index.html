@@ -39,6 +39,12 @@
 		<script type="text/javascript" src="../js/sessvars.js"></script>	
 		<script type="text/javascript" src="jquery.jsPlumb-1.4.1-all.js "></script>
     	<script>
+		
+			function createSlider(slider_id,dragbutton_id){
+				new Dragdealer(slider_id,{horizontal: true,x:Math.random(),animationCallback: function(x, y){
+					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}});
+			}
+			
 			function NewDiv(){
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
 					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";
@@ -46,11 +52,7 @@
 					
 					var slider_id ="my-slider"+count;
 					var drag_button_id = "drag-button"+count;
-					new Dragdealer(slider_id,{horizontal: true,x:Math.random(),animationCallback: function(x, y){
-							document.getElementById(drag_button_id).innerHTML = x.toFixed(2);
-							//alert(x);
-							}
-					});
+					createSlider(slider_id,drag_button_id);
 				}
 			}
     		$(document).ready(function() {
@@ -90,6 +92,7 @@
 						//alert(x);
 					}
 				});
+				NewDiv();
 			});
 			/*
 			jsPlumb.ready(function() {
