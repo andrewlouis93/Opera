@@ -8,32 +8,36 @@
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>	
 	<script language="javascript" type="text/javascript" src="dragdealer/dragdealer.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/bootstrap.js"></script>		
+	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
+
 	<script>	
 			//CREATE FUNCTION FOR LAST 0 LEVEL THAT WILL EXECUTE AT THE END OF EVERY FOR LOOP.
 			function createSlider(slider_id,dragbutton_id,i){
-				new Dragdealer(slider_id,{horizontal: true,x:Math.random(),animationCallback: function(x, y){
+				new Dragdealer(slider_id,{horizontal: true,x:i,animationCallback: function(x, y){
 					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}});
 			}
 			
 			function createDivs_specs(){
+				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
 					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";
 					$("#bldg_specs").append(string);
 					
 					var slider_id ="my-slider"+count;
 					var drag_button_id = "drag-button"+count;
-					createSlider(slider_id,drag_button_id,count);
+					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
 			}
 			
 			function createDivs_target(){
+				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
 					var string=	"<br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div>";
 					$("#bldg_target").append(string);
 					
 					var slider_id ="target-slider"+count;
 					var drag_button_id = "target-drag-button"+count;
-					createSlider(slider_id,drag_button_id);
+					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
 			}
 			
