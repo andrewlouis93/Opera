@@ -237,6 +237,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
             SaTi = (grabPoint(Ti))[1];//console.log("SaTi is " + SaTi);
             SaTe = (grabPoint(Teff))[1];//console.log("SaTe is " + SaTe);
             SaTf = (grabPoint(Tf))[1];//console.log("SaTf is " + SaTf);
+			sessvars.SaTf = SaTf;// For the final module.
 			
             b1 = 22.2;
             b2 = 8.2;
@@ -349,7 +350,9 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
 
 function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 
+	sessvars.SaTf = SaTf;
 	SdTf = SaTf*Math.pow((Tf/2/Math.PI),2)*9.81;//console.log("SdTf is" + SdTf);
+	sessvars.SdTf = SdTf;
     
 	var converge = 0;
     var tol = 0.01;
@@ -995,6 +998,7 @@ panning = false;
 				
 				var temp = Math.pow((Tf/(2*Math.PI)),2);
 				var SdTf_temp = (grabPoint(Tf)[1])*(temp)*9.81;
+				sessvars.SdTf = SdTf_temp;
 				//Changed to scopeless so that I can access in plot. 
 				alpha_intervals = numeric.linspace(0.1,0.6,mud_intervals);
 				

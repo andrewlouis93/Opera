@@ -1,343 +1,373 @@
-//n -> number of storeys
+//sessvars.n -> number of storeys
+//sessvars.Tf -> Tf
+//sessvars.Vf -> Vf
+//sessvars.phi_f -> [ ] user's slider input.
+//pointObject that contains the rest of the point parameters. 
+sessvars.damperType = "hyster"
+sessvars.Tf = 1.72;
+var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
+sessvars.Vf = 0.49;
+sessvars.x = 0.23; //Greek E (pronouned C)
+sessvars.alpha = 0.2;
+sessvars.mu_d = 10;
+sessvars.
+sessvars.Rd = 0.545;
+sessvars.Rv = 0.731;
+sessvars.storeys = 3;
+sessvars.SdTf = 0.25;
+sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
+sessvars.phi_f = [0.28,0.68,1];
+sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
+sessvars.masses = [295617,295617,159735];
 
-function sheargen(Tf,Vf,alpha, mu,Rd,Rv,n,SdTf){
-	// index1,2,3,4 = Tf, Vf, alpha, mu
-	// basic parameters
-	var BadDistrFlag = 0; //flag indicating whether frame has good stiffness distr.
-	var AltStiffFlag = 0;
-	
-	/*
-	var Tf = 0.5*index1;
-	var Vf = 0.1*index2;
-	*/
-	
-	var alpha;
-	if (sessvars.damperType == "hyster"){
-			//alpha = 0.2*index3; //for hysteretic use 0.2, 0.4 and 0.6 //Shouldn' this be an input parameter?
-		}
+//Adding a sum method to the array:
+Array.prototype.sum = function(){
+    var sum = 0;
+    this.map(function(item){
+        sum += item;
+    });
+    return sum;
+}
+
+var storey_heights = [];
+for (var id = 0; id < sessvars.storeys; id++){
+	storey_heights.push(sessvars.storey_height);
+}
+var H = [];
+//Calculating the H values(height from ground) using the inter storey height:
+for (var i = 0; i < sessvars.storeys; i++){
+   H.push( storey_heights.slice(0,i+1).sum() );
+}
+//Summation will run from i to n where n is the number of storeys.
+function calculateDeltaPhi_F(i){
+	var index = i - 1;
+	if (i == 1){
+		return sessvars.phi_f[index];
+	}
+	else if (i > 1){
+		return sessvars.phi_f[index] - sessvars.phi_f[index-1];
+	}
 	else{
-		//alpha = 0.25+0.25*index3; //for VE use 0.5, 0.75 and 1.0
-		if (alpha == 1){
-				VoverKd = 0;
-			}
-		else{
-				VoverKd = Number.POSITIVE_INFINITY;
-			}
-	}
-
-	//mu = 2*index4;
-	/*
-	var mu =10*index4;
-	var xi = 0.1*index4;
-	*/
-	var xi = 0.1*mu; //THIS IS TEMPORARY, TO COAX OUTPUT. 
-	var muf = Rd/Vf;
-	var mus = Rv/(Vf^2/Rd+(Rv-Vf)/mu);
-	if (mus <= 1){
-		mus = 1;
-	}
-	if (alpha == 1){
-		alpha = 0.999999; //so we can use same distribution formula for viscous
-	}
-
-	var m = [];
-	var phi_f_dummy = [];
-	var phi_f = [];
-	var phi_d = [];
-	var dphi_f = [];
-	var dphi_d = [];
-	var dphi_f_dummy = [];
-	var Ti = Tf*Math.sqrt(alpha);
-	//dynamic properties
-	for (i = 0; i<=n; i+=1){
-		//S-Type (Benchmark)
-		m[i] = 100000;
-		phi_f_dummy[i] = i/n;
-		phi_f[i] = i/n; //Linear Mode
-		
-		//L-Type (Frames)
-		var konst = 1;
-		var dphio = 1/(konst+(konst+1)/2+n-2);
-		
-		if (i != 1 && i!=2){
-			dphi_f[i] = dphio;
-			phi_f[i] = phi_f[i-1] + dphi_f[i];
-		}
-		else if (i==2){
-			dphi_f[i] = (konst+1)/2*dphio;
-			phi_f[i] = phi_f[i-1] + dphi_f[i];
-		}
-		else{
-			dphi_f[i] = konst*dphio;
-			phi_f[i] = dphi_f[i];
-		}
-		//MATLAB BELOW 
-		phi_d[i] = i/n; //design mode shape
-		if (i==1){
-				dphi_f[i] = phi_f[i];
-				dphi_d[i] = phi_d[i];
-				dphi_f_dummy[i] = phi_f_dummy[i];
-			}
-		else{
-				dphi_f[i] = phi_f[i]-phi_f[i-1];
-				dphi_d[i] = phi_d[i]-phi_d[i-1];
-				dphi_f_dummy[i] = phi_f_dummy[i] - phi_f_dummy[i-1];
-			}
-		
-	}
-
-	var sum_mphi_f = [];
-	var sum_mphi_d = [];
-	var sum_mphi_f_dummy = [];
-
-
-	//Take off the initializations???
-
-	for (i = 0; i<=n; i+=1){
-		var j = n - i+1;
-		if (j==n){
-				sum_mphi_f[j] = m[j]*phi_f[j];
-				sum_mphi_d[j] = m[j]*phi_d[j];
-				sum_mphi_f_dummy[j] = m[j]*phi_f_dummy[j];
-			}
-		else{
-			sum_mphi_f[j] = sum_mphi_f[j+1]+m[j]*phi_f[j];
-			sum_mphi_d[j] = sum_mphi_d[j+1]+m[j]*phi_d[j];
-			sum_mphi_f_dummy[j] = sum_mphi_f_dummy[j+1]+m[j]*phi_f_dummy[j];
-		}
-	}
-
-	var sum_mphisq_f = 0;
-	var sum_mphisq_d = 0;
-	var sum_mphisq_f_dummy = 0;
-
-	for (i=0; i<=n;i+=1){
-		if (isNaN(Math.pow(phi_f[i],2))) {
-			;
-		}
-		else if (isNaN(Math.pow(phi_f_dummy[i],2))){
-			;
-		}
-		else{
-			sum_mphisq_f = sum_mphisq_f+m[i]*Math.pow(phi_f[i],2);		
-			sum_mphisq_d = sum_mphisq_d+m[i]*Math.pow(phi_d[i],2);
-			sum_mphisq_f_dummy = sum_mphisq_f_dummy+m[i]*Math.pow(phi_f_dummy[i],2);
-		}
-	}
-
-	var G1_f = sum_mphi_f[1]/sum_mphisq_f;
-	var G1_d = sum_mphi_d[1]/sum_mphisq_d;
-	var G1_f_dummy = sum_mphi_f_dummy[1]/sum_mphisq_f_dummy;
-	var RegIndex = G1_f/G1_f_dummy;
-	var M1_f = sum_mphi_f[1]*G1_f;
-	var M1_d = sum_mphi_d[1]*G1_d;
-	var M1_f_dummy = sum_mphi_f_dummy[1]*G1_f_dummy;
-	var GR_f = 1-G1_f;
-	var GR_d = 1-G1_d;
-	var GR_f_dummy = 1-G1_f_dummy;
-
-
-
-	var phiR_f = [];
-	var phiR_d = [];
-	var phiR_f_dummy = [];
-	var dphiR_f = [];
-	var dphiR_d = [];
-	var dphiR_f_dummy = [];
-
-	for (i=0; i<=n;i+=1){
-		phiR_f[i] = 1/GR_f - G1_f/GR_f*phi_f[i];
-		phiR_d[i] = 1/GR_d - G1_d/GR_d*phi_d[i];
-		phiR_f_dummy[i] = 1/GR_f_dummy - G1_f_dummy/GR_f_dummy*phi_f_dummy[i];
-		if (i==1){
-			dphiR_f[i]= phiR_f[i];
-			dphiR_d[i] = phiR_d[i];
-			dphiR_f_dummy[i] = phiR_f_dummy[i];
-		}
-		else{
-			dphiR_f[i] = phiR_f[i]-phiR_f[i-1];
-			dphiR_d[i] = phiR_d[i]-phiR_d[i-1];
-			dphiR_f_dummy[i] = phiR_f_dummy[i]-phiR_f_dummy[i-1];
-		}
-	}
-
-	var sum_mphi_f = [];
-	var sum_mphi_d = [];
-
-	var sum_mphi_f_dummy = [];
-	var dphi_f_dummy = [];
-
-
-	var dphi_f = [];
-	var y_frame = [];
-	var y_frame_dummy = [];
-	var k_frame = [];
-	var k_damper = [];
-	var k_frame_dummy = [];
-	var k_damper_dummy = [];
-	var BadDistrFlag;
-
-	var y_damper = [];
-	var Sd = [];
-
-	//Calculate base and damped frame stiffness/strength
-	for (i=0; i<=n;i+=1){
-	   //stiffnesses
-		k_frame[i] = Math.pow((2*Math.PI/Tf),2)*sum_mphi_f[i]/dphi_f[i];
-		k_damper[i] = Math.pow((2*Math.PI/Ti),2)*sum_mphi_d[i]/dphi_d[i]-k_frame[i];
-		k_frame_dummy[i] = Math.pow((2*Math.PI/Tf),2)*sum_mphi_f_dummy[i]/dphi_f_dummy[i];
-		k_damper_dummy[i] = Math.pow((2*Math.PI/Ti),2)*sum_mphi_d[i]/dphi_d[i]-k_frame_dummy[i];
-		if (k_damper[i] <=0){
-			k_damper[i] = 0;
-			BadDistrFlag = 1;
-		}
-		
-		//strengths
-		if(i==1){
-			//strength of bare frame cal. using first mode
-			y_frame[i]=Vf*Sd*Math.pow((2*Math.PI/Tf),2)*M1_f;
-			y_frame_dummy[i] = Vf*Sd*Math.pow((2*Math.PI/Tf),2)*M1_f_dummy;
-		}
-		else{
-			y_frame[i]=(y_frame[1]/k_frame[1])*k_frame[i]; //y_frame[i] proportional to k_frame[i]
-			y_frame_dummy[i]=(y_frame_dummy[1]/k_frame_dummy[1])*k_frame_dummy[i];
-		}
-		
-		
-		if (sessvars.damperType == "hyster"){ 
-		  //storey_delta = Rd(index1, index2, index3, index4)*Sd(index1)*G1_d*dphi_d(i)+hm*abs(GR_d*SdR(index1)*dphiR_d(i)); --> What's going on here...
-		  //y_damper(i) = (storey_delta)*k_damper_dummy(i)/mu + y_frame_dummy(i) - y_frame(i);
-			if (k_damper[i] <= 0){
-				console.log('Error: damper stiffness negative! Modify structure.\n');
-				y_damper[i] = 0;
-				BadDistrFlag = 1;
-			}
-			if (y_damper[i]<0){
-				console.log('Error: damper strength negative! Modify structure.\n');
-				y_damper[i] = 0;
-				BadDistrFlag = 2;
-			}
-			
-			if (hm == 1){
-				//check whether strength is greater than 80// of bottom
-				if (i>1){
-					if (y_damper[i] <0.8*y_damper[i-1]){
-						y_damper[i] = 0.8*y_damper[i-1];
-					}
-				}
-			}
-			else
-				//VE dampers
-				y_damper[i] = Number.POSITIVE_INFINITY;
-			}
-	}
-	//Creating the arrays for next section: 
-	var K_frame = [];var K_damper = [];
-	var V_frame = [];var V_damper = [];
-	
-	/*
-	for(var i=0; i<=4; i++) {
-		// create new nested arrays
-		K_frame[i] = [];
-		K_damper[i] = [];
-		V_frame[i] = [];
-		V_damper[i] = [];
-		for(var j=0; j<=4; j++) {
-			// populate nested arrays
-			K_frame[i][j] = j;
-			K_damper[i][j] = j;
-			V_frame[i][j] = j;
-			V_damper[i][j] = j;    
-		}
-	}
-	*/
-	
-	/*
-	//CONSTRUCT STIFFNESS AND YIELD VECTOR
-	for (i=0; i<=n;i+=1){
-		K_frame[i] = k_frame[i];
-		K_damper[i] = k_damper[i];            
-		V_frame[index1][index2][index3][index4][i] = y_frame[i];
-		V_damper[index1][index2][index3][index4][i] = y_damper[i];
-	}*/
-
-	/*
-	var M = [];
-	for(var i=0; i<2; i++) {
-		// create new nested arrays
-		M[i] = [];
-		for(var j=0; j<2; j++) {
-			// populate nested arrays
-			M[i][j] = j;
-		}
-	}
-
-	//mass matrix
-	for (var row=1; row<=n;row+=1){
-	   for (var col=row; col<=n;col+=1){
-			if (col == row){
-				M[row][col] = m[row];
-			}
-			else{
-				M[row][col] = 0;
-				M[col][row] = 0;
-			}
-		}
-	}*/
-
-	var rayleigh; //WHERE DOES THE INPUT FOR THIS VARIABLE COME FROM
-	//INPUT VISCOUS DAMPING
-	if (sessvars.damperType == "hyster"){ //it was 0.
-			rayleigh = 1;
-		}
-	else{
-			rayleigh = 0;
-	}
-
-	//damping
-	var xi1;
-	var high_mode;
-	var xim;
-	var sum_dphisq_f_kd;
-	var sum_dphisq_f;
-
-	if (rayleigh == 1){
-			//rayleigh damp in percentage critical
-			xi1 = 0.05;
-			high_mode = parseInt(n*2/3)+1; //All you wanted to do was cast to type int yes?
-			xim = 0.05;
-			//df_count = 1;
-			//df(1) = 1;
-		}
-	else{
-		////5// inherent damping
-		xi1 = 0.05;
-		high_mode = parseInt(n*2/3)+1;
-		xim = 0.05;
-		//INPUT VISCOUS CONSTANT (kNs/mm)
-		//calculate Kd(i)*dphi^2
-		sum_dphisq_f_kd = 0;
-		sum_dphisq_f = 0;
-		
-		for (var i=1; i<=n; i++){
-			sum_dphisq_f_kd = sum_dphisq_f_kd + k_damper[i]*Math.pow(dphi_f[i],2);
-			sum_dphisq_f = sum_dphisq_f + Math.pow(dphi_f[i],2);
-		}
-		
-		beta = 2*xi*sum_mphisq_f*(2*Math.pi/Tf)/sum_dphisq_f_kd;
-		console.log('beta for VE dampers = '+sum_mphisq_f);
-		var dc = [];
-		for (var i=1; i<=n; i++){
-			if (alpha != 1){
-					dc[i] = beta*k_damper[i]; //Ns/m
-				}
-			else{
-					dc[i] = 2*xi*sum_mphisq_f*(2*pi/Tf)/sum_dphisq_f;
-			}
-		}
-		//convert to SI units
-		//dc = dc*1000000;
-		//damping factors
-		//df_count = 1;
+		console.log('Bad input.');
 	}
 }
+
+function calculateK_8_1(){
+
+	var theta_list = [];
+	//Calculate theta i
+	for (var j = 0; j < sessvars.storeys; j++){
+		theta_list[j] = sessvars.phi_f[j]/sessvars.storey_height;
+	}
+	
+	var delta_theta_list = [];
+	//Calculating delta theta
+	for (var k = 0; k < sessvars.storeys; k++){
+		if (k == 0){
+			delta_theta_list[k] = theta_list[0];
+		}
+		else{
+			delta_theta_list[k] = theta_list[k] - theta_list[k-1];
+		}
+	}
+
+
+	//Assumes that i is the storey number - 1.
+	function calculateAverageDeltaTheta(i){
+		var sum = 0;
+		var count = 0;
+		for (var iter = 0; iter < sessvars.storeys; iter++){
+		
+			
+			//console.log("i is"+i+"and iter is: " + iter+ "delta_theta_list[iter] is" + delta_theta_list[iter]);
+
+			if (iter == i){
+				count+=1;
+			}
+			else if (iter-1 == i){
+				if (i >= 0){
+					count+=1;
+				}
+				else{;}
+			}
+			else if (iter+1 == i){
+				count+=1;
+			}
+			else{
+				//console.log("You will not see this when the number next to it is 1. " + iter);
+				sum += delta_theta_list[iter];
+			}
+
+		}	
+			
+		//Now that we have our sum, the average is calculated.
+		var average = sum/(sessvars.storeys - count);
+		
+		if (isNaN(average)){
+			return 0.1; //0 blows things up.
+		}
+		
+		return average;
+	}
+	
+	//Actually plugging the formula
+	k_intermediates = [];
+	for (var d = 0; d < sessvars.storeys; d++){
+		var result = (delta_theta_list[d])/(calculateAverageDeltaTheta(d));
+		k_intermediates.push(result);
+	}
+	
+	var largest = Math.max.apply(Math, k_intermediates);
+	return largest;
+}
+
+function variable_summation_at_index(arr1,arr2,i){
+	if (arr1.length == arr2.length){
+		var array_one = arr1.slice(i,arr1.length);
+		var array_two = arr2.slice(i,arr2.length);
+		
+		var summation = 0;
+		for(var i=0; i< array_one.length; i++) {
+				summation += array_one[i]*array_two[i];
+		}
+		
+		return summation;
+	}
+	else{
+		return "mismatched array dimension";
+	}
+}
+
+function calculateKf(flag){
+	if (flag == "irregular"){
+		var Kf_frame = [];
+		for (var i = 0; i < sessvars.storeys; i++){
+			var sol = constant*((variable_summation_at_index(sessvars.phi_f,H,i))/storey_heights[i]);
+			Kf_frame.push(sol);
+		}
+		return Kf_frame;
+	}
+	else if (flag == "regular"){
+		var Kf_frame = [];
+		for (var i = 0; i < sessvars.storeys; i++){
+			var sol = constant*((variable_summation_at_index(sessvars.phi_f,sessvars.masses,i))/calculateDeltaPhi_F(i+1));
+			Kf_frame.push(sol);
+		}
+		return Kf_frame;
+	}
+}
+
+function calculateVf(flag,Kf_frame){
+	if (flag == "regular"){
+		//The following only works for the first iteration, gamma_f
+		var temp = sessvars.phi_f.slice(0,sessvars.phi_f.length);
+		
+		for (var i = 0; i < temp.length; i++){
+			temp[i] = Math.pow(temp[i],2);
+		}
+		
+		gamma_f = (variable_summation_at_index(sessvars.masses,sessvars.phi_f,0))/(variable_summation_at_index(sessvars.masses,temp,0));
+		
+		var Vf_list = [];
+		
+		var Vf_1 = gamma_f * (variable_summation_at_index(sessvars.masses,sessvars.phi_f,0)) * sessvars.SaTf * sessvars.Vf;
+		Vf_list.push(Vf_1);
+		
+		
+		var local_constant = (Vf_1/Kf_frame[0]);
+		for (var i = 1; i < sessvars.storeys; i++){
+			Vf_list.push(local_constant*Kf_frame[i]);
+		}
+		
+		return Vf_strength;
+	}
+	else if (flag == "irregular"){
+		//The following only works for the first iteration, gamma_r
+		var temp = sessvars.H.slice(0,H.length);
+
+		for (var i = 0; i < temp.length; i++){
+			temp[i] = Math.pow(temp[i],2);
+		}
+		
+		gamma_r = (variable_summation_at_index(sessvars.masses,H,0))/(variable_summation_at_index(sessvars.masses,temp,0));
+		
+		var Vf_list = [];
+		
+		var Vf_1 = gamma_r * (variable_summation_at_index(sessvars.masses,H,0)) * sessvars.SaTf * sessvars.Vf;
+		Vf_list.push(Vf_1);
+	
+		var local_constant = (Vf_1/Kf_frame[0]); //K-Frame would be different. 
+		for (var i = 1; i < sessvars.storeys; i++){
+			Vf_list.push(local_constant*Kf_frame[i]);
+		}
+		
+		return Vf_strength;
+	}
+}
+
+function calculateInterStoreyDisplacement(gamma_d,delta_di){
+	var interstorey_disp = [];
+	for (var i = 0; i < sessvars.storeys; i++){
+		var temp = gamma_d*sessvars.SdTf*sessvars.Rd*delta_di[i];
+		interstorey_disp.push(temp);
+	}
+	return interstorey_disp;
+}
+
+function calculateFloorAcceleration(gamma_d, delta_di){
+	var acceleration = [];
+	for (var i = 0; i < sessvars.storeys; i++){
+		var temp = gamma_d*sessvars.SaTf*sessvars.Ra*delta_di[i];
+		acceleration.push(temp);
+	}
+	return acceleration;
+}
+
+function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
+	var Kd = [];
+	if (flag == "regular")
+		{
+			for (var i = 0; i < sessvars.storeys; i++)
+			{
+				var temp = ((Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,i))/delta_di[i]) - Kf_frame[i];
+				Kd.push(temp);
+			}
+		return Kd;
+	}
+	else if (flag == "irregular")
+	{
+		//Eq'n S14-25
+		for (var i = 0; i < sessvars.storeys; i++)
+		{
+			var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,i)/delta_di[i]) - Kf_frame[i];
+			Kd.push(temp);
+		}
+		return Kd;
+	}
+	
+}
+
+function calculate Kd_visco(Ti,di,delta_di,Kf_frame){
+	var Kd = [];
+	for (var i = 0; i < sessvars.storeys; i++){
+		var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,0)/delta_di[i]) - Kf_frame[i];
+	}
+	return Kd; 
+}
+
+function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag){
+	var Vd = [];
+	if (flag == "regular")
+	{
+		for (var i = 0; i < sessvars.storeys; i++)
+		{
+			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d);
+			Vd.push(temp);
+		} 
+		return Vd;
+	}
+	else if (flag == "irregular")
+	{
+		//You need regular Vf strength to calculate S14-24
+		var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions.
+		//reg_temp is Vf,i
+		for (var i = 0; i < sessvars.storeys; i++)
+		{
+			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
+			Vd.push(temp);
+		}
+		return Vd;
+	}
+}
+
+function calculateLateralViscousCoefficient(Kd,delta_di){
+	var Cd = [];
+	
+	//Squaring elements of phi_f
+	var temp_phi_f = sessvars.phi_f.slice(0);
+	for (var j = 0; j < temp_phi_f.length; j++){
+		temp_phi_f[i] = Math.pow(temp_phi_f[i],2);
+	}
+	//Squaring elements of delta_di
+	var temp_delta_di = delta_di.slice(0);
+	for (var k = 0; k < temp_delta_di; k++){
+		temp_delta_di[i] = Math.pow(temp_delta_di[i],2);
+	}
+	
+	for (var i = 0; i < sessvars.storeys; i++){
+		var temp = (2*sessvars.x*variable_summation_at_index(sessvars.masses,temp_phi_f,0)*Kd[i])/variable_summation_at_index(Kd,temp_phi_f,i);
+		Cd.push(temp);
+	}
+	return Cd;
+}
+
+function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
+	var flag = "regular";
+	//Regularity Check
+	if (calculateK_8_1() > 1.3){
+		flag = "irregular";
+	}
+	//Calculating Kf_frame
+	var Kf_frame = calculateKf(flag);
+	//Calculating Vf --> Pass in Kf_frame!
+	var Vf_strength = calculateVf(flag,Kf_frame);
+	//S14 - 19
+	var di = [];
+	for (var i = 0; i < sessvars.storeys; i++){
+		di.push(H[i]/H[sessvars.storeys-1]);
+	}
+	
+	//Calculating delta_di
+	var delta_di = [];
+	for (var j = 0; i < sessvars.storeys; j++){
+		if (j == 0){
+			delta_di.push(di[0]); //delta d @ 0 = d @ 0
+		}
+		else{
+			delta_di.push(di[j] - di[j-1]);
+		}
+	}
+	//Creating another copy of di that has its values squared.
+	var temp = di.slice(0);
+	for (var k = 0; k < di.length; k++){
+		temp[k] = Math.pow(temp[k],2);
+	}
+	var gamma_d = variable_summation_at_index(sessvars.masses,di,0)/variable_summation_at_index(sessvars.masses,temp,0);
+		
+	//Calcualte inter storey displacement
+	var interstoreydisp = calculateInterStoreyDisplacement(gamma_d,delta_di);
+	
+	//Calculate the first fmode floor acceleration
+	var acceleration = calculateFloorAcceleration(gamma_d, delta_di);
+	
+	if (sessvars.damperType == "hyster"){
+		//HYSTERETIC CALCULATIONS
+		//Calculating stiffness given by Kd
+		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
+		var Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
+		
+		//Eq`n S14-23
+		var Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag); //Toggles depending on flag.
+	}
+	else if (sessvars.damperType == "visco"){
+		//VISCO CALCULATIONS
+		//14-26
+		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
+		var Kd = calculate Kd_visco(Ti,di,delta_di,Kf_frame);
+		
+		
+		//14-27 Cd
+		if (sessvars.alpha != 1){
+			var Ci = calculateLateralViscousCoefficient(Kd,delta_di);
+		}
+		else{
+			console.log('alpha is 1, cannot do 14-27!');
+		}
+	}
+	
+	//Predictions
+	var delta_i = calculateDeltaI();
+	
+	
+}
+
