@@ -32,11 +32,19 @@ var storey_heights = [];
 for (var id = 0; id < sessvars.storeys; id++){
 	storey_heights.push(sessvars.storey_height);
 }
+
+//Delete the following assingments soon. Debugging.
+storey_heights[0] = 4.42;
+storey_heights[1] = 4.30;
+storey_heights[2] = 4.30;
+
 var H = [];
 //Calculating the H values(height from ground) using the inter storey height:
 for (var i = 0; i < sessvars.storeys; i++){
    H.push( storey_heights.slice(0,i+1).sum() );
 }
+console.log(H);
+
 //Summation will run from i to n where n is the number of storeys.
 function calculateDeltaPhi_F(i){
 	var index = i - 1;
@@ -59,6 +67,8 @@ function calculateK_8_1(){
 		theta_list[j] = sessvars.phi_f[j]/sessvars.storey_height;
 	}
 	
+	
+	
 	var delta_theta_list = [];
 	//Calculating delta theta
 	for (var k = 0; k < sessvars.storeys; k++){
@@ -70,7 +80,6 @@ function calculateK_8_1(){
 		}
 	}
 
-
 	//Assumes that i is the storey number - 1.
 	function calculateAverageDeltaTheta(i){
 		var sum = 0;
@@ -78,8 +87,7 @@ function calculateK_8_1(){
 		for (var iter = 0; iter < sessvars.storeys; iter++){
 		
 			
-			//console.log("i is"+i+"and iter is: " + iter+ "delta_theta_list[iter] is" + delta_theta_list[iter]);
-
+			
 			if (iter == i){
 				count+=1;
 			}
@@ -89,6 +97,7 @@ function calculateK_8_1(){
 				}
 				else{;}
 			}
+			
 			else if (iter+1 == i){
 				count+=1;
 			}
@@ -96,16 +105,18 @@ function calculateK_8_1(){
 				//console.log("You will not see this when the number next to it is 1. " + iter);
 				sum += delta_theta_list[iter];
 			}
+			
+			
 
 		}	
-			
 		//Now that we have our sum, the average is calculated.
 		var average = sum/(sessvars.storeys - count);
 		
 		if (isNaN(average)){
-			return 0.1; //0 blows things up.
+			return -1; //0 blows things up.
 		}
 		
+		console.log('i is ' +i +' average is' +average);
 		return average;
 	}
 	
@@ -116,6 +127,7 @@ function calculateK_8_1(){
 		k_intermediates.push(result);
 	}
 	
+	console.log(k_intermediates);
 	var largest = Math.max.apply(Math, k_intermediates);
 	return largest;
 }
