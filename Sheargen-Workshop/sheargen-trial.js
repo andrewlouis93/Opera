@@ -10,7 +10,6 @@ sessvars.Vf = 0.49;
 sessvars.x = 0.23; //Greek E (pronouned C)
 sessvars.alpha = 0.2;
 sessvars.mu_d = 10;
-sessvars.
 sessvars.Rd = 0.545;
 sessvars.Rv = 0.731;
 sessvars.storeys = 3;
@@ -179,7 +178,7 @@ function calculateVf(flag,Kf_frame){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
 		
-		return Vf_strength;
+		return Vf_list;
 	}
 	else if (flag == "irregular"){
 		//The following only works for the first iteration, gamma_r
@@ -201,7 +200,7 @@ function calculateVf(flag,Kf_frame){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
 		
-		return Vf_strength;
+		return Vf_list;
 	}
 }
 
@@ -247,7 +246,7 @@ function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
 	
 }
 
-function calculate Kd_visco(Ti,di,delta_di,Kf_frame){
+function calculateKd_visco(Ti,di,delta_di,Kf_frame){
 	var Kd = [];
 	for (var i = 0; i < sessvars.storeys; i++){
 		var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,0)/delta_di[i]) - Kf_frame[i];
@@ -353,7 +352,7 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 		//VISCO CALCULATIONS
 		//14-26
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
-		var Kd = calculate Kd_visco(Ti,di,delta_di,Kf_frame);
+		var Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
 		
 		
 		//14-27 Cd
@@ -366,7 +365,7 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	}
 	
 	//Predictions
-	var delta_i = calculateDeltaI();
+	//var delta_i = calculateDeltaI();
 	
 	
 }
