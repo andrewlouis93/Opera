@@ -45,15 +45,16 @@ a {text-decoration:none}
 
 #bldg_specs
 {
-	width:350px;
+	width:200px;
 	float:left;
-	margin-left:15%;
+	margin-left:5%;
 }
 			
 #bldg_target{
-	width:350px;
-	float:right;
-	margin-right:15%;
+	width:200px;
+	float:left;
+	/*margin-right:15%;*/
+	margin-left:1%;
 }
 
 .custom_label{

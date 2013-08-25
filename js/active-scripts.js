@@ -86,8 +86,6 @@ function grabPoint(x){
 	}
 }
 
-
-
 function calMaxResidual(p,mu1,mu2,DamperType){
 	var Rsm;
 	if (DamperType == 1){
@@ -535,7 +533,7 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
     g = x*Math.PI*(1/Math.sqrt(1-a)+1)/2;
     Rs = calResidualFOen(1-a, muf_cur, 1,g);
 
-    var return_container = {"Ra":Ra,"Rd":Rd,"Rs":Rs};
+    var return_container = {"Ra":Ra,"Rd":Rd,"Rs":Rs,"Rv":Rv,"SdTf":SdTf};
     return return_container;
 }
 
@@ -703,12 +701,19 @@ panning = false;
 						var temp = visc_SPECTRA(alpha, x, Tf, Vf,SaTf_temp,42,2,2,2);//42 is irrelevant!		
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];
+						var Rs = temp["Rs"];
+						var Rv = temp["Rv"];
+						var SdTf_temp = temp["SdTf"];
 						//d1.push([Rd, Ra]);						
 						
 						var object = {
 							Ra: Ra.toFixed(2),
 							Rd: Rd.toFixed(2),
 							Rs: Rs.toFixed(2),
+							Rv: Rv.toFixed(2),
+							Tf: Tf.toFixed(2),
+							Vf: Vf.toFixed(2),
+							SdTf: SdTf_temp.toFixed(2),
 							x: x,
 							alpha: alpha
 						}
@@ -1019,11 +1024,16 @@ panning = false;
 						var Ra = temp["Ra"];
 						var Rd = temp["Rd"];	
 						var Rs = temp["Rs"];
+						var Rv = temp["Rv"]
 						
 						var object = {
 							Ra: Ra.toFixed(2),
 							Rd: Rd.toFixed(2),
 							Rs: Rs.toFixed(2),
+							Rv: Rv.toFixed(2),
+							Tf: Tf.toFixed(2),
+							Vf: Vf.toFixed(2),
+							SdTf: SdTf_temp.toFixed(2),
 							mud: mud_array[j],
 							alpha: alpha
 						}

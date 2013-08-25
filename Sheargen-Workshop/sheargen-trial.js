@@ -1,3 +1,5 @@
+
+function activateSheargen(){
 //sessvars.n -> number of storeys
 //sessvars.Tf -> Tf
 //sessvars.Vf -> Vf
@@ -80,43 +82,47 @@ function calculateK_8_1(){
 		}
 	}
 
+
 	//Assumes that i is the storey number - 1.
 	function calculateAverageDeltaTheta(i){
 		var sum = 0;
 		var count = 0;
-		for (var iter = 0; iter < sessvars.storeys; iter++){
+		var average;
 		
-			
-			
-			if (iter == i){
-				count+=1;
-			}
-			else if (iter-1 == i){
-				if (i >= 0){
+		if (sessvars.storeys > 3){
+			for (var iter = 0; iter < sessvars.storeys; iter++){
+				//console.log("i is"+i+"and iter is: " + iter+ "delta_theta_list[iter] is" + delta_theta_list[iter]);
+
+				if (iter == i){
 					count+=1;
 				}
-				else{;}
+				else if (iter-1 == i){
+					if (i >= 0){
+						count+=1;
+					}
+					else{;}
+				}
+				else if (iter+1 == i){
+					count+=1;
+				}
+				else{
+					//console.log("You will not see this when the number next to it is 1. " + iter);
+					sum += delta_theta_list[iter];
+				}
 			}
-			
-			else if (iter+1 == i){
-				count+=1;
-			}
-			else{
-				//console.log("You will not see this when the number next to it is 1. " + iter);
-				sum += delta_theta_list[iter];
-			}
-			
-			
+			//Now that we have our sum, the average is calculated.
+			average = sum/(sessvars.storeys - count);
+		}
+		else{
+			sum = delta_theta_list.sum();
+			average = sum/delta_theta_list.length;
 
-		}	
-		//Now that we have our sum, the average is calculated.
-		var average = sum/(sessvars.storeys - count);
-		
+		}
+			
 		if (isNaN(average)){
-			return -1; //0 blows things up.
+			return 0.1; //0 blows things up.
 		}
 		
-		console.log('i is ' +i +' average is' +average);
 		return average;
 	}
 	
@@ -127,7 +133,6 @@ function calculateK_8_1(){
 		k_intermediates.push(result);
 	}
 	
-	console.log(k_intermediates);
 	var largest = Math.max.apply(Math, k_intermediates);
 	return largest;
 }
@@ -280,7 +285,7 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag){
 	else if (flag == "irregular")
 	{
 		//You need regular Vf strength to calculate S14-24
-		var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions.
+		var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
 		//reg_temp is Vf,i
 		for (var i = 0; i < sessvars.storeys; i++)
 		{
@@ -312,7 +317,10 @@ function calculateLateralViscousCoefficient(Kd,delta_di){
 	return Cd;
 }
 
+sheargen(); //Call to sheargen. 
+
 function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
+	console.log("SHEARGENNNNED");
 	var flag = "regular";
 	//Regularity Check
 	if (calculateK_8_1() > 1.3){
@@ -381,4 +389,4 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	
 	
 }
-
+}
