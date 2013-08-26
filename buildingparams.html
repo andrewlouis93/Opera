@@ -12,10 +12,43 @@
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>
 	<script language="javascript" type="text/javascript" src="js/sheargen-trial.js"></script>
 	<script>	
+	sessvars.phi_f = [];
+	
+			function getIndexFromID(string,slider){
+				var temp;
+				var object = new Object();
+				if (slider == "target"){
+					object.mode = "target";
+				}
+				else if (slider == "my-slider"){
+					object.mode = "spec";
+					temp = string.slice(9);
+					temp = parseFloat(temp);
+				}
+				
+				object.index = temp;
+				return object;
+			}
+			
 			//CREATE FUNCTION FOR LAST 0 LEVEL THAT WILL EXECUTE AT THE END OF EVERY FOR LOOP.
 			function createSlider(slider_id,dragbutton_id,i){
 				new Dragdealer(slider_id,{horizontal: true,x:i,animationCallback: function(x, y){
-					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}});
+					
+					var temp = slider_id.slice(0);
+					temp = temp.slice(0,9);
+					
+					//Doesn't actually getIndexFromID alone.
+					var obj = getIndexFromID(slider_id,temp);
+					
+					if (obj.mode == 'spec'){
+						sessvars.phi_f[obj.index] = x.toFixed(2);
+					}
+					else if (obj.mode == 'target'){
+						//Fill this in.
+					}
+					
+					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}
+					});
 			}
 			
 			function createDivs_specs(){
