@@ -40,7 +40,7 @@ sessvars.SdTf = parseFloat(sessvars.pointObject.SdTf);
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
 sessvars.phi_f = [0.28,0.68,1];
 //sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
-sessvars.masses = [295617,295617,159735];
+//sessvars.masses = [295617,295617,159735];
 
 
 //Adding a sum method to the array:
