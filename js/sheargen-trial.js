@@ -57,7 +57,7 @@ for (var id = 0; id < sessvars.storey_count; id++){
 	storey_heights.push(sessvars.storey_height);
 }
 
-console.log(storey_heights);
+//console.log(storey_heights);
 /*
 //Delete the following assingments soon. Debugging.
 storey_heights[0] = 4.42;
@@ -69,7 +69,7 @@ var H = [];
 for (var i = 0; i < sessvars.storey_count; i++){
    H.push( storey_heights.slice(0,i+1).sum() );
 }
-console.log(H);
+//console.log(H);
 
 //Summation will run from i to n where n is the number of storey_count.
 function calculateDeltaPhi_F(i){
@@ -350,8 +350,13 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	}
 	//Calculating Kf_frame
 	var Kf_frame = calculateKf(flag);
+	sessvars.Kf_frame = Kf_frame;
 	//Calculating Vf --> Pass in Kf_frame!
 	var Vf_strength = calculateVf(flag,Kf_frame);
+	sessvars.Vf_strength = Vf_strength;
+	
+	sessvars.Vf = Vf_strength;
+	
 	//S14 - 19
 	var di = [];
 	for (var i = 0; i < sessvars.storey_count; i++){

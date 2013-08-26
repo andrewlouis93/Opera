@@ -11,21 +11,11 @@
 	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>
 	<script language="javascript" type="text/javascript" src="js/sheargen-trial.js"></script>
+	<script language="javascript" type="text/javascript" src="js/list.js"></script>	
 	<script>	
 			
 			sessvars.phi_f = [];
 			sessvars.masses = [];
-			
-			//This works!
-			function timeoutFunction(){
-				for (var element = 0; element < sessvars.storey_count; element++){
-					var value = document.getElementById("floor"+element).value;
-					//Inputting into mass matrix.
-					sessvars.masses[element] = value;
-				}
-			}
-	
-			setInterval(function(){timeoutFunction()},3000);
 			
 			function getIndexFromID(string,slider){
 				var temp;
@@ -89,10 +79,64 @@
 			}
 			
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
-			
-    		$(document).ready(function() {
+
+			$(document).ready(function() {
 				createDivs_specs();
 				createDivs_target();
+				activateSheargen();
+				
+				var options = {
+					valueNames: [ 'id', 'Kf', 'Vf' ]
+				};
+				
+				// Init list
+				var contactList = new List('contacts', options);
+				//alert('Fixes made, bitches fucked.');
+					
+				var editBtn = $('#edit-btn').hide(),
+					removeBtns = $('.remove-item-btn'),
+					editBtns = $('.edit-item-btn');
+
+				function refreshCallbacks() {
+					// Needed to add new buttons to jQuery-extended object
+					removeBtns = $(removeBtns.selector);
+					editBtns = $(editBtns.selector);
+					removeBtns.click(function() {
+					   var itemId = $(this).closest('tr').find('.id').text();
+					   contactList.remove('id', itemId);
+					});
+				}
+					
+				function loadTable(){
+					
+					//Clears list. Since it keeps updating. 
+					contactList.clear();
+					
+					for (var i = 0; i < sessvars.storey_count; i++){
+							//var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
+							if (isNaN(sessvars.Kf_frame[i])== false && isNaN(sessvars.Vf_strength[i]) == false){
+								contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2)});
+							}
+					}
+				}
+
+				//This works!
+				function timeoutFunction(){
+					for (var element = 0; element < sessvars.storey_count; element++){
+						var value = document.getElementById("floor"+element).value;
+						//Inputting into mass matrix.
+						sessvars.masses[element] = value;
+					}
+					activateSheargen();
+					loadTable();
+				}
+	
+				setInterval(function(){timeoutFunction()},1000);
+			
+				contactList.remove('id',1); 
+				refreshCallbacks();
+				loadTable();	
+				//Control shit
 			});
     	</script>
 	<!-- CSS -->
@@ -127,6 +171,25 @@
 						<div class="custom_label">Target</div><br>
 					</div>
 					
+					<div id="contacts">
+						<table>
+							<thead>
+								<tr>
+									<th class="sort" data-sort="Kf">Kf</th>
+									<th class="sort" data-sort="Vf">Vf</th>
+								</tr>
+							</thead>
+							<tbody class="list">
+								<tr>
+									<!-- The following entry needs to be there as a template for some reason? It is removed on page load. -->
+									<td class="id" style="display:none;">1</td>
+									<td class="Kf user-def-element">1</td>
+									<td class="Vf user-def-element">2</td>
+									<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					
 				</div>
 			</div>
