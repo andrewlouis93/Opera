@@ -12,8 +12,16 @@
 	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>
 	<script language="javascript" type="text/javascript" src="js/sheargen-trial.js"></script>
 	<script>	
-	sessvars.phi_f = [];
+			
+			sessvars.phi_f = [];
+			
+			//This works!
+			function timeoutFunction(){
+				//alert("Hello");
+			}
 	
+			setInterval(function(){timeoutFunction()},3000);
+			
 			function getIndexFromID(string,slider){
 				var temp;
 				var object = new Object();
@@ -54,7 +62,7 @@
 			function createDivs_specs(){
 				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
-					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";
+					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div><br>"	/*<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";*/
 					$("#bldg_specs").append(string);
 					
 					var slider_id ="my-slider"+count;
@@ -64,9 +72,9 @@
 			}
 			
 			function createDivs_target(){
-				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();
+				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();/**/		
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
-					var string=	"<br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div>";
+					var string=	"<span><br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div><input class='floor_mass' type='number' step='any' placeholder='mass'></div><br>";
 					$("#bldg_target").append(string);
 					
 					var slider_id ="target-slider"+count;
@@ -74,6 +82,8 @@
 					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
 			}
+			
+			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
 			
     		$(document).ready(function() {
 				createDivs_specs();
@@ -111,6 +121,8 @@
 					<div id="bldg_target">
 						<div class="custom_label">Target</div><br>
 					</div>
+					
+					
 				</div>
 			</div>
 
