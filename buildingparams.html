@@ -37,6 +37,8 @@
 			function createSlider(slider_id,dragbutton_id,i){
 				new Dragdealer(slider_id,{horizontal: true,x:i,animationCallback: function(x, y){
 					
+					
+					console.log(sessvars.phi_f);
 					var temp = slider_id.slice(0);
 					temp = temp.slice(0,9);
 					
@@ -44,7 +46,7 @@
 					var obj = getIndexFromID(slider_id,temp);
 					
 					if (obj.mode == 'spec'){
-						sessvars.phi_f[obj.index] = x.toFixed(2);
+						sessvars.phi_f[obj.index] = parseFloat(x.toFixed(2));
 					}
 					else if (obj.mode == 'target'){
 						//Fill this in.
@@ -113,14 +115,12 @@
 					contactList.clear();
 					
 					for (var i = 0; i < sessvars.storey_count; i++){
-							//var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
 							if (isNaN(sessvars.Kf_frame[i])== false && isNaN(sessvars.Vf_strength[i]) == false){
 								contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2)});
 							}
 					}
 				}
 
-				//This works!
 				function timeoutFunction(){
 					for (var element = 0; element < sessvars.storey_count; element++){
 						var value = document.getElementById("floor"+element).value;

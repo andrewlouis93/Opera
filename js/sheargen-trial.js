@@ -38,7 +38,7 @@ sessvars.Rv = parseFloat(sessvars.pointObject.Rv);
 //sessvars.storey_count = 3;
 sessvars.SdTf = parseFloat(sessvars.pointObject.SdTf);
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
-sessvars.phi_f = [0.28,0.68,1];
+//sessvars.phi_f = [0.28,0.68,1];
 //sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
 //sessvars.masses = [295617,295617,159735];
 
@@ -223,7 +223,7 @@ function calculateVf(flag,Kf_frame){
 	}
 	else if (flag == "irregular"){
 		//The following only works for the first iteration, gamma_r
-		var temp = sessvars.H.slice(0,H.length);
+		var temp = H.slice(0,H.length);
 
 		for (var i = 0; i < temp.length; i++){
 			temp[i] = Math.pow(temp[i],2);
@@ -295,7 +295,7 @@ function calculateKd_visco(Ti,di,delta_di,Kf_frame){
 	return Kd; 
 }
 
-function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag){
+function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 	var Vd = [];
 	if (flag == "regular")
 	{
@@ -393,7 +393,7 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 		var Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
 		
 		//Eq`n S14-23
-		var Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag); //Toggles depending on flag.
+		var Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame); //Toggles depending on flag.
 	}
 	else if (sessvars.dampertype == "visco"){
 		//VISCO CALCULATIONS
