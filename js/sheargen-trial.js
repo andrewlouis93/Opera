@@ -218,7 +218,9 @@ function calculateVf(flag,Kf_frame){
 		for (var i = 1; i < sessvars.storey_count; i++){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
-		
+		console.log('Vf_1 is '+ Vf_1);
+		console.log('Kf_frame is' + Kf_frame);
+		console.log('Vf_list is '+ Vf_list);
 		return Vf_list;
 	}
 	else if (flag == "irregular"){
@@ -240,7 +242,6 @@ function calculateVf(flag,Kf_frame){
 		for (var i = 1; i < sessvars.storey_count; i++){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
-		
 		return Vf_list;
 	}
 }
@@ -265,6 +266,7 @@ function calculateFloorAcceleration(gamma_d, delta_di){
 
 function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
 	var Kd = [];
+
 	if (flag == "regular")
 		{
 			for (var i = 0; i < sessvars.storey_count; i++)
@@ -284,6 +286,9 @@ function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
 		}
 		return Kd;
 	}
+	else{
+		console.log('nigga your flag is empty');
+	}
 	
 }
 
@@ -291,6 +296,7 @@ function calculateKd_visco(Ti,di,delta_di,Kf_frame){
 	var Kd = [];
 	for (var i = 0; i < sessvars.storey_count; i++){
 		var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,0)/delta_di[i]) - Kf_frame[i];
+		Kd.push(temp);
 	}
 	return Kd; 
 }
@@ -298,7 +304,8 @@ function calculateKd_visco(Ti,di,delta_di,Kf_frame){
 function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 	var Vd = [];
 	if (flag == "regular")
-	{
+	{	
+		console.log('in reguarrar');
 		for (var i = 0; i < sessvars.storey_count; i++)
 		{
 			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d);
@@ -308,8 +315,11 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 	}
 	else if (flag == "irregular")
 	{
+		console.log('in irrreguarrar');
 		//You need regular Vf strength to calculate S14-24
 		var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
+		
+		
 		//reg_temp is Vf,i
 		for (var i = 0; i < sessvars.storey_count; i++)
 		{
@@ -324,18 +334,19 @@ function calculateLateralViscousCoefficient(Kd,delta_di){
 	var Cd = [];
 	
 	//Squaring elements of phi_f
-	var temp_phi_f = sessvars.phi_f.slice(0);
+	temp_phi_f = sessvars.phi_f.slice(0);
 	for (var j = 0; j < temp_phi_f.length; j++){
 		temp_phi_f[i] = Math.pow(temp_phi_f[i],2);
 	}
 	//Squaring elements of delta_di
-	var temp_delta_di = delta_di.slice(0);
+	temp_delta_di = delta_di.slice(0);
 	for (var k = 0; k < temp_delta_di; k++){
 		temp_delta_di[i] = Math.pow(temp_delta_di[i],2);
 	}
 	
 	for (var i = 0; i < sessvars.storey_count; i++){
 		var temp = (2*sessvars.x*variable_summation_at_index(sessvars.masses,temp_phi_f,0)*Kd[i])/variable_summation_at_index(Kd,temp_phi_f,i);
+		console.log('numerator is '+variable_summation_at_index(sessvars.masses,temp_phi_f,0)*Kd[i]);//**Kd[i]));
 		Cd.push(temp);
 	}
 	return Cd;
@@ -355,17 +366,15 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	var Vf_strength = calculateVf(flag,Kf_frame);
 	sessvars.Vf_strength = Vf_strength;
 	
-	sessvars.Vf = Vf_strength;
-	
 	//S14 - 19
-	var di = [];
+	di = [];
 	for (var i = 0; i < sessvars.storey_count; i++){
 		di.push(H[i]/H[sessvars.storey_count-1]);
 	}
 	
 	//Calculating delta_di
-	var delta_di = [];
-	for (var j = 0; i < sessvars.storey_count; j++){
+	delta_di = [];
+	for (var j = 0; j < sessvars.storey_count; j++){
 		if (j == 0){
 			delta_di.push(di[0]); //delta d @ 0 = d @ 0
 		}
@@ -386,31 +395,43 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	//Calculate the first fmode floor acceleration
 	var acceleration = calculateFloorAcceleration(gamma_d, delta_di);
 	
+	var Kd;
+	var Vd_i;
+	
 	if (sessvars.dampertype == "hyster"){
 		//HYSTERETIC CALCULATIONS
 		//Calculating stiffness given by Kd
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
-		var Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
-		
+		Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
 		//Eq`n S14-23
-		var Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame); //Toggles depending on flag.
+		Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame); //Toggles depending on flag.
+		console.log(Vd_i);
 	}
 	else if (sessvars.dampertype == "visco"){
 		//VISCO CALCULATIONS
 		//14-26
+		
+		console.log('ARE YOU IN HURR');
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
-		var Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
+		Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
+		
+		console.log('Kd is ' + Kd);
 		
 		
 		//14-27 Cd
 		if (sessvars.alpha != 1){
 			var Ci = calculateLateralViscousCoefficient(Kd,delta_di);
+			sessvars.Ci = Ci;
+			console.log('This is Ci ' + Ci);
 		}
 		else{
 			console.log('alpha is 1, cannot do 14-27!');
 		}
 	}
 	
+	sessvars.Vd = Vd_i;
+	sessvars.Kd = Kd; //Accounts for regularity, hyster or VE.
+	console.log('sessvars.Kd is '+ sessvars.Kd);
 	//Predictions
 	//var delta_i = calculateDeltaI();
 	

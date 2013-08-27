@@ -83,12 +83,27 @@
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
 
 			$(document).ready(function() {
+			
+				if (sessvars.dampertype == "hyster"){
+					$(".Cd").hide();
+					if ($(".Vd").is(":visible") == false){
+						$(".Vd").show();
+					}
+				}
+				
+				if (sessvars.dampertype == "visco"){
+					$(".Vd").hide();
+					if ($(".Cd").is(":visible") == false){
+						$(".Cd").show();
+					}
+				}
+
 				createDivs_specs();
 				createDivs_target();
 				activateSheargen();
 				
 				var options = {
-					valueNames: [ 'id', 'Kf', 'Vf' ]
+					valueNames: [ 'id', 'Kf', 'Vf','Kd','Vd','Cdi' ]
 				};
 				
 				// Init list
@@ -116,7 +131,14 @@
 					
 					for (var i = 0; i < sessvars.storey_count; i++){
 							if (isNaN(sessvars.Kf_frame[i])== false && isNaN(sessvars.Vf_strength[i]) == false){
-								contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2)});
+								
+								//Here is where the magic happens.
+								if (sessvars.dampertype == "hyster"){
+									contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Vd:sessvars.Vd[i].toFixed(2)});
+								}
+								else if (sessvars.dampertype == "visco"){
+									contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Cd:sessvars.Ci[i].toFixed(2)});
+								}
 							}
 					}
 				}
@@ -125,13 +147,20 @@
 					for (var element = 0; element < sessvars.storey_count; element++){
 						var value = document.getElementById("floor"+element).value;
 						//Inputting into mass matrix.
-						sessvars.masses[element] = value;
+						sessvars.masses[element] = parseFloat(value);
 					}
 					activateSheargen();
 					loadTable();
+					
+					/*
+					//Setting up display
+					if (sessvars.dampertype == "hyster"){
+						$(".Vd").show();
+					}
+					*/
 				}
 	
-				setInterval(function(){timeoutFunction()},1000);
+				setInterval(function(){timeoutFunction()},5000);
 			
 				contactList.remove('id',1); 
 				refreshCallbacks();
@@ -177,6 +206,9 @@
 								<tr>
 									<th class="sort" data-sort="Kf">Kf</th>
 									<th class="sort" data-sort="Vf">Vf</th>
+									<th class="Kd sort" data-sort="Kd">Kdi</th>
+									<th class="Vd sort" data-sort="Vd">Vdi</th>
+									<th class="Cd sort" data-sort="Cd">Cdi</th>									
 								</tr>
 							</thead>
 							<tbody class="list">
@@ -185,6 +217,9 @@
 									<td class="id" style="display:none;">1</td>
 									<td class="Kf user-def-element">1</td>
 									<td class="Vf user-def-element">2</td>
+									<td class="Kd user-def-element">3</td>
+									<td class="Vd user-def-element">4</td>
+									<td class="Cd user-def-element">5</td>									
 									<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
 								</tr>
 							</tbody>
