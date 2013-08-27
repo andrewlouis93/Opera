@@ -15,6 +15,7 @@
 	<script>	
 			
 			sessvars.phi_f = [];
+			sessvars.di = [];
 			sessvars.masses = [];
 			
 			function getIndexFromID(string,slider){
@@ -22,6 +23,9 @@
 				var object = new Object();
 				if (slider == "target"){
 					object.mode = "target";
+					temp = string.slice(13);
+					temp = parseFloat(temp);
+					console.log('target index ' + temp + ' target mode ' + object.mode);
 				}
 				else if (slider == "my-slider"){
 					object.mode = "spec";
@@ -30,6 +34,7 @@
 				}
 				
 				object.index = temp;
+				
 				return object;
 			}
 			
@@ -41,19 +46,27 @@
 					console.log(sessvars.phi_f);
 					var temp = slider_id.slice(0);
 					temp = temp.slice(0,9);
-					
 					//Doesn't actually getIndexFromID alone.
-					var obj = getIndexFromID(slider_id,temp);
+					if (temp != 'my-slider'){
+						//must be target slider, grab the target-slider string.
+						temp = slider_id.slice(0);
+						temp = temp.slice(0,6);
+						console.log('THIS SHOULD BE EQUAL TO "TARGET" ' + temp);
+					}
 					
+					//console.log('temp is '+temp);
+					var obj = getIndexFromID(slider_id,temp);
+					console.log("Object index " + obj.index + "Object mode" + obj.mode );
 					if (obj.mode == 'spec'){
 						sessvars.phi_f[obj.index] = parseFloat(x.toFixed(2));
 					}
 					else if (obj.mode == 'target'){
-						//Fill this in.
+						sessvars.di[obj.index] = parseFloat(x.toFixed(2));
 					}
 					
-					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}
-					});
+					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);
+				}
+				});
 			}
 			
 			function createDivs_specs(){
@@ -160,7 +173,7 @@
 					*/
 				}
 	
-				setInterval(function(){timeoutFunction()},5000);
+				setInterval(function(){timeoutFunction()},1000);
 			
 				contactList.remove('id',1); 
 				refreshCallbacks();
