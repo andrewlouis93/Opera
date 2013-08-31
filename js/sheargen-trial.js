@@ -24,6 +24,8 @@ sessvars.masses = [295617,295617,159735];
 //sessvars.dampertype = "hyster"
 
 function activateSheargen(){
+//alert('THIS SHIT JUST HAPPENED');
+
 sessvars.Tf = parseFloat(sessvars.pointObject.Tf);
 var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
 sessvars.Vf = parseFloat(sessvars.pointObject.Vf);
@@ -38,6 +40,7 @@ sessvars.Rv = parseFloat(sessvars.pointObject.Rv);
 //sessvars.storey_count = 3;
 sessvars.SdTf = parseFloat(sessvars.pointObject.SdTf);
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
+
 //sessvars.phi_f = [0.28,0.68,1];
 //sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
 //sessvars.masses = [295617,295617,159735];
@@ -169,6 +172,7 @@ function variable_summation_at_index(arr1,arr2,i){
 		var summation = 0;
 		for(var i=0; i< array_one.length; i++) {
 				summation += array_one[i]*array_two[i];
+				console.log(' array one ' + array_one[i] + ' array two ' + array_two[i]);
 		}
 		
 		return summation;
@@ -180,14 +184,18 @@ function variable_summation_at_index(arr1,arr2,i){
 
 function calculateKf(flag){
 	if (flag == "irregular"){
+		console.log('irregular');
 		var Kf_frame = [];
+		console.log('storey heights are' + storey_heights);
 		for (var i = 0; i < sessvars.storey_count; i++){
-			var sol = constant*((variable_summation_at_index(sessvars.phi_f,H,i))/storey_heights[i]);
+			var sol = constant*((variable_summation_at_index(sessvars.masses,H,i))/storey_heights[i]);
+			console.log('summation is ' + variable_summation_at_index(sessvars.phi_f,H,i));
 			Kf_frame.push(sol);
 		}
 		return Kf_frame;
 	}
 	else if (flag == "regular"){
+		console.log('regular');
 		var Kf_frame = [];
 		for (var i = 0; i < sessvars.storey_count; i++){
 			var sol = constant*((variable_summation_at_index(sessvars.phi_f,sessvars.masses,i))/calculateDeltaPhi_F(i+1));

@@ -13,11 +13,6 @@
 	<script language="javascript" type="text/javascript" src="js/sheargen-trial.js"></script>
 	<script language="javascript" type="text/javascript" src="js/list.js"></script>	
 	<script>	
-			
-			sessvars.phi_f = [];
-			sessvars.di = [];
-			sessvars.masses = [];
-			
 			function getIndexFromID(string,slider){
 				var temp;
 				var object = new Object();
@@ -94,9 +89,10 @@
 			}
 			
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
-
 			$(document).ready(function() {
 			
+				var pageLoad = false;
+
 				if (sessvars.dampertype == "hyster"){
 					$(".Cd").hide();
 					if ($(".Vd").is(":visible") == false){
@@ -113,7 +109,9 @@
 
 				createDivs_specs();
 				createDivs_target();
-				activateSheargen();
+				
+				
+				//activateSheargen();
 				
 				var options = {
 					valueNames: [ 'id', 'Kf', 'Vf','Kd','Vd','Cdi' ]
@@ -142,17 +140,19 @@
 					//Clears list. Since it keeps updating. 
 					contactList.clear();
 					
-					for (var i = 0; i < sessvars.storey_count; i++){
-							if (isNaN(sessvars.Kf_frame[i])== false && isNaN(sessvars.Vf_strength[i]) == false){
-								
-								//Here is where the magic happens.
-								if (sessvars.dampertype == "hyster"){
-									contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Vd:sessvars.Vd[i].toFixed(2)});
+					if ((sessvars.Kf_frame != null) && (sessvars.Vf_strength != null)){
+						for (var i = 0; i < sessvars.storey_count; i++){
+								if (isNaN(sessvars.Kf_frame[i])== false && isNaN(sessvars.Vf_strength[i]) == false){
+									
+									//Here is where the magic happens.
+									if (sessvars.dampertype == "hyster"){
+										contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Vd:sessvars.Vd[i].toFixed(2)});
+									}
+									else if (sessvars.dampertype == "visco"){
+										contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Cd:sessvars.Ci[i].toFixed(2)});
+									}
 								}
-								else if (sessvars.dampertype == "visco"){
-									contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Cd:sessvars.Ci[i].toFixed(2)});
-								}
-							}
+						}
 					}
 				}
 
@@ -160,25 +160,35 @@
 					for (var element = 0; element < sessvars.storey_count; element++){
 						var value = document.getElementById("floor"+element).value;
 						//Inputting into mass matrix.
-						sessvars.masses[element] = parseFloat(value);
+						if (value != ""){
+							sessvars.masses[element] = parseFloat(value);
+						}
 					}
-					activateSheargen();
-					loadTable();
 					
-					/*
-					//Setting up display
-					if (sessvars.dampertype == "hyster"){
-						$(".Vd").show();
+					if (sessvars.masses.length > 0){
+						activateSheargen();
 					}
-					*/
+					loadTable();
 				}
 	
 				setInterval(function(){timeoutFunction()},1000);
-			
 				contactList.remove('id',1); 
 				refreshCallbacks();
 				loadTable();	
 				//Control shit
+				
+				var allow = false;
+				$('#navigator').click(function(){
+					window.location.href = "list.html";
+					console.log(allow + 'in navigator');
+				});
+			
+				window.onbeforeunload = function() {
+					console.log(allow + 'in refreshwindowfunction');
+					if (allow = false){
+						return "Refreshing this page will clear session stored data, and the user may have to start this Opera session from the beginning. Are you still willing to proceed?";
+					}
+				};
 			});
     	</script>
 	<!-- CSS -->
