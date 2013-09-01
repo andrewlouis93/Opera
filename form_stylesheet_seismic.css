@@ -16,20 +16,10 @@ a {text-decoration:none}
 	font-family:'Lato';
 	font-size:40px;
 	float:left;
-	position:fixed;
-	margin-top:-50px;
+	position:absolute;
+	margin-top:-75px;
 }
 
-.basic_form_full{
-	color:white;
-	/*background:rgba(0,0,0,0.3);*/
-	left:2%;
-	top:4%;
-	width:96%;
-	height:91%;
-	
-	position:absolute;
-}
 
 .basic_form{
 	color:white;
@@ -38,8 +28,9 @@ a {text-decoration:none}
 	width:1300px;
 	margin-top:5px;
 	margin-left:-300px;
-	height:580px;
+	height:530px;
 	position:absolute;
+	padding:30px;
 }
 
 .form_text{
@@ -354,11 +345,11 @@ input[type=number] {
 }
 
 #placeholder{
-	margin-top:70px;
+	margin-top:60px;
 	margin-left:auto;
 	margin-right:auto;
 	width:80%;
-	height:350px;
+	height:290px;
 	position:relative;
 }
 

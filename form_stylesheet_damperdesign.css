@@ -7,17 +7,14 @@
 a {text-decoration:none}
 
 #seismic_title{
-
 	display:block;
 	color:white;
 	font-family:'Lato';
-	font-size:40px;
+	font-size:35px;
 	float:left;
-	margin-bottom:5px;
-	padding-bottom:1%;
-	padding-top:2%;
-	position:fixed;
-	left:2%;
+	position:absolute;
+	margin-top:20px;
+	margin-left:-300px;
 }
 
 #textInput{
@@ -38,34 +35,18 @@ a {text-decoration:none}
 	position:absolute;
 }
 
-.basic_form_full{
-	color:white;
-	background:rgba(0,0,0,0.3);
-	left:2%;
-	top:4%;
-	width:96%;
-	height:91%;
-	position:absolute;
-}
-
 .basic_form{
 	color:white;
 	background:rgba(0,0,0,0.3);
-	left:2%;
+	overflow:hidden;
 	top:11%;
-	width:1450px;
-	height:84%;
+	width:1300px;
+	margin-top:5px;
+	margin-left:-300px;
+	height:530px;
 	position:absolute;
+	padding:30px;
 }
-
-.form_text{
-	margin-left:3%;
-	margin-top:3%;
-	margin-right:1%;
-	margin-bottom:1%;
-}
-
-
 
 #dd{
 	z-index:2;
@@ -353,7 +334,7 @@ input[type=number] {
 }
 
 #elastic_period{
-	margin-top:50px;
+	margin-top:10px;
 	margin-right:3%;
 	min-width:200px;
 	height:500px;
