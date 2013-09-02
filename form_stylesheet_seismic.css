@@ -15,7 +15,6 @@ a {text-decoration:none}
 	color:white;
 	font-family:'Lato';
 	font-size:40px;
-	float:left;
 	position:absolute;
 	margin-top:-75px;
 }
@@ -341,7 +340,18 @@ input[type=number] {
 }
 
 #navigator{
-	text-decoration: none;color:#FF2B32; opacity:0.7;
+	text-decoration: none;
+	opacity:0.5;
+	font-size:47px;
+	color:#FF2B32;
+	
+	margin-top:13px;
+	position:fixed;
+	margin-left:95%;
+}
+
+#navigator:hover{
+	cursor:pointer;
 }
 
 #placeholder{

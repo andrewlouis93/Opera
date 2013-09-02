@@ -249,6 +249,7 @@ var standardFlag = "NBCC";
 				
 		// Call on page load
 		$(document).ready(function() {
+
 		NBCCGraph(10,20,18,15,10,7,5,1,1);
 			//ASCEGraph(10,20,18,0.2,2,4,1);
 

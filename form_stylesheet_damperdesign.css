@@ -17,6 +17,17 @@ a {text-decoration:none}
 	margin-left:-300px;
 }
 
+#navigator{
+	text-decoration: none;
+	opacity:0.5;
+	font-size:47px;
+	color:#FF2B32;
+	
+	margin-top:13px;
+	position:fixed;
+	margin-left:95%;
+}
+
 #textInput{
 	width:35px;
 	height:25px;

@@ -75,7 +75,14 @@ a {text-decoration:none}
 
 }
 #navigator{
-	text-decoration: none;color:#FF2B32; opacity:0.7;
+	text-decoration: none;
+	opacity:0.5;
+	font-size:47px;
+	color:#FF2B32;
+	
+	margin-top:13px;
+	position:fixed;
+	margin-left:95%;
 }
 
 .test{
