@@ -13,32 +13,56 @@ a {text-decoration:none}
 .alert{
 	display:none;
 }
-		
-#seismic_title{
-	display:block;
-	color:white;
-	font-family:'Lato';
-	font-size:40px;
-	float:left;
-	position:fixed;
-	margin-top:-75px;
+@-moz-document url-prefix()
+{
+	#seismic_title{
+		display:block;
+		color:white;
+		font-family:'Lato';
+		font-size:40px;
+		float:left;
+		position:fixed;
+		margin-top:-75px;
+	}
+	.basic_form{
+		color:white;
+		background:rgba(0,0,0,0.3);
+		overflow-y:auto;
+		overflow-x:hidden;
+		top:11%;
+		width:1300px;
+		margin-top:5px;
+		margin-left:-330px;
+		height:530px;
+		position:absolute;
+		padding:30px;
+	}
 }
-
-
-.basic_form{
-	color:white;
-	background:rgba(0,0,0,0.3);
-	overflow-y:auto;
-	overflow-x:hidden;
-	top:11%;
-	width:1300px;
-	margin-top:5px;
-	margin-left:-300px;
-	height:530px;
-	position:absolute;
-	padding:30px;
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{ 			
+	#seismic_title{
+		display:block;
+		color:white;
+		font-family:'Lato';
+		font-size:40px;
+		float:left;
+		position:fixed;
+		margin-top:-75px;
+	}
+	.basic_form{
+		color:white;
+		background:rgba(0,0,0,0.3);
+		overflow-y:auto;
+		overflow-x:hidden;
+		top:11%;
+		width:1300px;
+		margin-top:5px;
+		margin-left:-300px;
+		height:530px;
+		position:absolute;
+		padding:30px;
+	}
 }
-
 
 
 #navigator{

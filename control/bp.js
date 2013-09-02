@@ -64,7 +64,7 @@ function getIndexFromID(string,slider){
 			function createDivs_target(){
 				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();/**/		
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
-					var string=	"<span><br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div><input id='floor"+count+"'class='floor_mass' type='number' step='any' placeholder='mass'>";
+					var string=	"<div class='test'><span><br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div><input id='floor"+count+"'class='floor_mass' type='number' step='any' placeholder='mass'></div>";
 					$("#bldg_target").append(string);
 					
 					var slider_id ="target-slider"+count;
