@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -7,14 +7,16 @@
 	<script type='text/javascript' > 
 		var upload_allow = false; 
 	</script>
-	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 	<script language="javascript" type="text/javascript" src="js/bootstrap.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.crosshair.js"></script>
 	<script language="javascript" type="text/javascript" src="js/getPoint.js"></script>
 	<script language="javascript" type="text/javascript" src="control/seismic.js"></script>
-		
+	<script>	
+		$('.dropdown-toggle').dropdown();
+	</script>
     <!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
@@ -22,20 +24,41 @@
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
-	<style>
-
-	</style>
   </head>
 
   <body>
     <!-- Part 1: Wrap all page content here -->
 
       <!-- Begin page content -->
+
+		
 	<a  id="navigator"><i class="icon-circle-arrow-right"></i></a>
       <div class="container">
 	  
 			<div class="basic_form">
-			
+  <div class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+      Dropdown<b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li><a href="#">Separated link</a></li>
+	  <li class="dropdown-submenu">
+		<a tabindex="-1" href="#">Options</a>
+		<ul class="dropdown-menu">
+			<li><a href="#">A fucking option</a></li>
+		</ul>
+	  </li>
+	  	  <li class="dropdown-submenu">
+		<a tabindex="-1" href="#">More options</a>
+		<ul class="dropdown-menu">
+			<li><a href="#">Another fucking option</a></li>
+		</ul>
+	  </li>
+    </ul>
+  </div>			
 				<span id="seismic_title">
 						Seismic Demand
 				</span>
@@ -51,7 +74,7 @@
 											<li><a onclick="standardSelect(2)" href="#">NBCC Compatible</a></li>
 										</ul>
 								</div>
-									
+							
 
 								
 									<div id="ff" class="wrapper-dropdown-3" tabindex="1">
