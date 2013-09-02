@@ -85,6 +85,10 @@ a {text-decoration:none}
 	margin-left:95%;
 }
 
+#navigator:hover{
+	cursor:pointer;
+}
+
 .test{
 	height:30px;
 }

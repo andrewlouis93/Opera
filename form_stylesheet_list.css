@@ -76,6 +76,10 @@ a {text-decoration:none}
 	margin-left:95%;
 }
 
+#navigator:hover{
+	cursor:pointer;
+}
+
 #storey_count{
 	height:70px;
 	width:220px;
