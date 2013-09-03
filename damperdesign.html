@@ -152,9 +152,9 @@
 									$("#Vf_spinners").editRangeSlider({
 											defaultValues:{min: 0.5, max: 0.67},
 											formatter:function(val){
-													var value = Math.round(val * 100) / 100;
-													console.log("value is "+value);
+													var value = (Math.round(val * 100) / 100)*100 + "%";
 													Vf_Bounds =  $("#Vf_spinners").editRangeSlider("values");
+													console.log("value is "+JSON.stringify(Vf_Bounds));
 													decimal = value - Math.round(val);
 													return decimal == 0 ? value.toString() + ".0" : value.toString();
 											}
@@ -207,7 +207,7 @@
 							<div id="dd" class="wrapper-dropdown-3" tabindex="1">
 							<span>P-Spectra Option</span>
 								<ul class="dropdown">
-									<li><a href="#" onclick="non-linear();">Non-Linear Analysis</a></li>
+									<li><a href="notice.html" onclick="non-linear();">Non-Linear Analysis</a></li>
 									<li><a href="#" onclick="pspectra();">P-Spectra Simplified</a></li>
 								</ul>
 							</div>

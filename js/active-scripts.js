@@ -11,10 +11,6 @@ function clear_vtable(){
 	visco_points_table = [];
 }
 
-function tolerance(table_x,table_y,x,y){
-	
-}
-
 function lookupTable(table,x,y){
 	for (var index = 0; index < table.length; ++index) {
 		//table[index]
@@ -64,26 +60,17 @@ function interpolate(plot_var, cursor_x, cursor_y){
 			var temp = triangulate(temp_series[i][0],temp_series[i][1],cursor_x,cursor_y);
 			if (temp < least){
 				least = temp;
-				//console.log('THIS IS POINT' + temp_series[i]);
+				console.log('THIS IS POINT' + temp_series[i]);
 				least_point = temp_series[i];
 			}
 			if ((temp < secondleast) && (least < temp)){
 					secondleast = temp;
-					//console.log('THIS IS ALSO POINT' + temp_series[i]);
+					console.log('THIS IS ALSO POINT' + temp_series[i]);
 					secondleast_point = temp_series[i];
 			}
 		}	
 	}
-	var obj = {'least':least_point,'second_least':secondleast_point,'min_dist':least}
-	return obj;
-}
-
-function averageTwoPoints(least,secondleast){
-	var obj = [0,0];
-	if ((least != undefined) && (secondleast != undefined)){
-		obj[0] = (least[0]+secondleast[0])/2;
-		obj[1] = (least[1]+secondleast[1])/2;
-	}
+	var obj = {'least':least_point,'second_least':secondleast_point}
 	return obj;
 }
 
@@ -972,7 +959,7 @@ panning = false;
 								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
-								grid:{hoverable:true,color:'white',clickable:true}//,mouseActiveRadius:1000}								
+								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}								
 								});			
 					$('.xaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
@@ -996,40 +983,25 @@ panning = false;
 
 				 
 				placeholder.bind("plothover",  function (event, pos, item) {
-				
-					console.log(event);
-							var latestPosition = pos;
-							var temp = interpolate(plot,pos.x,pos.y);
+						if (item){
 							
-							if (temp.min_dist < 0.0099){
-								if (temp.least != undefined){
-									local_x = temp.least[0];
-									local_y = temp.least[1];
-								}								
-								console.log('calculating on point');
-							}
-							else if (temp.min_dist > 0.0099){
-								//calculate average
-								console.log('calculating average');
-									var rec = averageTwoPoints(temp.least,temp.second_least);
-									if (rec!=undefined){
-										local_x = rec[0];
-										local_y = rec[1];						
-									}									
-							}
+							console.log(interpolate(plot,item.datapoint[0],item.datapoint[1]));
 							
-							// DO NOT WANT TO SNAP
-							//local_x = item.datapoint[0].toFixed(2);
-							//local_y = item.datapoint[1].toFixed(2);
+							local_x = item.datapoint[0].toFixed(2);
+							local_y = item.datapoint[1].toFixed(2);
+							//console.log(local_x);console.log(local_y);
 							
+							//console.log('This is the data' + plot.getData().data);
 
 									if (!updateLegendTimeout){
-										updateLegendTimeout = setTimeout(updateLegend(pos.x.toFixed(2),pos.y.toFixed(2)), 1000);
+										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
 										updateLegendTimeout = null;
 									}
+						}
 									
 						
 
+							
 				});
 				// show pan/zoom messages to illustrate events 
 				placeholder.bind('plotpan', function (event, plot) {
@@ -1368,17 +1340,12 @@ panning = false;
 				var validPoint = false; //Not valid if plot of residual graph
 				sessvars.DesignContainer = [];
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
-					console.log('SHIT HAS BEEN CLICKED ON '+ local_x +','+local_y);
+					
 					var temp;
-					if (sessvars.dampertype =="hyster"){
-						temp = panning_h;
-					}
-					else {
-						temp = panning;
-					}
+					if (sessvars.dampertype =="hyster"){temp = panning_h;}
+					else {temp = panning;}
 					
 					if (!temp){
-						
 						globalDesignCount+=1;
 						//toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
 						 
@@ -1388,7 +1355,6 @@ panning = false;
 							sessvars.table = hysteretic_points_table;
 						 }
 						 else if (sessvars.dampertype == "visco"){
-							
 							pointObject = lookupTable(visco_points_table, local_x, local_y);
 							sessvars.table = visco_points_table;
 						 }

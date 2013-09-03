@@ -50,7 +50,7 @@ function getIndexFromID(string,slider){
 			}
 			
 			function createDivs_specs(){
-				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();
+				var linspace = numeric.linspace(0,1,sessvars.storey_count+1).reverse();
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
 					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>"	/*<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";*/
 					$("#bldg_specs").append(string);
@@ -59,10 +59,13 @@ function getIndexFromID(string,slider){
 					var drag_button_id = "drag-button"+count;
 					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
+				var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
+				//createSlider('target-sliderx','target-drag-buttonx',0);
+				$("#bldg_specs").append(temp);
 			}
 			
 			function createDivs_target(){
-				var linspace = numeric.linspace(0,1,sessvars.storey_count).reverse();/**/		
+				var linspace = numeric.linspace(0,1,sessvars.storey_count+1).reverse();/**/		
 				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
 					var string=	"<div class='test'><span><br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div><input id='floor"+count+"'class='floor_mass' type='number' step='any' placeholder='mass'></div>";
 					$("#bldg_target").append(string);
@@ -71,6 +74,9 @@ function getIndexFromID(string,slider){
 					var drag_button_id = "target-drag-button"+count;
 					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
+				var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
+				//createSlider('target-sliderx','target-drag-buttonx',0);
+				$("#bldg_target").append(temp);
 			}
 			
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
