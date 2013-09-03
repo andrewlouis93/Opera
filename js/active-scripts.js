@@ -26,6 +26,54 @@ function lookupTable(table,x,y){
 	return message;
 }
 
+/*INTERPOLATION FUNCTION(S)*/
+
+
+function interpolate(plot_var, cursor_x, cursor_y){
+
+	function triangulate(point_x,point_y,mouse_x,mouse_y){
+		return Math.pow((point_x-mouse_x),2)+Math.pow((point_y-mouse_y),2);
+	}
+	var x = plot_var.getData();
+	for (var i = 0; i < x.length; i++){
+		if (x[i].data.length == 0){
+			x.splice(i,1);
+		}
+	}
+	/*Assigning the least and second least variables to some entries within the data series*/
+	var	index =  Math.round(Math.random()*(x.length-1));
+	var randompoint = x[index].data[0];
+	var least = triangulate(randompoint[0],randompoint[1],cursor_x,cursor_y);
+	
+	index =  Math.round(Math.random()*(x.length-1));
+	randompoint = x[index].data[0];
+	var secondleast = triangulate(randompoint[0],randompoint[1],cursor_x,cursor_y);
+		
+	
+	var least_point; 
+	var secondleast_point;
+	
+	for (var e = 0; e < x.length; e++){
+		var temp_series = x[e].data;
+		
+		for (var i = 0; i < temp_series.length; i++){
+			var temp = triangulate(temp_series[i][0],temp_series[i][1],cursor_x,cursor_y);
+			if (temp < least){
+				least = temp;
+				console.log('THIS IS POINT' + temp_series[i]);
+				least_point = temp_series[i];
+			}
+			if ((temp < secondleast) && (least < temp)){
+					secondleast = temp;
+					console.log('THIS IS ALSO POINT' + temp_series[i]);
+					secondleast_point = temp_series[i];
+			}
+		}	
+	}
+	var obj = {'least':least_point,'second_least':secondleast_point}
+	return obj;
+}
+
 /*OPERA COMPUTATION SCRIPTS BELOW*/
 
 function getPoint(x1,y1,x2,y2,x){
@@ -936,10 +984,14 @@ panning = false;
 				 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
+							
+							console.log(interpolate(plot,item.datapoint[0],item.datapoint[1]));
+							
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
 							//console.log(local_x);console.log(local_y);
 							
+							//console.log('This is the data' + plot.getData().data);
 
 									if (!updateLegendTimeout){
 										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
@@ -1184,7 +1236,7 @@ panning = false;
 								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
-								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}
+								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1500}
 								});			
 										
 					$('.xaxisLabel').css('color','white');
@@ -1206,6 +1258,8 @@ panning = false;
 						//console.log("x is" + x);
 						plot.setupGrid();
 						clearTimeout(updateLegendTimeout);
+						
+						//console.log("THIS IS THE NEAREST POINT" + plot.findNearbyItem());
 				}	
 				 
 
@@ -1213,6 +1267,7 @@ panning = false;
 						if (item){
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
+							//console.log('These are the datapoints' + item.datapoint);
 							//console.log(local_x);console.log(local_y);
 							
 
