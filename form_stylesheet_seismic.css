@@ -72,7 +72,6 @@ a:hover{
 	margin-bottom:3px;
 	position:relative;
 }
-
 #hh{
 	margin-top:36px;
 	margin-left:180px;
@@ -114,6 +113,7 @@ a:hover{
 
 .dropdown-toggle{
     color: #FF2B32;
+	width:100%;
 	position:relative;
 	padding-right:115px;
 	padding-top:10px;
@@ -140,26 +140,52 @@ a:hover{
     color: #FF2B32;
 }
 
-
-.dropdown {
-    /* Size and position */
-    position: absolute;
-    width: 200px;
-    padding: 10px;
+@-moz-document url-prefix()
+{
+	.dropdown {
+		/* Size and position */
+		position: absolute;
+		width: 200px;
+		padding: 10px;
 		margin-top:-48px;
-	margin-left:-445px;
+		margin-left:-467px;
 
-    /* Styles */
-    background: #fff;
-    border-radius: 0px;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow: 0 1px 1px rgba(50,50,50,0.1);
-    cursor: pointer;
-    outline: none;
+		/* Styles */
+		background: #fff;
+		border-radius: 0px;
+		border: 1px solid rgba(0,0,0,0.15);
+		box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+		cursor: pointer;
+		outline: none;
 
-    /* Font settings */
-    font-weight: bold;
-    color: #FF2B32;
+		/* Font settings */
+		font-weight: bold;
+		color: #FF2B32;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{ 
+	.dropdown {
+		/* Size and position */
+		position: absolute;
+		width: 200px;
+		padding: 10px;
+			margin-top:-48px;
+		margin-left:-445px;
+
+		/* Styles */
+		background: #fff;
+		border-radius: 0px;
+		border: 1px solid rgba(0,0,0,0.15);
+		box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+		cursor: pointer;
+		outline: none;
+
+		/* Font settings */
+		font-weight: bold;
+		color: #FF2B32;
+	}
 }
 
 .dropdown-menu {
@@ -181,6 +207,7 @@ a:hover{
     font-weight: bold;
     color: #FF2B32;
 }
+
 
 
 .dropdown:after {
@@ -229,7 +256,8 @@ a:hover{
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
     list-style: none;
-
+	margin-left:-1px;
+	margin-top:-15px;
     /* Hiding */
     opacity: 0;
     pointer-events: none;

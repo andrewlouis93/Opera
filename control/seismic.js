@@ -39,43 +39,10 @@ var standardFlag = "NBCC";
 					sessvars.standard = "NBCC";
 				}
 		}
-		
-		//Getting locaton to demo its graph
-		function locationIdentifier(num)
-		{
-			if (num == 1)
-			{
-				locationFlag = "Vancouver";
-			}
-			if (num == 2)
-			{
-				locationFlag = "Melfort";
-			}
-		}
-		
-		//Province and location information
-		function showLocation(option)
-		{
-			//British Columbia
-			if (option == 1)
-			{
-				provinceFlag="British Columbia";
-				var SK = document.getElementById('Sasketchewan');
-					 SK.style.display = 'none';
 				
-				var BC = document.getElementById('BritishColumbia');
-					 BC.style.display = 'block';
-			}
-			//Sasketchewan
-			if (option == 2)
-			{
-				provinceFlag="Sasketchewan";
-				var BC = document.getElementById('BritishColumbia');
-					 BC.style.display = 'none';
-			
-				var SK = document.getElementById('Sasketchewan');
-					 SK.style.display = 'block';
-			}
+		//Location picker
+		function selectLocation(string){
+			locationFlag = string;
 		}
 		
 		function DropDown(el) {
@@ -307,18 +274,12 @@ var standardFlag = "NBCC";
 														}
 													else if (standardFlag == "NBCC")
 														{
-															if (locationFlag === ""
-																|| provinceFlag === "")
+															if (locationFlag === "")
 															{
 																alert("Please enter province and location information before generating your design spectrum");
 															}
-														if (locationFlag == "Vancouver")
-															{
-																NBCCGraph(0.46, 0.94, 0.64, 0.33, 0.17, 1, 1);
-															}
-														else if (locationFlag == "Melfort")
-															{
-																NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006, 1,1);
+															else{
+																NBCCGraph(NBCCDatabase[locationFlag][0],NBCCDatabase[locationFlag][1],NBCCDatabase[locationFlag][2],NBCCDatabase[locationFlag][3],NBCCDatabase[locationFlag][4],1,1);
 															}
 														}
 													}); 
@@ -342,7 +303,7 @@ var standardFlag = "NBCC";
 				}
 				else if (standardFlag =="NBCC")
 				{
-					if (locationFlag === "" || provinceFlag === "")
+					if (locationFlag === "")
 						{
 							alert("You must finish up this form before carrying on to the next page!");
 							document.location.href='#';
