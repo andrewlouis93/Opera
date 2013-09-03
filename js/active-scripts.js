@@ -70,7 +70,7 @@ function interpolate(plot_var, cursor_x, cursor_y){
 			}
 		}	
 	}
-	var obj = {'least':least_point,'second_least':secondleast_point}
+	var obj = {'least':least_point,'second_least':secondleast_point,'min_dist':least}
 	return obj;
 }
 
@@ -985,7 +985,9 @@ panning = false;
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
 							
-							console.log(interpolate(plot,item.datapoint[0],item.datapoint[1]));
+							var latestPosition = pos;
+							console.log(latestPosition);
+							console.log(interpolate(plot,pos.x,pos.y));
 							
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
