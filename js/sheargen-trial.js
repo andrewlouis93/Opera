@@ -326,7 +326,7 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 		console.log('in irrreguarrar');
 		//You need regular Vf strength to calculate S14-24
 		//var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
-		
+		var n = [];
 		while (n.length != storey_count){
 			var delimit = prompt('Enter the Vf strength for each storey going from first storey to the last like so: 0.34,0.32,0.34');
 			var n = delimit.split(',');

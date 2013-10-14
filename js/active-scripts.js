@@ -11,6 +11,28 @@ function clear_vtable(){
 	visco_points_table = [];
 }
 
+function AverageObject(obj1,obj2){
+	if ( (obj1 == "no-match") || (obj2 == "no-match") ){
+		return "Invalid Point Passed";
+	}
+	else{
+		var returnobj = new Object();
+		if (sessvars.dampertype == "visco"){
+			returnobj.Ra = (obj1.Ra+obj2.Ra)/2;
+			returnobj.Rd = (obj1.Rd+obj2.Rd)/2;
+			returnobj.Rs = (obj1.Rs+obj2.Rs)/2;
+			returnobj.Rv = (obj1.Rv+obj2.Rv)/2;
+			returnobj.Tf = (obj1.Tf+obj2.Tf)/2;
+			returnobj.Vf = (obj1.Vf+obj2.Vf)/2;
+			returnobj.SdTf = (obj1.SdTf+obj2.SdTf)/2;
+			returnobj.x = (obj1.x+obj2.x)/2;
+			returnobj.alpha = (obj1.alpha+obj2.alpha)/2;
+			
+			return returnobj;
+		}
+	}	
+}
+
 function lookupTable(table,x,y){
 	for (var index = 0; index < table.length; ++index) {
 		//table[index]
@@ -40,6 +62,7 @@ function interpolate(plot_var, cursor_x, cursor_y){
 			x.splice(i,1);
 		}
 	}
+	
 	/*Assigning the least and second least variables to some entries within the data series*/
 	var	index =  Math.round(Math.random()*(x.length-1));
 	var randompoint = x[index].data[0];
@@ -60,12 +83,12 @@ function interpolate(plot_var, cursor_x, cursor_y){
 			var temp = triangulate(temp_series[i][0],temp_series[i][1],cursor_x,cursor_y);
 			if (temp < least){
 				least = temp;
-				console.log('THIS IS POINT' + temp_series[i]);
+				//console.log('THIS IS POINT' + temp_series[i]);
 				least_point = temp_series[i];
 			}
 			if ((temp < secondleast) && (least < temp)){
 					secondleast = temp;
-					console.log('THIS IS ALSO POINT' + temp_series[i]);
+					//console.log('THIS IS ALSO POINT' + temp_series[i]);
 					secondleast_point = temp_series[i];
 			}
 		}	
@@ -959,7 +982,7 @@ panning = false;
 								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
-								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1000}								
+								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:10}								
 								});			
 					$('.xaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
@@ -984,9 +1007,6 @@ panning = false;
 				 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
-							
-							console.log(interpolate(plot,item.datapoint[0],item.datapoint[1]));
-							
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
 							//console.log(local_x);console.log(local_y);
@@ -997,6 +1017,25 @@ panning = false;
 										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
 										updateLegendTimeout = null;
 									}
+						}
+						else{
+							
+							var closest_points_container = interpolate(plot,pos.x,pos.y);
+							
+							console.log(closest_points_container);
+							//Now getting the value from these and finding the totals.
+							
+							var p1 = lookupTable(visco_points_table, closest_points_container.least[0], closest_points_container.least[1])
+							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0], closest_points_container.second_least[1])							
+							
+							if ( (p1!="no-match") && (p2!="no-match") ){
+								console.log(p1);	
+								console.log(p2);
+								
+								
+							}
+							
+							
 						}
 									
 						
@@ -1024,7 +1063,8 @@ panning = false;
 
 				panning = false;				
 				$(placeholder_id+' canvas').bind('drag',function(){
-					panning = true; 
+
+				panning = true; 
 				});
 				
 				$(placeholder_id+' canvas').bind('dragend',function(){

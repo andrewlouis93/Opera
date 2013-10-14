@@ -59,9 +59,11 @@ function getIndexFromID(string,slider){
 					var drag_button_id = "drag-button"+count;
 					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
-				var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
+				
+				/*var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
 				//createSlider('target-sliderx','target-drag-buttonx',0);
 				$("#bldg_specs").append(temp);
+				*/
 			}
 			
 			function createDivs_target(){
@@ -74,9 +76,10 @@ function getIndexFromID(string,slider){
 					var drag_button_id = "target-drag-button"+count;
 					createSlider(slider_id,drag_button_id,linspace[count]);
 				}
-				var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
+				/*var temp = "<div class='test'><span><br><div id='target-sliderx' class='dragdealer'><div class='red-bar handle'><span id='target-drag-buttonx'>0</span></div></div></div>"
 				//createSlider('target-sliderx','target-drag-buttonx',0);
 				$("#bldg_target").append(temp);
+				*/
 			}
 			
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
