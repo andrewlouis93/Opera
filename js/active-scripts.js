@@ -778,13 +778,13 @@ panning = false;
 						//d1.push([Rd, Ra]);						
 						
 						var object = {
-							Ra: Ra.toFixed(2),
-							Rd: Rd.toFixed(2),
-							Rs: Rs.toFixed(2),
-							Rv: Rv.toFixed(2),
-							Tf: Tf.toFixed(2),
-							Vf: Vf.toFixed(2),
-							SdTf: SdTf_temp.toFixed(2),
+							Ra: parseFloat(Ra.toFixed(2)),
+							Rd: parseFloat(Rd.toFixed(2)),
+							Rs: parseFloat(Rs.toFixed(2)),
+							Rv: parseFloat(Rv.toFixed(2)),
+							Tf: parseFloat(Tf.toFixed(2)),
+							Vf: parseFloat(Vf.toFixed(2)),
+							SdTf: parseFloat(SdTf_temp.toFixed(2)),
 							x: x,
 							alpha: alpha
 						}
@@ -1022,17 +1022,25 @@ panning = false;
 							
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
 							
-							console.log(closest_points_container);
 							//Now getting the value from these and finding the totals.
 							
-							var p1 = lookupTable(visco_points_table, closest_points_container.least[0], closest_points_container.least[1])
-							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0], closest_points_container.second_least[1])							
+							
+							var p1 = lookupTable(visco_points_table, closest_points_container.least[0].toFixed(2), closest_points_container.least[1].toFixed(2));
+							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0].toFixed(2), closest_points_container.second_least[1].toFixed(2));							
+
 							
 							if ( (p1!="no-match") && (p2!="no-match") ){
 								console.log(p1);	
 								console.log(p2);
 								
+								var interpolated_obj = AverageObject(p1,p2);
 								
+								sessvars.interpolated_obj = interpolated_obj;
+								
+								if (!updateLegendTimeout){
+									updateLegendTimeout = setTimeout(updateLegend(interpolated_obj.Rd.toFixed(2),interpolated_obj.Ra.toFixed(2)), 1000);
+									updateLegendTimeout = null;
+								}								
 							}
 							
 							
@@ -1387,7 +1395,6 @@ panning = false;
 					
 					if (!temp){
 						globalDesignCount+=1;
-						//toastr.info(local_x + ", " + local_y,"Design #"+globalDesignCount,{timeOut:0});
 						 
 						 var pointObject;
 						 if (sessvars.dampertype == "hyster"){
@@ -1395,18 +1402,22 @@ panning = false;
 							sessvars.table = hysteretic_points_table;
 						 }
 						 else if (sessvars.dampertype == "visco"){
-							pointObject = lookupTable(visco_points_table, local_x, local_y);
-							sessvars.table = visco_points_table;
-						 }
 						 
-						 //alert(JSON.stringify(pointObject));
-						 
-						 //The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
-						 if (pointObject != "no-match"){
-							contactList.add({id: Math.floor(Math.random()*110000),Rv: local_x,Ra: local_y,Rs: pointObject.Rs});
-							refreshCallbacks();
-							sessvars.DesignContainer.push([local_x,local_y]);
+							if (item){
+								pointObject = lookupTable(visco_points_table, local_x, local_y);
+								sessvars.table = visco_points_table;
+							}
+							else{
+								pointObject = sessvars.interpolated_obj;
+							}
 						}
+						 								
+									//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
+									 if (pointObject != "no-match"){
+										contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs});
+										refreshCallbacks();
+										sessvars.DesignContainer.push([pointObject.Rd,pointObject.Ra]);
+									}
 					}
 				});	
 			
