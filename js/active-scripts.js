@@ -27,7 +27,18 @@ function AverageObject(obj1,obj2){
 			returnobj.SdTf = (obj1.SdTf+obj2.SdTf)/2;
 			returnobj.x = (obj1.x+obj2.x)/2;
 			returnobj.alpha = (obj1.alpha+obj2.alpha)/2;
-			
+			return returnobj;
+		}
+		else if (sessvars.dampertype =="hyster"){
+			returnobj.Ra = (obj1.Ra+obj2.Ra)/2;
+			returnobj.Rd = (obj1.Rd+obj2.Rd)/2;
+			returnobj.Rs = (obj1.Rs+obj2.Rs)/2;
+			returnobj.Rv = (obj1.Rv+obj2.Rv)/2;
+			returnobj.Tf = (obj1.Tf+obj2.Tf)/2;
+			returnobj.Vf = (obj1.Vf+obj2.Vf)/2;
+			returnobj.SdTf = (obj1.SdTf+obj2.SdTf)/2;
+			returnobj.mud = (obj1.mud+obj2.mud)/2;
+			returnobj.alpha = (obj1.alpha+obj2.alpha)/2;
 			return returnobj;
 		}
 	}	
@@ -1024,7 +1035,6 @@ panning = false;
 							
 							//Now getting the value from these and finding the totals.
 							
-							
 							var p1 = lookupTable(visco_points_table, closest_points_container.least[0].toFixed(2), closest_points_container.least[1].toFixed(2));
 							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0].toFixed(2), closest_points_container.second_least[1].toFixed(2));							
 
@@ -1127,15 +1137,15 @@ panning = false;
 						var Rv = temp["Rv"]
 						
 						var object = {
-							Ra: Ra.toFixed(2),
-							Rd: Rd.toFixed(2),
-							Rs: Rs.toFixed(2),
-							Rv: Rv.toFixed(2),
-							Tf: Tf.toFixed(2),
-							Vf: Vf.toFixed(2),
-							SdTf: SdTf_temp.toFixed(2),
-							mud: mud_array[j],
-							alpha: alpha
+							Ra: parseFloat(Ra.toFixed(2)),
+							Rd: parseFloat(Rd.toFixed(2)),
+							Rs: parseFloat(Rs.toFixed(2)),
+							Rv: parseFloat(Rv.toFixed(2)),
+							Tf: parseFloat(Tf.toFixed(2)),
+							Vf: parseFloat(Vf.toFixed(2)),
+							SdTf: parseFloat(SdTf_temp.toFixed(2)),
+							mud: parseFloat(mud_array[j]),
+							alpha: parseFloat(alpha)
 						}
 						
 						hysteretic_points_table.push(object);
@@ -1284,7 +1294,7 @@ panning = false;
 								xaxes: [{position:'bottom',min:-0.10,max:1.15,axisLabel:'Rd'}],
 								yaxes: [{position:'left',axisLabel:'Ra'}],
 								pan:{interactive:true},
-								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:1500}
+								grid:{hoverable:true,color:'white',clickable:true,mouseActiveRadius:10}
 								});			
 										
 					$('.xaxisLabel').css('color','white');
@@ -1315,14 +1325,36 @@ panning = false;
 						if (item){
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
-							//console.log('These are the datapoints' + item.datapoint);
-							//console.log(local_x);console.log(local_y);
 							
+							if (!updateLegendTimeout){
+								updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
+								updateLegendTimeout = null;
+							}
+						}
+						else{
+							
+							var closest_points_container = interpolate(plot,pos.x,pos.y);
+							console.log(closest_points_container);
+							//Now getting the value from these and finding the totals.
+							var p1 = lookupTable(hysteretic_points_table, closest_points_container.least[0].toFixed(2), closest_points_container.least[1].toFixed(2));
+							var p2 = lookupTable(hysteretic_points_table, closest_points_container.second_least[0].toFixed(2), closest_points_container.second_least[1].toFixed(2));							
 
-									if (!updateLegendTimeout){
-										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
-										updateLegendTimeout = null;
-									}
+							
+							if ( (p1!="no-match") && (p2!="no-match") ){
+								console.log(p1);	
+								console.log(p2);
+								
+								var interpolated_obj = AverageObject(p1,p2);
+								
+								sessvars.interpolated_obj = interpolated_obj;
+								
+								if (!updateLegendTimeout){
+									updateLegendTimeout = setTimeout(updateLegend(interpolated_obj.Rd.toFixed(2),interpolated_obj.Ra.toFixed(2)), 1000);
+									updateLegendTimeout = null;
+								}								
+							}
+							
+							
 						}
 				});
 							
@@ -1398,8 +1430,13 @@ panning = false;
 						 
 						 var pointObject;
 						 if (sessvars.dampertype == "hyster"){
-							pointObject = lookupTable(hysteretic_points_table,local_x,local_y);
-							sessvars.table = hysteretic_points_table;
+							if (item){
+								pointObject = lookupTable(hysteretic_points_table, local_x, local_y);
+								sessvars.table = hysteretic_points_table;
+							}
+							else{
+								pointObject = sessvars.interpolated_obj;
+							}						 
 						 }
 						 else if (sessvars.dampertype == "visco"){
 						 
