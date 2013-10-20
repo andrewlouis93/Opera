@@ -18,64 +18,7 @@
 	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
-	<script type="text/javascript">
-		var currentCount = 1;
-		
-		function safeCount(op){
-			if (op == "add"){
-				if (currentCount>=3){
-					;
-				}
-				else{
-					currentCount = currentCount+1;
-				}
-			}
-			if (op == "sub"){
-				if (currentCount<=1){
-					;
-				}
-				else{
-					currentCount = currentCount-1;
-				}
-			}
-		}
-		
-		function divSelector(count){
-			 if (count == 1){
-                        $('#first-about-text').fadeIn(1000);
-                        $('#second-about-text').hide();
-                        $('#third-about-text').hide();
-                    }else if (count == 2){
-                        $('#first-about-text').hide();
-                        $('#second-about-text').fadeIn(1000);
-                        $('#third-about-text').hide();
-                    }else if (count == 3){
-                        $('#first-about-text').hide();
-                        $('#second-about-text').hide();
-                        $('#third-about-text').fadeIn(1000);
-						}
-			else{
-				console.log("Count is nothing.");
-			}
-		}
-		
-		
-		//Navigating: pass in "fwd" or "rev"
-		function move(direction){    
-			if (direction == "fwd"){
-				safeCount("add");
-				divSelector(currentCount);
-			}
-			else if (direction =="rev"){
-				safeCount("sub");
-				divSelector(currentCount);
-			}
-			else{
-				;
-			}
-		}
-	</script>
-
+	<script language="javascript" type="text/javascript" src="control/about.js"></script>
 	<!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="stylesheet.css" type="text/css" />

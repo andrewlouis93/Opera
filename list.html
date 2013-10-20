@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <title>Opera</title>
+	<script type="text/javascript" src="js/sessvars.js"></script>	
+	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<!-- Scrollbar Library -->
+	<script language="javascript" type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>		
+	<script language="javascript" type="text/javascript" src="js/mwheelIntent.js"></script>		
+	<script language="javascript" type="text/javascript" src="js/jquery.mousewheel.js"></script>		
+	
+	<script language="javascript" type="text/javascript" src="js/sessvars.js"></script>		
+	<script language="javascript" type="text/javascript" src="js/list.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/bootstrap.js"></script>		
+	<script language="javascript" type="text/javascript" src="control/list_control.js"></script>	
+
+	<!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/jquery.jscrollpane.css" rel="stylesheet">
+	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="form_stylesheet_list.css" type="text/css" />
+	
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap" style="overflow:hidden;">
+      <!-- Begin page content -->
+			<a id="navigator"><i class="icon-circle-arrow-right"></i></a>
+			<div class="container" style="overflow:hidden;">
+				<div class="alert" style="position:fixed;left:30%;top:25px;">
+							<strong>Error!</strong> Select one design choice and building information before proceeding
+				</div>
+				<div class="basic_form">
+					<span id="seismic_title">
+							Design Choices
+					</span>
+					<input id="storey_count" type="number" placeholder="Storey Count">
+					<input id="storey_height" type="number" step="any" placeholder="Storey Height">		
+					<div id="contacts">
+						<table>
+							<thead>
+								<tr>
+									<th class="sort" data-sort="Rv">Rv</th> <!-- Name, Age, City ==> Rv, Ra, Rs -->
+									<th class="sort" data-sort="Ra">Ra</th>
+									<th class="sort" data-sort="Rs">Rs</th>
+								</tr>
+							</thead>
+							<tbody class="list">
+								<tr>
+									<!-- The following entry needs to be there as a template for some reason? It is removed on page load. -->
+									<td class="id" style="display:none;">1</td>
+									<td class="Rv user-def-element">0</td>
+									<td class="Ra user-def-element">1</td>
+									<td class="Rs user-def-element">2</td>
+									<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+      <div id="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">University of Toronto &copy; 2013</p>
+      </div>
+    </div>
+  </body>
+</html>

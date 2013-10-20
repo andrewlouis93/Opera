@@ -11,11 +11,11 @@
 	 
       html,
       body {
+		background: no-repeat center center fixed;
         height: 100%;
         /* The html and body elements cannot have any padding or margin. */
 		background-size:cover;
-		background-repeat:repeat;
-		background-image:url('img/newbg.png');
+		background-image:url('img/AYO.jpg') ;
       }
 	  
 	  a {text-decoration:none}
@@ -184,8 +184,6 @@
 		  
         }
       }
-
-
 
       /* Custom page CSS
       -------------------------------------------------- */

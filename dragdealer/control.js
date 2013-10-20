@@ -1,0 +1,1 @@
+ new Dragdealer('my-slider');

@@ -1,11 +1,11 @@
-//sessvars.n -> number of storey_count
+
+function activateSheargen(){
+//sessvars.n -> number of storeys
 //sessvars.Tf -> Tf
 //sessvars.Vf -> Vf
 //sessvars.phi_f -> [ ] user's slider input.
 //pointObject that contains the rest of the point parameters. 
-
-/*
-sessvars.dampertype = "hyster"
+sessvars.damperType = "hyster"
 sessvars.Tf = 1.72;
 var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
 sessvars.Vf = 0.49;
@@ -14,37 +14,12 @@ sessvars.alpha = 0.2;
 sessvars.mu_d = 10;
 sessvars.Rd = 0.545;
 sessvars.Rv = 0.731;
-sessvars.storey_count = 3;
+sessvars.storeys = 3;
 sessvars.SdTf = 0.25;
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
 sessvars.phi_f = [0.28,0.68,1];
 sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
 sessvars.masses = [295617,295617,159735];
-*/
-//sessvars.dampertype = "hyster"
-
-function activateSheargen(){
-//alert('THIS SHIT JUST HAPPENED');
-
-sessvars.Tf = parseFloat(sessvars.pointObject.Tf);
-var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
-sessvars.Vf = parseFloat(sessvars.pointObject.Vf);
-
-if (sessvars.dampertype == "visco"){
-	sessvars.x = parseFloat(sessvars.pointObject.x);
-}
-sessvars.alpha = parseFloat(sessvars.pointObject.alpha);
-sessvars.mu_d = parseFloat(sessvars.pointObject.mud);
-sessvars.Rd = parseFloat(sessvars.pointObject.Rd);
-sessvars.Rv = parseFloat(sessvars.pointObject.Rv);
-//sessvars.storey_count = 3;
-sessvars.SdTf = parseFloat(sessvars.pointObject.SdTf);
-sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
-
-//sessvars.phi_f = [0.28,0.68,1];
-//sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
-//sessvars.masses = [295617,295617,159735];
-
 
 //Adding a sum method to the array:
 Array.prototype.sum = function(){
@@ -56,25 +31,23 @@ Array.prototype.sum = function(){
 }
 
 var storey_heights = [];
-for (var id = 0; id < sessvars.storey_count; id++){
+for (var id = 0; id < sessvars.storeys; id++){
 	storey_heights.push(sessvars.storey_height);
 }
 
-//console.log(storey_heights);
-/*
 //Delete the following assingments soon. Debugging.
 storey_heights[0] = 4.42;
 storey_heights[1] = 4.30;
 storey_heights[2] = 4.30;
-*/
+
 var H = [];
 //Calculating the H values(height from ground) using the inter storey height:
-for (var i = 0; i < sessvars.storey_count; i++){
+for (var i = 0; i < sessvars.storeys; i++){
    H.push( storey_heights.slice(0,i+1).sum() );
 }
-//console.log(H);
+console.log(H);
 
-//Summation will run from i to n where n is the number of storey_count.
+//Summation will run from i to n where n is the number of storeys.
 function calculateDeltaPhi_F(i){
 	var index = i - 1;
 	if (i == 1){
@@ -92,7 +65,7 @@ function calculateK_8_1(){
 
 	var theta_list = [];
 	//Calculate theta i
-	for (var j = 0; j < sessvars.storey_count; j++){
+	for (var j = 0; j < sessvars.storeys; j++){
 		theta_list[j] = sessvars.phi_f[j]/sessvars.storey_height;
 	}
 	
@@ -100,7 +73,7 @@ function calculateK_8_1(){
 	
 	var delta_theta_list = [];
 	//Calculating delta theta
-	for (var k = 0; k < sessvars.storey_count; k++){
+	for (var k = 0; k < sessvars.storeys; k++){
 		if (k == 0){
 			delta_theta_list[k] = theta_list[0];
 		}
@@ -116,8 +89,8 @@ function calculateK_8_1(){
 		var count = 0;
 		var average;
 		
-		if (sessvars.storey_count > 3){
-			for (var iter = 0; iter < sessvars.storey_count; iter++){
+		if (sessvars.storeys > 3){
+			for (var iter = 0; iter < sessvars.storeys; iter++){
 				//console.log("i is"+i+"and iter is: " + iter+ "delta_theta_list[iter] is" + delta_theta_list[iter]);
 
 				if (iter == i){
@@ -138,7 +111,7 @@ function calculateK_8_1(){
 				}
 			}
 			//Now that we have our sum, the average is calculated.
-			average = sum/(sessvars.storey_count - count);
+			average = sum/(sessvars.storeys - count);
 		}
 		else{
 			sum = delta_theta_list.sum();
@@ -155,7 +128,7 @@ function calculateK_8_1(){
 	
 	//Actually plugging the formula
 	k_intermediates = [];
-	for (var d = 0; d < sessvars.storey_count; d++){
+	for (var d = 0; d < sessvars.storeys; d++){
 		var result = (delta_theta_list[d])/(calculateAverageDeltaTheta(d));
 		k_intermediates.push(result);
 	}
@@ -172,7 +145,6 @@ function variable_summation_at_index(arr1,arr2,i){
 		var summation = 0;
 		for(var i=0; i< array_one.length; i++) {
 				summation += array_one[i]*array_two[i];
-				console.log(' array one ' + array_one[i] + ' array two ' + array_two[i]);
 		}
 		
 		return summation;
@@ -184,20 +156,16 @@ function variable_summation_at_index(arr1,arr2,i){
 
 function calculateKf(flag){
 	if (flag == "irregular"){
-		console.log('irregular');
 		var Kf_frame = [];
-		console.log('storey heights are' + storey_heights);
-		for (var i = 0; i < sessvars.storey_count; i++){
-			var sol = constant*((variable_summation_at_index(sessvars.masses,H,i))/storey_heights[i]);
-			console.log('summation is ' + variable_summation_at_index(sessvars.phi_f,H,i));
+		for (var i = 0; i < sessvars.storeys; i++){
+			var sol = constant*((variable_summation_at_index(sessvars.phi_f,H,i))/storey_heights[i]);
 			Kf_frame.push(sol);
 		}
 		return Kf_frame;
 	}
 	else if (flag == "regular"){
-		console.log('regular');
 		var Kf_frame = [];
-		for (var i = 0; i < sessvars.storey_count; i++){
+		for (var i = 0; i < sessvars.storeys; i++){
 			var sol = constant*((variable_summation_at_index(sessvars.phi_f,sessvars.masses,i))/calculateDeltaPhi_F(i+1));
 			Kf_frame.push(sol);
 		}
@@ -223,17 +191,15 @@ function calculateVf(flag,Kf_frame){
 		
 		
 		var local_constant = (Vf_1/Kf_frame[0]);
-		for (var i = 1; i < sessvars.storey_count; i++){
+		for (var i = 1; i < sessvars.storeys; i++){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
-		console.log('Vf_1 is '+ Vf_1);
-		console.log('Kf_frame is' + Kf_frame);
-		console.log('Vf_list is '+ Vf_list);
+		
 		return Vf_list;
 	}
 	else if (flag == "irregular"){
 		//The following only works for the first iteration, gamma_r
-		var temp = H.slice(0,H.length);
+		var temp = sessvars.H.slice(0,H.length);
 
 		for (var i = 0; i < temp.length; i++){
 			temp[i] = Math.pow(temp[i],2);
@@ -247,16 +213,17 @@ function calculateVf(flag,Kf_frame){
 		Vf_list.push(Vf_1);
 	
 		var local_constant = (Vf_1/Kf_frame[0]); //K-Frame would be different. 
-		for (var i = 1; i < sessvars.storey_count; i++){
+		for (var i = 1; i < sessvars.storeys; i++){
 			Vf_list.push(local_constant*Kf_frame[i]);
 		}
+		
 		return Vf_list;
 	}
 }
 
 function calculateInterStoreyDisplacement(gamma_d,delta_di){
 	var interstorey_disp = [];
-	for (var i = 0; i < sessvars.storey_count; i++){
+	for (var i = 0; i < sessvars.storeys; i++){
 		var temp = gamma_d*sessvars.SdTf*sessvars.Rd*delta_di[i];
 		interstorey_disp.push(temp);
 	}
@@ -265,7 +232,7 @@ function calculateInterStoreyDisplacement(gamma_d,delta_di){
 
 function calculateFloorAcceleration(gamma_d, delta_di){
 	var acceleration = [];
-	for (var i = 0; i < sessvars.storey_count; i++){
+	for (var i = 0; i < sessvars.storeys; i++){
 		var temp = gamma_d*sessvars.SaTf*sessvars.Ra*delta_di[i];
 		acceleration.push(temp);
 	}
@@ -274,10 +241,9 @@ function calculateFloorAcceleration(gamma_d, delta_di){
 
 function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
 	var Kd = [];
-
 	if (flag == "regular")
 		{
-			for (var i = 0; i < sessvars.storey_count; i++)
+			for (var i = 0; i < sessvars.storeys; i++)
 			{
 				var temp = ((Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,i))/delta_di[i]) - Kf_frame[i];
 				Kd.push(temp);
@@ -287,34 +253,29 @@ function calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag){
 	else if (flag == "irregular")
 	{
 		//Eq'n S14-25
-		for (var i = 0; i < sessvars.storey_count; i++)
+		for (var i = 0; i < sessvars.storeys; i++)
 		{
 			var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,i)/delta_di[i]) - Kf_frame[i];
 			Kd.push(temp);
 		}
 		return Kd;
 	}
-	else{
-		console.log('nigga your flag is empty');
-	}
 	
 }
 
 function calculateKd_visco(Ti,di,delta_di,Kf_frame){
 	var Kd = [];
-	for (var i = 0; i < sessvars.storey_count; i++){
+	for (var i = 0; i < sessvars.storeys; i++){
 		var temp = (Math.pow((2*Math.PI/Ti),2)*variable_summation_at_index(sessvars.masses,di,0)/delta_di[i]) - Kf_frame[i];
-		Kd.push(temp);
 	}
 	return Kd; 
 }
 
-function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
+function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag){
 	var Vd = [];
 	if (flag == "regular")
-	{	
-		console.log('in reguarrar');
-		for (var i = 0; i < sessvars.storey_count; i++)
+	{
+		for (var i = 0; i < sessvars.storeys; i++)
 		{
 			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d);
 			Vd.push(temp);
@@ -323,23 +284,10 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 	}
 	else if (flag == "irregular")
 	{
-		console.log('in irrreguarrar');
 		//You need regular Vf strength to calculate S14-24
-		//var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
-		var n = [];
-		while (n.length != storey_count){
-			var delimit = prompt('Enter the Vf strength for each storey going from first storey to the last like so: 0.34,0.32,0.34');
-			var n = delimit.split(',');
-		}
-		
-		for (var i = 0; i < n.length; i++){
-			n[i] = parseFloat(n[i]);
-		}
-		
-		var reg_temp = n;
-		
+		var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
 		//reg_temp is Vf,i
-		for (var i = 0; i < sessvars.storey_count; i++)
+		for (var i = 0; i < sessvars.storeys; i++)
 		{
 			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
 			Vd.push(temp);
@@ -352,26 +300,27 @@ function calculateLateralViscousCoefficient(Kd,delta_di){
 	var Cd = [];
 	
 	//Squaring elements of phi_f
-	temp_phi_f = sessvars.phi_f.slice(0);
+	var temp_phi_f = sessvars.phi_f.slice(0);
 	for (var j = 0; j < temp_phi_f.length; j++){
 		temp_phi_f[i] = Math.pow(temp_phi_f[i],2);
 	}
 	//Squaring elements of delta_di
-	temp_delta_di = delta_di.slice(0);
+	var temp_delta_di = delta_di.slice(0);
 	for (var k = 0; k < temp_delta_di; k++){
 		temp_delta_di[i] = Math.pow(temp_delta_di[i],2);
 	}
 	
-	for (var i = 0; i < sessvars.storey_count; i++){
+	for (var i = 0; i < sessvars.storeys; i++){
 		var temp = (2*sessvars.x*variable_summation_at_index(sessvars.masses,temp_phi_f,0)*Kd[i])/variable_summation_at_index(Kd,temp_phi_f,i);
-		console.log('numerator is '+variable_summation_at_index(sessvars.masses,temp_phi_f,0)*Kd[i]);//**Kd[i]));
 		Cd.push(temp);
 	}
 	return Cd;
 }
 
-sheargen();
+sheargen(); //Call to sheargen. 
+
 function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
+	console.log("SHEARGENNNNED");
 	var flag = "regular";
 	//Regularity Check
 	if (calculateK_8_1() > 1.3){
@@ -379,20 +328,17 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	}
 	//Calculating Kf_frame
 	var Kf_frame = calculateKf(flag);
-	sessvars.Kf_frame = Kf_frame;
 	//Calculating Vf --> Pass in Kf_frame!
 	var Vf_strength = calculateVf(flag,Kf_frame);
-	sessvars.Vf_strength = Vf_strength;
-	
 	//S14 - 19
-	di = [];
-	for (var i = 0; i < sessvars.storey_count; i++){
-		di.push(H[i]/H[sessvars.storey_count-1]);
+	var di = [];
+	for (var i = 0; i < sessvars.storeys; i++){
+		di.push(H[i]/H[sessvars.storeys-1]);
 	}
 	
 	//Calculating delta_di
-	delta_di = [];
-	for (var j = 0; j < sessvars.storey_count; j++){
+	var delta_di = [];
+	for (var j = 0; i < sessvars.storeys; j++){
 		if (j == 0){
 			delta_di.push(di[0]); //delta d @ 0 = d @ 0
 		}
@@ -413,43 +359,31 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	//Calculate the first fmode floor acceleration
 	var acceleration = calculateFloorAcceleration(gamma_d, delta_di);
 	
-	var Kd;
-	var Vd_i;
-	
-	if (sessvars.dampertype == "hyster"){
+	if (sessvars.damperType == "hyster"){
 		//HYSTERETIC CALCULATIONS
 		//Calculating stiffness given by Kd
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
-		Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
+		var Kd = calculateKd_hyster(Ti,di,delta_di,Kf_frame,flag); //Toggles depending on flag.
+		
 		//Eq`n S14-23
-		Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame); //Toggles depending on flag.
-		console.log(Vd_i);
+		var Vd_i = calculateVd_i(interstoreydisp,Kd,Vf_strength,flag); //Toggles depending on flag.
 	}
-	else if (sessvars.dampertype == "visco"){
+	else if (sessvars.damperType == "visco"){
 		//VISCO CALCULATIONS
 		//14-26
-		
-		console.log('ARE YOU IN HURR');
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
-		Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
-		
-		console.log('Kd is ' + Kd);
+		var Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
 		
 		
 		//14-27 Cd
 		if (sessvars.alpha != 1){
 			var Ci = calculateLateralViscousCoefficient(Kd,delta_di);
-			sessvars.Ci = Ci;
-			console.log('This is Ci ' + Ci);
 		}
 		else{
 			console.log('alpha is 1, cannot do 14-27!');
 		}
 	}
 	
-	sessvars.Vd = Vd_i;
-	sessvars.Kd = Kd; //Accounts for regularity, hyster or VE.
-	console.log('sessvars.Kd is '+ sessvars.Kd);
 	//Predictions
 	//var delta_i = calculateDeltaI();
 	
