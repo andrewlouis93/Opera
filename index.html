@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Basic Usage</title>
+	<style>
+		body{
+		background:white;
+		color:black}
+		
+		
+		.tickLabel { color:red ; }
+
+	</style>
+		
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
+	<script type="text/javascript">
+
+	$(function() {
+	
+		function NBCCGraph(PGA, zeroval, one, two, three, four, five, F_a, F_r){
+	
+		one = one*F_a;
+		three = three*F_r;
+		var d2 = [[0, zeroval], [0.2, one], [0.5, two], [1.0, three],[2.0, four],[2.5,five]];
+		var PGA = [[0,PGA]];
+		$.plot("#placeholder", [{data:d2,
+								lines: { show: true },
+								points: { show: true },
+								},
+								{data:PGA,
+								 points: { show: true },
+								}],
+								
+								{
+									xaxes: [{position:'bottom',axisLabel:'T(s)'}],
+									yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
+									grid:{hoverable:true,color:'black',clickable:true}
+								});
+		}
+		
+		
+		function ASCEGraph(PGA, S_s, S_1, T_0, T_L, F_a, F_r){
+		
+		var S_DS = S_s*F_a;
+		var S_D1 = S_1*F_r;
+		var T_S = S_D1/S_DS;
+		
+		var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
+		
+		//The 1/T portion of the graph
+		for (var i = 1.0; i < T_L; i += 0.1) {
+			d2.push([i, 1/i]);
+		}
+
+		// A null signifies separate line segments
+		plot = $.plot("#XXX", [{data:d2,
+								lines: { show: true },
+								points: { show: false },
+								}],
+								{
+									xaxes: [{position:'bottom',axisLabel:'T(s)'}],
+									yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
+									grid:{hoverable:true,color:'white',clickable:true}
+								});
+
+		}
+		
+	
+		// Call on page load
+		$(document).ready(function() {
+		NBCCGraph(10,20,18,15,10,7,5,1,1);
+		ASCEGraph(10,20,18,0.2,2,1,1);
+		});
+		
+	});
+	
+	
+	</script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>Basic Usage</h2>
+	</div>
+
+	<div id="content">
+		
+		<div id="placeholder" style="width:600px;height:200px;position:relative;margin-left:auto;margin-right:auto;"></div>
+		<div id="XXX" style="width:600px;height:200px;position:relative;margin-left:auto;margin-right:auto;"></div>
+
+	</div>
+
+	<div id="footer">
+		Copyright &copy; 2007 - 2013 IOLA and Ole Laursen
+	</div>
+
+</body>
+</html>
