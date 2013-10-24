@@ -157,7 +157,7 @@ var standardFlag = "NBCC";
 				var T_S = S_D1/S_DS;
 				var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
 				
-				sessvars.ASCEPayload = d2;
+				sessvars.ASCEPayload = d2.slice(0);
 				sessvars.Tlval = T_L;
 				
 				//The 1/T portion of the graph

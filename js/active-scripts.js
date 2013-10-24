@@ -153,14 +153,16 @@ function grabPoint(x){
 			return [x,temp];	
 		}
 		else if ((x >= sessvars.ASCEPayload[1][0]) && (x <= sessvars.ASCEPayload[2][0])){
-			var temp = getPoint(sessvars.NBCCPayload[1][0],sessvars.NBCCPayload[1][1],sessvars.NBCCPayload[2][0],sessvars.NBCCPayload[2][1],x);
+			var temp = getPoint(sessvars.ASCEPayload[1][0],sessvars.ASCEPayload[1][1],sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],x);
 			return [x,temp];
 		}
 		else if ((x >= sessvars.ASCEPayload[2][0]) && (x <= 1)){
-			var temp = getPoint(sessvars.NBCCPayload[2][0],sessvars.NBCCPayload[2][1],sessvars.NBCCPayload[3][0],sessvars.NBCCPayload[3][1],x);
+			var temp = getPoint(sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],sessvars.ASCEPayload[3][0],sessvars.ASCEPayload[3][1],x);
 			return [x,temp];
 		}
-
+		else if (x>1){
+			return [x, (sessvars.temp/x)];
+		}
 	}	
 	
 	else{
