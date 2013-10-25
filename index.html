@@ -1,102 +1,92 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Flot Examples: Basic Usage</title>
-	<style>
-		body{
-		background:white;
-		color:black}
-		
-		
-		.tickLabel { color:red ; }
-
-	</style>
-		
-	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
-	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
-	<script type="text/javascript">
-
-	$(function() {
-	
-		function NBCCGraph(PGA, zeroval, one, two, three, four, five, F_a, F_r){
-	
-		one = one*F_a;
-		three = three*F_r;
-		var d2 = [[0, zeroval], [0.2, one], [0.5, two], [1.0, three],[2.0, four],[2.5,five]];
-		var PGA = [[0,PGA]];
-		$.plot("#placeholder", [{data:d2,
-								lines: { show: true },
-								points: { show: true },
-								},
-								{data:PGA,
-								 points: { show: true },
-								}],
-								
-								{
-									xaxes: [{position:'bottom',axisLabel:'T(s)'}],
-									yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
-									grid:{hoverable:true,color:'black',clickable:true}
-								});
-		}
-		
-		
-		function ASCEGraph(PGA, S_s, S_1, T_0, T_L, F_a, F_r){
-		
-		var S_DS = S_s*F_a;
-		var S_D1 = S_1*F_r;
-		var T_S = S_D1/S_DS;
-		
-		var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
-		
-		//The 1/T portion of the graph
-		for (var i = 1.0; i < T_L; i += 0.1) {
-			d2.push([i, 1/i]);
-		}
-
-		// A null signifies separate line segments
-		plot = $.plot("#XXX", [{data:d2,
-								lines: { show: true },
-								points: { show: false },
-								}],
-								{
-									xaxes: [{position:'bottom',axisLabel:'T(s)'}],
-									yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
-									grid:{hoverable:true,color:'white',clickable:true}
-								});
-
-		}
-		
-	
-		// Call on page load
-		$(document).ready(function() {
-		NBCCGraph(10,20,18,15,10,7,5,1,1);
-		ASCEGraph(10,20,18,0.2,2,1,1);
-		});
-		
-	});
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Opera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 	
 	
-	</script>
-</head>
-<body>
+	
+    <!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+	
 
-	<div id="header">
-		<h2>Basic Usage</h2>
-	</div>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
 
-	<div id="content">
+
+  </head>
+
+  <body>
+
+
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Begin page content -->
+	  <span style="margin-top:18px;margin-left:95%;float:right;font-size:47px;opacity:0.7;color:#FF2B32;position:absolute;">
+		<a href = "seismix.html" style="text-decoration: none;color:#FF2B32; opacity:0.7;"><i class="icon-circle-arrow-right"></i></a>
+	  </span>
+
+      <div class="container">
+	
+	   
+	  <div id="nav_bar">
+
+		<div id="right_container">
+		<div id="about_block">
+			<p id="about_text"><span class="red">Opera</span> enables practicing engineers to design seismic retrofit solutions with supplemental dampers 
+			using <span class="red">performance based design</span>.
+			</p>
+			<a href="about.html" id="about_link" class="red">A&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;U&nbsp;&nbsp;T</a>
+		</div>
+		</div>
+				
+		<div id="left_container">
+		<div id="white_logo">
+			<span id="text_banner" class="text_shadow"> 
+				O&nbsp;&nbsp;P&nbsp;&nbsp;E&nbsp;&nbsp;R&nbsp;&nbsp;A
+			</span>
+		</div>
+		<a href = "seismix.html">
+		<div id="begin_icon">
+			<div id="begin_symbol_container">
+				<i id="begin_symbol" class="icon-play-sign"></i>
+			</div>
+			
+			<div id="begin_text">
+			B E G I N
+			</div>
+		</div>
+		</a>
+		</div>
 		
-		<div id="placeholder" style="width:600px;height:200px;position:relative;margin-left:auto;margin-right:auto;"></div>
-		<div id="XXX" style="width:600px;height:200px;position:relative;margin-left:auto;margin-right:auto;"></div>
+	  </div>
+	  
+     </div>
 
-	</div>
+      <div id="push"></div>
+    </div>
 
-	<div id="footer">
-		Copyright &copy; 2007 - 2013 IOLA and Ole Laursen
-	</div>
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">University of Toronto &copy; 2013</p>
+      </div>
+    </div>
 
-</body>
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+  </body>
 </html>
