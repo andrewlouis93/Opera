@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Opera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	
+	
+	
+    <!-- CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="form_stylesheet_damperdesign.css" type="text/css" />
+	<link rel="stylesheet" href="js/jQRangeSlider/demo/lib/jquery-ui/css/smoothness/jquery-ui-1.8.10.custom.css"> 
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/iThing.css" type="text/css" />
+	
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+    <script src="lib/jquery-1.7.1.min.js"></script>
+	<script src="lib/jquery-ui-1.8.16.custom.min.js"></script>
+    <script src="js/jQAllRangeSliders-min.js"></script>
+	<script type="text/javascript" src="js/jquery.knob.js"></script>
+	<script type="text/javascript" src="js/sessvars.js"></script>	
+	<script type="text/javascript">
+			
+			/*Payload to be carried to the next page*/
+			sessvars.dampertype = "" ;
+			sessvars.Tf;
+			sessvars.Tfmin;
+			sessvars.Tfmax;
+			
+			sessvars.Vf;
+			sessvars.Vmin;
+			sessvars.Vmax;
+				
+			function hysteresis(){
+				var visco = document.getElementById('visco_damper');
+				visco.style.display = 'none';
+				
+				var hysteresis = document.getElementById('hyster_damper');
+				hysteresis.style.display = 'block';
+				
+				//Flag for spectra generator
+				sessvars.dampertype = "hyster";
+			}
+			
+			function visco(){
+				var hysteresis = document.getElementById('hyster_damper');
+				hysteresis.style.display = 'none';
+				
+				var visco = document.getElementById('visco_damper');
+				visco.style.display = 'block';
+				
+				//Flag for spectra generator
+				sessvars.dampertype = "visco";
+			}
+			
+			function non_linear()
+			{
+				//upload_allow=true;
+			}
+			
+			function pspectra()
+			{
+				//upload_allow=false;
+			}
+			
+		</script>
+	
+		<script type="text/javascript">
+			
+			function DropDown(el) {
+				this.dd = el;
+				this.placeholder = this.dd.children('span');
+				this.opts = this.dd.find('ul.dropdown > li');
+				this.val = '';
+				this.index = -1;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						return false;
+					});
+
+					obj.opts.on('click',function(){
+						var opt = $(this);
+						obj.val = opt.text();
+						obj.index = opt.index();
+						obj.placeholder.text(obj.val);
+					});
+				},
+				getValue : function() {
+					return this.val;
+				},
+				getIndex : function() {
+					return this.index;
+				}
+			}
+
+			function damperdesign_payload(){
+			
+
+				//sessvars.Tf = document.getElementById('Tf').value;
+				sessvars.Tfmin = Tf_Bounds.min;
+				sessvars.Tfmax = Tf_Bounds.max;
+				
+
+				//sessvars.Vf = document.getElementById('Vf').value;
+				sessvars.Vmin = Vf_Bounds.min;
+				sessvars.Vmax = Vf_Bounds.max;
+				
+													
+				document.location.href='spectra.html';
+			}
+			
+			
+				//Debugging Statements!
+				//if (sessvars.standard == "NBCC"){alert(sessvars.NBCCPayload)}
+				//if (sessvars.standard == "ASCE"){alert(sessvars.ASCEPayload)}
+
+				
+				$.noConflict();
+				jQuery(document).ready(function($) {
+								// Code that uses jQuery's $ can follow here.
+								//Tf knobs -> Tf dial, Vf knobs -> Vf dial
+								
+								    $("#Tf_spinners").editRangeSlider({
+											defaultValues:{min: 0.6, max: 2},
+											formatter:function(val){
+													var value = Math.round(val * 100) / 100;
+													console.log("value is "+value);
+													decimal = value - Math.round(val);
+													Tf_Bounds = $("#Tf_spinners").editRangeSlider("values");
+
+													return decimal == 0 ? value.toString() + ".0" : value.toString();
+											}
+									});
+									
+									$("#Vf_spinners").editRangeSlider({
+											defaultValues:{min: 0.5, max: 0.67},
+											formatter:function(val){
+													var value = (Math.round(val * 100) / 100)*100 + "%";
+													Vf_Bounds =  $("#Vf_spinners").editRangeSlider("values");
+													console.log("value is "+JSON.stringify(Vf_Bounds));
+													decimal = value - Math.round(val);
+													return decimal == 0 ? value.toString() + ".0" : value.toString();
+											}
+									}
+									);
+									
+									//Default bounds
+									$("#Tf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 4});
+									$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 1});
+									
+						
+									//$("#Tf_spinners").editRangeSlider();
+
+
+								
+								//$(".dial").knob();
+								var dd = new DropDown( $('#dd') );
+								var ff = new DropDown( $('#ff') );
+								
+								$(document).click(function() {
+									// all dropdowns
+
+									$('.wrapper-dropdown-3').removeClass('active');
+								});
+
+				});
+
+
+		</script>
+
+  </head>
+
+  <body>
+
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap" style="overflow:hidden;">
+
+      <!-- Begin page content -->
+	<a href="spectra.html" id="navigator"><i class="icon-circle-arrow-right"></i></a>
+      <div class="container" style="overflow:hidden;">
+
+				<span id="seismic_title">
+						Damper Design Parameters
+				</span>
+			<div class="basic_form">
+					<!--First drop down menu-->
+					<div id ="super_left_container">
+						<div id="damper_options">
+							<!--First drop down menu-->
+							<div id="dd" class="wrapper-dropdown-3" tabindex="1">
+							<span>P-Spectra Option</span>
+								<ul class="dropdown">
+									<li><a href="notice.html" onclick="non-linear();">Non-Linear Analysis</a></li>
+									<li><a href="#" onclick="pspectra();">P-Spectra Simplified</a></li>
+								</ul>
+							</div>
+							<br><br>
+							<div id="ff" class="wrapper-dropdown-3" tabindex="1">
+									<span>Damper Type</span>
+										<ul class="dropdown">
+											<li><a href="#" onclick="hysteresis();">Hysteretic Damper Response</a></li>
+											<li><a href="#" onclick="visco();">Viscous/Viscoeleastic Damper Response</a></li>
+										</ul>
+										
+							</div>
+						</div>
+					</div>
+					
+					<div id="centered_damper_content">
+						<div id="hyster_damper">
+							
+							<p style="font-family:'Lato';font-size:30px;text-align:center;">Hysteretic Damper Response</p><br>
+							<img src="img/HYST.jpg" />
+							<p style="font-family: 'Arvo', serif;margin-top:10px;text-align:center;font-size:19px;">Hysteretic damper is a class of supplemental damping devices that are predominantly displacement-dependent. Hysteretic dampers include metallic yielding dampers, lead extrustion dampers, friction dampers  and other devices whose forces are primarily dependent on displacements.</p>
+
+						</div>
+						
+						<div id="visco_damper">
+							<p style="font-family:'Lato';font-size:30px;text-align:center;">Viscoelastic Damper Response</p><br>
+							<img src="img/VE.jpg" />
+							<p style="font-family: 'Arvo', serif;margin-top:10px;text-align:center;font-size:19px;">Viscous-viscoelastic damper is a class of supplemental damping devices where the forces depend on velocity (viscous dampers) and both velocity and displacement (viscoelastic dampers). For this reason, they are referred to as "velocity-dependent devices". The P-Spectra consider linear viscous damping where the dependence of force on velocity is of linear order. Nonlinear viscous damping is typically accounted for using an equivalent linearization based on the equivalence of cyclic energy dissipation.</p>						
+							</div>
+					</div>
+					
+					<div id="elastic_period">
+							<span style="font-family:'Lato';font-size:35px;">Elastic Period(s)</span>
+								<div id="Tf_spinners">
+									<br><br>
+								</div>
+								<br>
+										<span id = "Tf_inputs">T<sub>f</sub> (s)</span>
+							<br><br><br>
+							<span style="font-family:'Lato';font-size:35px;">Normalized Strength</span>
+								<div id="Vf_spinners">
+									<br><br>
+								</div>
+								<br>
+										<span id = "Vf_inputs">V<sub>f</sub> (s)</span>
+										<br>
+							<div id="generate2_pos" onclick="damperdesign_payload();" class="button">Generate P-Spectra</div>
+						
+						</div>
+				
+			</div>
+			
+     </div>
+
+      <div id="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">University of Toronto &copy; 2013</p>
+      </div>
+    </div>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+  </body>
+</html>

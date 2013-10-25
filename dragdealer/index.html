@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Opera</title>
+    	<!--<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    	<script language="javascript" type="text/javascript" src="dragdealer.js"></script>
+		<script type="text/javascript" src="../js/sessvars.js"></script>	
+		<style>
+			#slider_container{
+				margin-left:auto;
+				margin-right:auto;
+				width:700px /*Do not change the order of the properties here. Shit will ensue.*/
+			}
+			#bldg_specs
+			{
+				width:300px;
+				float:left;
+			}
+			
+			#bldg_target{
+				width:300px;
+				float:right;
+			}
+		</style>
+    	<script>
+		
+			//CREATE FUNCTION FOR LAST 0 LEVEL THAT WILL EXECUTE AT THE END OF EVERY FOR LOOP.
+			function createSlider(slider_id,dragbutton_id,i){
+				new Dragdealer(slider_id,{horizontal: true,x:Math.random(),animationCallback: function(x, y){
+					document.getElementById(dragbutton_id).innerHTML = x.toFixed(2);}});
+			}
+			
+			function createDivs_specs(){
+				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
+					var string=	"<br><div id='my-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='drag-button"+count+"'>drag me</span></div></div>";
+					$("#bldg_specs").append(string);
+					
+					var slider_id ="my-slider"+count;
+					var drag_button_id = "drag-button"+count;
+					createSlider(slider_id,drag_button_id,count);
+				}
+			}
+			
+			function createDivs_target(){
+				for (var count=0; count < parseFloat(sessvars.storey_count); count++){
+					var string=	"<br><div id='target-slider"+count+"' class='dragdealer'><div class='red-bar handle'><span id='target-drag-button"+count+"'>drag me</span></div></div>";
+					$("#bldg_target").append(string);
+					
+					var slider_id ="target-slider"+count;
+					var drag_button_id = "target-drag-button"+count;
+					createSlider(slider_id,drag_button_id);
+				}
+			}
+			
+    		$(document).ready(function() {
+				createDivs_specs();
+				createDivs_target();
+			});
+    	</script>
+    	<link href='dragdealer.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+	<div id="slider_container">
+		<div id="bldg_specs"></div>
+		<div id="bldg_target"></div>
+	</div>
+  </body>
+</html>
