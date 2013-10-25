@@ -1038,8 +1038,6 @@ panning = false;
 							local_y = item.datapoint[1].toFixed(2);
 							//console.log(local_x);console.log(local_y);
 							//console.log('This is the data' + plot.getData().data);
-
-							console.log("BITCH NIGGER");
 							
 							if (!updateLegendTimeout){
 								updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
@@ -1047,7 +1045,6 @@ panning = false;
 							}
 						}
 						else{
-							console.log("SNITCH NIGGER");
 							$("#tooltip").remove();
 							previousPoint = null;    							
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
