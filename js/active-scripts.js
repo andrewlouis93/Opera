@@ -75,12 +75,11 @@ function lookupTable(table,x,y){
 
 /*INTERPOLATION FUNCTION(S)*/
 
-
+function triangulate(point_x,point_y,mouse_x,mouse_y){
+	return Math.pow((point_x-mouse_x),2)+Math.pow((point_y-mouse_y),2);
+}
+	
 function interpolate(plot_var, cursor_x, cursor_y){
-
-	function triangulate(point_x,point_y,mouse_x,mouse_y){
-		return Math.pow((point_x-mouse_x),2)+Math.pow((point_y-mouse_y),2);
-	}
 	var x = plot_var.getData();
 	for (var i = 0; i < x.length; i++){
 		if (x[i].data.length == 0){
@@ -1045,8 +1044,6 @@ panning = false;
 							}
 						}
 						else{
-							$("#tooltip").remove();
-							previousPoint = null;    							
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
 							
 							//Now getting the value from these and finding the totals.
@@ -1435,6 +1432,39 @@ panning = false;
 				var globalDesignCount = 0;
 				var validPoint = false; //Not valid if plot of residual graph
 				sessvars.DesignContainer = [];
+				var previousPoint = null;
+				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plothover", function (event, pos, item) {
+					if (item) {
+						if (previousPoint != item.dataIndex) {
+							previousPoint = item.dataIndex;
+							
+							$("#tooltip").remove();
+							var x = item.datapoint[0].toFixed(2),
+								y = item.datapoint[1].toFixed(2);
+								
+							//Lookup-table calls
+							
+							showTooltip(item.pageX, item.pageY,
+										" of " + x + " = " + y);
+						}
+					}
+					else {
+						if(typeof sessvars.interpolated_obj === 'undefined'){
+						   ;
+						 }					
+						else if (sessvars.dampertype == "hyster"){
+							$("#tooltip").remove();
+							showTooltip(pos.pageX, pos.pageY,"alpha: " + sessvars.interpolated_obj.alpha.toFixed(2) + " Ud: " +  sessvars.interpolated_obj.alpha.toFixed(2));
+							previousPoint = null;
+						}
+						else if (sessvars.dampertype =="visco"){
+							$("#tooltip").remove();
+							showTooltip(pos.pageX, pos.pageY,"alpha: " + sessvars.interpolated_obj.alpha.toFixed(2) + " x: " +  sessvars.interpolated_obj.x.toFixed(2));
+							previousPoint = null;						 
+						}
+						
+					}					
+				});
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plotclick", function (event, pos, item) {
 					
 					var temp;
