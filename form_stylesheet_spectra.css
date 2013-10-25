@@ -27,12 +27,11 @@ a {text-decoration:none}
 	
 	#contacts{
 		color:white;
-		margin-left:-410px;
-		width:120px;
+		margin-left:-334px;
 		height:500px;
-		margin-left:10px;
-		margin-top:100px;
 		float:left;
+		margin-top:100px;
+		position:relative;
 	}	
 
 }
@@ -53,12 +52,11 @@ a {text-decoration:none}
 	
 	#contacts{
 		color:white;
-		margin-left:-300px;
-		width:150px;
+		margin-left:-334px;
 		height:500px;
-		margin-left:10px;
-		margin-top:100px;
 		float:left;
+		margin-top:100px;
+		position:relative;
 	}	
 }
 .super_button_lhs{
@@ -402,7 +400,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:90px;
-	margin-left:1150px;
+	margin-left:1120px;
 }
 
 #Tf2_label{
@@ -410,7 +408,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:325px;
-	margin-left:1150px;
+	margin-left:1120px;
 }
 }
 

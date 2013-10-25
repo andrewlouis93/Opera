@@ -11,6 +11,20 @@ function clear_vtable(){
 	visco_points_table = [];
 }
 
+function showTooltip(x, y, contents) {
+		console.log("IN SHOW TOOLTIP");
+		$('<div id="tooltip">' + contents + '</div>').css( {
+        position: 'absolute',
+        display: 'none',
+        top: y + 5,
+        left: x + 5,
+        border: '1px solid #fdd',
+        padding: '2px',
+        'background-color': '#fee',
+        opacity: 0.80
+    }).appendTo("body").fadeIn(200);
+}
+	
 function AverageObject(obj1,obj2){
 	if ( (obj1 == "no-match") || (obj2 == "no-match") ){
 		return "Invalid Point Passed";
@@ -1017,22 +1031,25 @@ panning = false;
 				 
 				 
 
-				 
+				var previousPoint = null;				 
 				placeholder.bind("plothover",  function (event, pos, item) {
 						if (item){
 							local_x = item.datapoint[0].toFixed(2);
 							local_y = item.datapoint[1].toFixed(2);
 							//console.log(local_x);console.log(local_y);
-							
 							//console.log('This is the data' + plot.getData().data);
 
-									if (!updateLegendTimeout){
-										updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
-										updateLegendTimeout = null;
-									}
+							console.log("BITCH NIGGER");
+							
+							if (!updateLegendTimeout){
+								updateLegendTimeout = setTimeout(updateLegend(local_x,local_y), 1000);
+								updateLegendTimeout = null;
+							}
 						}
 						else{
-							
+							console.log("SNITCH NIGGER");
+							$("#tooltip").remove();
+							previousPoint = null;    							
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
 							
 							//Now getting the value from these and finding the totals.
