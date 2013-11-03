@@ -43,16 +43,16 @@ a {text-decoration:none}
 		background:rgba(0,0,0,0.3);
 		padding:50px;
 		top:11%;
-		width:1150px;
+		width:1000px;
 		margin-top:5px;
-		margin-left:-245px;
+		margin-left:150px;
 		height:83%; /*height:600px*/
 		position:absolute;	
 	}
 	
 	#contacts{
 		color:white;
-		margin-left:-334px;
+		margin-left:-70px;
 		height:500px;
 		float:left;
 		margin-top:100px;
@@ -103,9 +103,14 @@ table, th, td{
 	border: 1px solid white;
 	text-align:center;
 }
-
-
-
+/*
+#design_remove{
+	color:white;
+	cursor: pointer;
+	cursor: hand;
+	text-decoration:none;
+}
+*/
 #contacts table{
 	width:100%;
 }
@@ -400,7 +405,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:90px;
-	margin-left:1120px;
+	margin-left:965px;
 }
 
 #Tf2_label{
@@ -408,7 +413,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:325px;
-	margin-left:1120px;
+	margin-left:965px;
 }
 }
 

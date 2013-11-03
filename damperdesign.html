@@ -122,8 +122,12 @@
 				sessvars.Vmin = Vf_Bounds.min;
 				sessvars.Vmax = Vf_Bounds.max;
 				
-													
-				document.location.href='spectra.html';
+				if((typeof sessvars.dampertype === 'undefined') || (sessvars.dampertype == "")){
+				   alert("You haven't selected damper type.");
+				 }
+				 else{
+					document.location.href='spectra.html';
+				 }
 			}
 			
 			
