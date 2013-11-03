@@ -15,7 +15,7 @@
 	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
 	<!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="stylesheet_spectra.css" type="text/css" />
 	<link rel="stylesheet" href="form_stylesheet_spectra.css" type="text/css" />
 	<link rel="stylesheet" href="css/toastr.css" type="text/css" />
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -40,7 +40,7 @@
 				
 				<!-- Tf, Vf labels -->
 				
-								<div id="Tf1_label">Tf1</div>
+				<div id="Tf1_label">Tf1</div>
 
 				<div id="placeholder"></div> 
 								<div id="Vf1_label">Vf1</div>
@@ -70,9 +70,11 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="sort" data-sort="Rv">Rv</th> <!-- Name, Age, City ==> Rv, Ra, Rs -->
+								<th class="sort" data-sort="Rv">Rv</th> 
 								<th class="sort" data-sort="Ra">Ra</th>
 								<th class="sort" data-sort="Rs">Rs</th>
+								<th class="sort" data-sort="alpha">&alpha;</th>
+								<th id="third_param" class="sort" data-sort="third_param">third_param</th>								
 							</tr>
 						</thead>
 					
@@ -82,7 +84,9 @@
 									<td class="Rv user-def-element">0.29</td>
 									<td class="Ra user-def-element">0.34</td>
 									<td class="Rs user-def-element">0.45</td>
-									<td class="remove"><i class="icon-remove remove-item-btn"></i></td>
+									<td class="alpha user-def-element">0.45</td>
+									<td class="third_param user-def-element">0.50</td>
+									<td class="remove"><a style="color:white;cursor:pointer;cursor:hand;text-decoration:none;"><i class="icon-remove remove-item-btn"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

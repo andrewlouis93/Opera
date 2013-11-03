@@ -1405,10 +1405,24 @@ panning = false;
 				
 
 			$(document).ready(function() {
-
-			var options = {
-				valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
-			};
+			
+			var options;
+			
+			if (sessvars.dampertype == "hyster"){
+				var name_temp = "&mu;"+"d".sub();
+				$('#third_param').text(name_temp);
+				options = {
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+				};
+			}
+			else if (sessvars.dampertype == "visco"){
+				var name_temp = "&epsilon;";
+				$('#third_param').text(name_temp);
+				options = {
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+				};				
+			}
+			
 			// Init list
 			var contactList = new List('contacts', options);
 			//alert('Fixes made, bitches fucked.');
@@ -1443,13 +1457,14 @@ panning = false;
 							var x = item.datapoint[0].toFixed(2),
 								y = item.datapoint[1].toFixed(2);
 								
-							//Lookup-table calls
-							
+							//Look-up table calls
 							if (sessvars.dampertype == "hyster"){
-								showTooltip(item.pageX, item.pageY,"&alpha; : " + x + " &mu;"+d_char.sub()+": " + y);
+								var it = lookupTable(hysteretic_points_table,x,y);
+								showTooltip(item.pageX, item.pageY,"&alpha; : " + it.alpha.toFixed(2) + " &mu;"+d_char.sub()+": " + it.mud.toFixed(2));
 							}
 							else if (sessvars.dampertype == "visco"){
-								showTooltip(item.pageX, item.pageY,"&alpha; " + x + " &epsilon;: " + y);
+								var it = lookupTable(visco_points_table,x,y);
+								showTooltip(item.pageX, item.pageY,"&alpha; " + it.alpha.toFixed(2) + " &epsilon;: " + it.x.toFixed(2));
 							}
 							
 						}
@@ -1460,7 +1475,7 @@ panning = false;
 						 }					
 						else if (sessvars.dampertype == "hyster"){
 							$("#tooltip").remove();
-							showTooltip(pos.pageX, pos.pageY,"&alpha; " + sessvars.interpolated_obj.alpha.toFixed(2) + " &mu;"+d_char.sub()+": " +  sessvars.interpolated_obj.alpha.toFixed(2));
+							showTooltip(pos.pageX, pos.pageY,"&alpha; " + sessvars.interpolated_obj.alpha.toFixed(2) + " &mu;"+d_char.sub()+": " +  sessvars.interpolated_obj.mud.toFixed(2));
 							previousPoint = null;
 						}
 						else if (sessvars.dampertype =="visco"){
@@ -1491,7 +1506,6 @@ panning = false;
 							}						 
 						 }
 						 else if (sessvars.dampertype == "visco"){
-						 
 							if (item){
 								pointObject = lookupTable(visco_points_table, local_x, local_y);
 								sessvars.table = visco_points_table;
@@ -1501,12 +1515,18 @@ panning = false;
 							}
 						}
 						 								
-									//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
-									 if (pointObject != "no-match"){
-										contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs});
-										refreshCallbacks();
-										sessvars.DesignContainer.push([pointObject.Rd,pointObject.Ra]);
-									}
+						//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
+						if (pointObject != "no-match"){
+							if (sessvars.dampertype == "hyster"){
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2)});
+							}
+							else if (sessvars.dampertype == "visco"){
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.x.toFixed(2)});
+							}
+							
+							refreshCallbacks();
+							sessvars.DesignContainer.push([pointObject.Rd,pointObject.Ra]);
+						}
 					}
 				});	
 			
