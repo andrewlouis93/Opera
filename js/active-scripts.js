@@ -1433,6 +1433,7 @@ panning = false;
 				var validPoint = false; //Not valid if plot of residual graph
 				sessvars.DesignContainer = [];
 				var previousPoint = null;
+				var d_char = 'd';
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plothover", function (event, pos, item) {
 					if (item) {
 						if (previousPoint != item.dataIndex) {
@@ -1444,8 +1445,13 @@ panning = false;
 								
 							//Lookup-table calls
 							
-							showTooltip(item.pageX, item.pageY,
-										" of " + x + " = " + y);
+							if (sessvars.dampertype == "hyster"){
+								showTooltip(item.pageX, item.pageY,"&alpha; : " + x + " &mu;"+d_char.sub()+": " + y);
+							}
+							else if (sessvars.dampertype == "visco"){
+								showTooltip(item.pageX, item.pageY,"&alpha; " + x + " &epsilon;: " + y);
+							}
+							
 						}
 					}
 					else {
@@ -1454,12 +1460,12 @@ panning = false;
 						 }					
 						else if (sessvars.dampertype == "hyster"){
 							$("#tooltip").remove();
-							showTooltip(pos.pageX, pos.pageY,"alpha: " + sessvars.interpolated_obj.alpha.toFixed(2) + " Ud: " +  sessvars.interpolated_obj.alpha.toFixed(2));
+							showTooltip(pos.pageX, pos.pageY,"&alpha; " + sessvars.interpolated_obj.alpha.toFixed(2) + " &mu;"+d_char.sub()+": " +  sessvars.interpolated_obj.alpha.toFixed(2));
 							previousPoint = null;
 						}
 						else if (sessvars.dampertype =="visco"){
 							$("#tooltip").remove();
-							showTooltip(pos.pageX, pos.pageY,"alpha: " + sessvars.interpolated_obj.alpha.toFixed(2) + " x: " +  sessvars.interpolated_obj.x.toFixed(2));
+							showTooltip(pos.pageX, pos.pageY,"&alpha; " + sessvars.interpolated_obj.alpha.toFixed(2) + " &epsilon;: " +  sessvars.interpolated_obj.x.toFixed(2));
 							previousPoint = null;						 
 						}
 						
