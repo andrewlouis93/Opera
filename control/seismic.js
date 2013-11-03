@@ -43,6 +43,7 @@ var standardFlag = "NBCC";
 		//Location picker
 		function selectLocation(string){
 			locationFlag = string;
+			$('#province_location').text(string);
 		}
 		
 		function DropDown(el) {
@@ -216,7 +217,7 @@ var standardFlag = "NBCC";
 				
 		// Call on page load
 		$(document).ready(function() {
-			ASCEGraph(1,0.6,0.1,5,1,1);
+			NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
 		});
 		
 
