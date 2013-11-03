@@ -1410,14 +1410,14 @@ panning = false;
 			
 			if (sessvars.dampertype == "hyster"){
 				var name_temp = "&mu;"+"d".sub();
-				$('#third_param').text(name_temp);
+				$('#third_param').html(name_temp);
 				options = {
 					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
 				};
 			}
 			else if (sessvars.dampertype == "visco"){
 				var name_temp = "&epsilon;";
-				$('#third_param').text(name_temp);
+				$('#third_param').html(name_temp);
 				options = {
 					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
 				};				
