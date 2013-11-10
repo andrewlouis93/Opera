@@ -1407,7 +1407,7 @@ panning = false;
 			$(document).ready(function() {
 			
 			var options;
-			
+			sessvars.interpolated_obj="";
 			if (sessvars.dampertype == "hyster"){
 				var name_temp = "&mu;"+"d".sub();
 				$('#third_param').html(name_temp);
@@ -1470,7 +1470,7 @@ panning = false;
 						}
 					}
 					else {
-						if(typeof sessvars.interpolated_obj === 'undefined'){
+						if(typeof (sessvars.interpolated_obj === 'undefined') || (sessvars.interpolated_obj = "")){
 						   ;
 						 }					
 						else if (sessvars.dampertype == "hyster"){

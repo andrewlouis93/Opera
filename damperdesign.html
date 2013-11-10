@@ -154,10 +154,12 @@
 									});
 									
 									$("#Vf_spinners").editRangeSlider({
-											defaultValues:{min: 0.5, max: 0.67},
+											defaultValues:{min: 50, max: 67},
 											formatter:function(val){
-													var value = (Math.round(val * 100) / 100)*100 + "%";
+													var value = (Math.round(val));
 													Vf_Bounds =  $("#Vf_spinners").editRangeSlider("values");
+													Vf_Bounds.min = Vf_Bounds.min / 100;
+													Vf_Bounds.max = Vf_Bounds.max / 100;
 													console.log("value is "+JSON.stringify(Vf_Bounds));
 													decimal = value - Math.round(val);
 													return decimal == 0 ? value.toString() + ".0" : value.toString();
@@ -167,7 +169,7 @@
 									
 									//Default bounds
 									$("#Tf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 4});
-									$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 1});
+									$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 30, max: 100});
 									
 						
 									//$("#Tf_spinners").editRangeSlider();
@@ -251,7 +253,7 @@
 								<br>
 										<span id = "Tf_inputs">T<sub>f</sub> (s)</span>
 							<br><br><br>
-							<span style="font-family:'Lato';font-size:35px;">Normalized Strength</span>
+							<span style="font-family:'Lato';font-size:35px;">Normalized Strength(%)</span>
 								<div id="Vf_spinners">
 									<br><br>
 								</div>
