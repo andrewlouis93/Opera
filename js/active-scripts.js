@@ -1110,7 +1110,7 @@ panning = false;
 			{
 
 				var placeholder = $(placeholder_id);
-				var mud_intervals = 4;//for alpha use 4 --> This used to be 20.
+				var mud_intervals = 5;//for alpha use 4 --> This used to be 20.
 				//Each of the following is a container for a curve on the spectrum. 
 				var d0 = [];
 				var d1 = [];
@@ -1132,7 +1132,7 @@ panning = false;
 				
 				var mud_array = [1,2,5,10,20];
 				var dick_var = {};
-				var dick2_var = {};
+				dick2_var = {};
 				
 				for (var i = 0; i < mud_intervals; i += 1) {
 					var alpha = alpha_intervals[i];
@@ -1278,6 +1278,13 @@ panning = false;
 									points: { show: false },								
 								},
 								{
+									data:dick_var[alpha_intervals[4]],
+									lineWidth:3,
+									lines: { show: true, lineWidth:3 },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
 									data:dick2_var[alpha_intervals[0]],
 									lines: { show: true, lineWidth:1 },
 									color: 'white',
@@ -1297,6 +1304,12 @@ panning = false;
 								},
 								{
 									data:dick2_var[alpha_intervals[3]],
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dick2_var[alpha_intervals[4]],
 									lines: { show: true, lineWidth:1 },
 									color: 'white',
 									points: { show: false },								
