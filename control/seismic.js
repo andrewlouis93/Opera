@@ -166,13 +166,17 @@ var standardFlag = "NBCC";
 				for (var i = 1.0; i < T_L; i += 0.1) {
 					d2.push([i, (sessvars.temp/i)]);
 				}
+				//The 1/T^2 portion of the graph
+				for (var i = 1.0; i < 5; i += 0.1) {
+					d2.push([i, (sessvars.temp/Math.pow(i,2))]);
+				}				
 
 				// A null signifies separate line segments
 				plot = $.plot("#placeholder", [{data:d2,label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
 										},
-										{data:d3,label:"&nbsp;PGA:&nbsp;&nbsp;"+d3[0][1],
+										{data:d3,label:"&nbsp;PGA:&nbsp;&nbsp;"+(d3[0][1]).toFixed(2),
 										 points: { show: true },
 										 
 										}],
