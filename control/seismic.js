@@ -157,6 +157,7 @@ var standardFlag = "NBCC";
 				var PGA = 0.4*S_D1;
 				var T_S = S_D1/S_DS;
 				var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
+				var d3 = [[0, PGA]];
 				
 				sessvars.ASCEPayload = d2.slice(0);
 				sessvars.Tlval = T_L;
@@ -165,11 +166,19 @@ var standardFlag = "NBCC";
 				for (var i = 1.0; i < T_L; i += 0.1) {
 					d2.push([i, (sessvars.temp/i)]);
 				}
+				//The 1/T^2 portion of the graph
+				for (var i = 1.0; i < 5; i += 0.1) {
+					d2.push([i, (sessvars.temp/Math.pow(i,2))]);
+				}				
 
 				// A null signifies separate line segments
 				plot = $.plot("#placeholder", [{data:d2,label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
+										},
+										{data:d3,label:"&nbsp;PGA:&nbsp;&nbsp;"+(d3[0][1]).toFixed(2),
+										 points: { show: true },
+										 
 										}],
 										{
 											crosshair:{mode:"x",color:'white',lineWidth:2},

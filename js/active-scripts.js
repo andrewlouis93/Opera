@@ -1045,16 +1045,20 @@ panning = false;
 						}
 						else{
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
-							
 							//Now getting the value from these and finding the totals.
 							
 							var p1 = lookupTable(visco_points_table, closest_points_container.least[0].toFixed(2), closest_points_container.least[1].toFixed(2));
 							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0].toFixed(2), closest_points_container.second_least[1].toFixed(2));							
 
+
 							
 							if ( (p1!="no-match") && (p2!="no-match") ){
 								console.log(p1);	
 								console.log(p2);
+								
+									
+								sessvars.fuck_all = [[p1.Rd,p1.Ra],[p2.Rd,p2.Ra]];//COME BACK HERE YOU CUNT
+								
 								
 								var interpolated_obj = AverageObject(p1,p2);
 								
@@ -1110,7 +1114,7 @@ panning = false;
 			{
 
 				var placeholder = $(placeholder_id);
-				var mud_intervals = 4;//for alpha use 4 --> This used to be 20.
+				var mud_intervals = 5;//for alpha use 4 --> This used to be 20.
 				//Each of the following is a container for a curve on the spectrum. 
 				var d0 = [];
 				var d1 = [];
@@ -1132,7 +1136,7 @@ panning = false;
 				
 				var mud_array = [1,2,5,10,20];
 				var dick_var = {};
-				var dick2_var = {};
+				dick2_var = {};
 				
 				for (var i = 0; i < mud_intervals; i += 1) {
 					var alpha = alpha_intervals[i];
@@ -1278,6 +1282,13 @@ panning = false;
 									points: { show: false },								
 								},
 								{
+									data:dick_var[alpha_intervals[4]],
+									lineWidth:3,
+									lines: { show: true, lineWidth:3 },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
 									data:dick2_var[alpha_intervals[0]],
 									lines: { show: true, lineWidth:1 },
 									color: 'white',
@@ -1297,6 +1308,12 @@ panning = false;
 								},
 								{
 									data:dick2_var[alpha_intervals[3]],
+									lines: { show: true, lineWidth:1 },
+									color: 'white',
+									points: { show: false },								
+								},
+								{
+									data:dick2_var[alpha_intervals[4]],
 									lines: { show: true, lineWidth:1 },
 									color: 'white',
 									points: { show: false },								
@@ -1407,19 +1424,19 @@ panning = false;
 			$(document).ready(function() {
 			
 			var options;
-			
+			sessvars.interpolated_obj="";
 			if (sessvars.dampertype == "hyster"){
 				var name_temp = "&mu;"+"d".sub();
 				$('#third_param').html(name_temp);
 				options = {
-					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param', 'Tf', 'Vf' ]
 				};
 			}
 			else if (sessvars.dampertype == "visco"){
 				var name_temp = "&epsilon;";
 				$('#third_param').html(name_temp);
 				options = {
-					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param', 'Tf', 'Vf' ]
 				};				
 			}
 			
@@ -1470,7 +1487,7 @@ panning = false;
 						}
 					}
 					else {
-						if(typeof sessvars.interpolated_obj === 'undefined'){
+						if(typeof (sessvars.interpolated_obj === 'undefined') || (sessvars.interpolated_obj = "")){
 						   ;
 						 }					
 						else if (sessvars.dampertype == "hyster"){
@@ -1518,10 +1535,10 @@ panning = false;
 						//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
 						if (pointObject != "no-match"){
 							if (sessvars.dampertype == "hyster"){
-								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2)});
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs.toFixed(2), alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2),Tf: pointObject.Tf.toFixed(2),Vf: (pointObject.Vf.toFixed(2))*100+"%"});
 							}
 							else if (sessvars.dampertype == "visco"){
-								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.x.toFixed(2)});
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs.toFixed(2), alpha: pointObject.alpha.toFixed(2),third_param: pointObject.x.toFixed(2),Tf: pointObject.Tf.toFixed(2), Vf: (pointObject.Vf.toFixed(2))*100+"%"});
 							}
 							
 							refreshCallbacks();
