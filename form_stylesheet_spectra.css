@@ -43,9 +43,9 @@ a {text-decoration:none}
 		background:rgba(0,0,0,0.3);
 		padding:50px;
 		top:11%;
-		width:1000px;
+		width:900px;
 		margin-top:5px;
-		margin-left:150px;
+		margin-left:210px;
 		height:83%; /*height:600px*/
 		position:absolute;	
 	}
@@ -405,7 +405,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:90px;
-	margin-left:965px;
+	margin-left:890px;
 }
 
 #Tf2_label{
@@ -413,7 +413,7 @@ input[type=number] {
 	font-size:40px;
 	position:absolute;
 	margin-top:325px;
-	margin-left:965px;
+	margin-left:890px;
 }
 }
 

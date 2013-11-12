@@ -1045,16 +1045,20 @@ panning = false;
 						}
 						else{
 							var closest_points_container = interpolate(plot,pos.x,pos.y);
-							
 							//Now getting the value from these and finding the totals.
 							
 							var p1 = lookupTable(visco_points_table, closest_points_container.least[0].toFixed(2), closest_points_container.least[1].toFixed(2));
 							var p2 = lookupTable(visco_points_table, closest_points_container.second_least[0].toFixed(2), closest_points_container.second_least[1].toFixed(2));							
 
+
 							
 							if ( (p1!="no-match") && (p2!="no-match") ){
 								console.log(p1);	
 								console.log(p2);
+								
+									
+								sessvars.fuck_all = [[p1.Rd,p1.Ra],[p2.Rd,p2.Ra]];//COME BACK HERE YOU CUNT
+								
 								
 								var interpolated_obj = AverageObject(p1,p2);
 								
@@ -1425,14 +1429,14 @@ panning = false;
 				var name_temp = "&mu;"+"d".sub();
 				$('#third_param').html(name_temp);
 				options = {
-					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param', 'Tf', 'Vf' ]
 				};
 			}
 			else if (sessvars.dampertype == "visco"){
 				var name_temp = "&epsilon;";
 				$('#third_param').html(name_temp);
 				options = {
-					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param' ]
+					valueNames: [ 'id', 'Rv', 'Ra', 'Rs','third_param', 'Tf', 'Vf' ]
 				};				
 			}
 			
@@ -1531,10 +1535,10 @@ panning = false;
 						//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
 						if (pointObject != "no-match"){
 							if (sessvars.dampertype == "hyster"){
-								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2)});
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs.toFixed(2), alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2),Tf: pointObject.Tf.toFixed(2),Vf: (pointObject.Vf.toFixed(2))*100+"%"});
 							}
 							else if (sessvars.dampertype == "visco"){
-								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs, alpha: pointObject.alpha.toFixed(2),third_param: pointObject.x.toFixed(2)});
+								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs.toFixed(2), alpha: pointObject.alpha.toFixed(2),third_param: pointObject.x.toFixed(2),Tf: pointObject.Tf.toFixed(2), Vf: (pointObject.Vf.toFixed(2))*100+"%"});
 							}
 							
 							refreshCallbacks();
