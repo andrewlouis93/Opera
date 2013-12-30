@@ -1,4 +1,3 @@
-var standardFlag = "NBCC";
 		var locationFlag = "";
 		var provinceFlag = "";
 		
@@ -6,12 +5,11 @@ var standardFlag = "NBCC";
 		
 		sessvars.NBCCPayload;
 		sessvars.ASCEPayload;
-		sessvars.standard = "NBCC";
+		sessvars.standard;
 		function standardSelect(option)
 		{
 			if (option == 1)
 				{
-					standardFlag = "ASCE";
 					//toggleAmerican();
 					
 					var Canadian = document.getElementById('location_lists');
@@ -26,7 +24,6 @@ var standardFlag = "NBCC";
 			if (option == 2)
 				{
 
-					standardFlag = "NBCC";
 					//toggleCanadian();
 					
 					var American = document.getElementById('text-inputs');
@@ -85,23 +82,26 @@ var standardFlag = "NBCC";
    
 		function NBCCGraph(PGA, one, two, three, four, F_a, F_r){
 	
+			//Will only be called with arguments when generate is clicked. 
+			if((NBCCGraph.arguments.length !=0)){
 				one = one*F_a;
 				three = three*F_r;
 				var d2 = [[0, one], [0.2, one], [0.5, two], [1.0, three],[2.0, four],[2.5,four]];
-				//Loading onto Session Payload
-				
-				sessvars.NBCCPayload = d2;
-				
 				//Following two lines for visco spectra!
 				var PGA = [[0,PGA]];
 				sessvars.NBCC_PGA = PGA;
+				//Loading onto Session Payload
+				sessvars.NBCCPayload = d2;
+			}
+				
+	
 				
 			
-				plot =  $.plot("#placeholder", [{data:d2, label:"x: 0 y: 0",
+				plot =  $.plot("#placeholder", [{data:sessvars.NBCCPayload, label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
 										},
-										{data:PGA,label:"&nbsp;PGA:&nbsp;&nbsp;"+PGA[0][1],
+										{data:sessvars.NBCC_PGA,label:"&nbsp;PGA:&nbsp;&nbsp;"+sessvars.NBCC_PGA[0][1],
 										 points: { show: true },
 										 
 										}],
@@ -151,6 +151,8 @@ var standardFlag = "NBCC";
 		
 		//Fa and Fr are inputs in the form!
 		function ASCEGraph(S_s, S_1, T_0, T_L, F_a, F_r){
+		
+		if (ASCEGraph.arguments.length != 0){
 				var S_DS = S_s*F_a;
 				var S_D1 = S_1*F_r;
 				sessvars.temp = S_D1;
@@ -160,23 +162,24 @@ var standardFlag = "NBCC";
 				var d3 = [[0, PGA]];
 				
 				sessvars.ASCEPayload = d2.slice(0);
+				sessvars.ASCE_PGA = d3;
 				sessvars.Tlval = T_L;
 				
 				//The 1/T portion of the graph
 				for (var i = 1.0; i < T_L; i += 0.1) {
-					d2.push([i, (sessvars.temp/i)]);
+					sessvars.ASCEPayload.push([i, (sessvars.temp/i)]);
 				}
 				//The 1/T^2 portion of the graph
 				for (var i = 1.0; i < 5; i += 0.1) {
-					d2.push([i, (sessvars.temp/Math.pow(i,2))]);
+					sessvars.ASCEPayload.push([i, (sessvars.temp/Math.pow(i,2))]);
 				}				
-
+				}
 				// A null signifies separate line segments
-				plot = $.plot("#placeholder", [{data:d2,label:"x: 0 y: 0",
+				plot = $.plot("#placeholder", [{data:sessvars.ASCEPayload,label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
 										},
-										{data:d3,label:"&nbsp;PGA:&nbsp;&nbsp;"+(d3[0][1]).toFixed(2),
+										{data:sessvars.ASCE_PGA,label:"&nbsp;PGA:&nbsp;&nbsp;"+(sessvars.ASCE_PGA[0][1]).toFixed(2),
 										 points: { show: true },
 										 
 										}],
@@ -226,7 +229,22 @@ var standardFlag = "NBCC";
 				
 		// Call on page load
 		$(document).ready(function() {
-			NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
+			console.log("PAGE LOADED");
+		
+			if (typeof sessvars.standard === 'undefined'){
+				console.log('FRESH SESSION')
+				NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
+			}
+			else if (sessvars.standard == 'NBCC'){
+				NBCCGraph();
+				standardSelect(2); //Display location box instead of inputs.
+				$("#dd span").text("NBCC Compatible"); //Change std label
+			}
+			else if (sessvars.standard == 'ASCE'){
+				ASCEGraph();
+				standardSelect(1); //Display inputs instead of location.
+				$("#dd span").text("ASCE-7 Compatible"); //Change std label
+			}
 		});
 		
 
@@ -254,7 +272,7 @@ var standardFlag = "NBCC";
 			//The function(){//do stuff} is an event listener! http://stackoverflow.com/questions/12627443/jquery-click-vs-onclick
 			$('#generate_pos').click(function(){
 													
-													if (standardFlag == "ASCE")
+													if (sessvars.standard == "ASCE")
 														{
 															if (document.getElementById('Ss_param').value === ""
 																	|| document.getElementById('S1_param').value === ""
@@ -279,7 +297,7 @@ var standardFlag = "NBCC";
 															}
 																
 														}
-													else if (standardFlag == "NBCC")
+													else if (sessvars.standard == "NBCC")
 														{
 															if (locationFlag === "")
 															{
@@ -292,7 +310,7 @@ var standardFlag = "NBCC";
 													}); 
 													
 		$('#navigator').click(function(){
-				if (standardFlag == "ASCE")
+				if (sessvars.standard == "ASCE")
 				{
 					if (document.getElementById('Ss_param').value === ""
 						|| document.getElementById('S1_param').value === ""
@@ -308,7 +326,7 @@ var standardFlag = "NBCC";
 							document.location.href='damperdesign.html';
 						}
 				}
-				else if (standardFlag =="NBCC")
+				else if (sessvars.standard =="NBCC")
 				{
 					if (locationFlag === "")
 						{
