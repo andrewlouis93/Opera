@@ -1459,10 +1459,27 @@ panning = false;
 				   contactList.remove('id', itemId);
 				});
 			}
+			
+			
+			if (typeof sessvars.DesignContainer === 'undefined'){
+				sessvars.DesignContainer = [];
+			}
+			else{
+			/*Design Container isn't empty, load them into table*/
+			
+			
+			function loadTable(){
+				for (var i = 0; i < sessvars.DesignContainer.length; i++){
+						var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs});
+				}
+			}			
+			loadTable();
+			
+			}
 				//Info pop-ups		
 				var globalDesignCount = 0;
 				var validPoint = false; //Not valid if plot of residual graph
-				sessvars.DesignContainer = [];
 				var previousPoint = null;
 				var d_char = 'd';
 				$("#placeholder,#placeholder2,#placeholder3,#placeholder4").bind("plothover", function (event, pos, item) {
@@ -1520,6 +1537,8 @@ panning = false;
 							}
 							else{
 								pointObject = sessvars.interpolated_obj;
+								hysteretic_points_table.push(pointObject);
+								sessvars.table = hysteretic_points_table;
 							}						 
 						 }
 						 else if (sessvars.dampertype == "visco"){
@@ -1529,10 +1548,13 @@ panning = false;
 							}
 							else{
 								pointObject = sessvars.interpolated_obj;
+								visco_points_table.push(pointObject);
+								sessvars.table = visco_points_table;								
 							}
 						}
 						 								
 						//The following uses the deduction that no (x,y) pair of the residual pair can be looked up in the table.
+						//Arbitary no-match check
 						if (pointObject != "no-match"){
 							if (sessvars.dampertype == "hyster"){
 								contactList.add({id: Math.floor(Math.random()*110000),Rv: pointObject.Rd.toFixed(2),Ra: pointObject.Ra.toFixed(2),Rs: pointObject.Rs.toFixed(2), alpha: pointObject.alpha.toFixed(2),third_param: pointObject.mud.toFixed(2),Tf: pointObject.Tf.toFixed(2),Vf: (pointObject.Vf.toFixed(2))*100+"%"});
