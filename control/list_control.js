@@ -12,9 +12,8 @@ sessvars.phi_f = [];
 	}
 	
 	$(document).ready(function() {
-		var options = {
-			valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
-		};
+	
+		var options = {valueNames: [ 'id', 'Rv', 'Ra', 'Rs','Rd','alpha','last_param' ]};		
 		
 		// Init list
 		var contactList = new List('contacts', options);
@@ -53,12 +52,26 @@ sessvars.phi_f = [];
 		function loadTable(){
 			for (var i = 0; i < sessvars.DesignContainer.length; i++){
 					var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
-					contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs});
+					
+					if (sessvars.dampertype == "hyster"){
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs, Rd: pointObject.Rd, alpha: pointObject.alpha, last_param:pointObject.mud});
+					}
+					else if (sessvars.dampertype == "visco"){
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs, Rd: pointObject.Rd, alpha: pointObject.alpha, last_param:pointObject.x});					
+					}
 			}
 		}
 		contactList.remove('id',1); 
 		refreshCallbacks();
 		loadTable();	
+		
+		//Table symbol
+		if (sessvars.dampertype == "hyster"){
+			$("#last_param").html("&mu;"+"d".sub())		
+		}
+		else if (sessvars.dampertype == "visco"){
+			$("#last_param").html("&epsilon;")	
+		}
 		
 		//Control shit
 		$(".list tr").click(function(){
