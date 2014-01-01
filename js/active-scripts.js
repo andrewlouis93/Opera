@@ -1448,7 +1448,6 @@ panning = false;
 				removeBtns = $('.remove-item-btn'),
 				editBtns = $('.edit-item-btn');
 			// Sets callbacks to the buttons in the list
-			refreshCallbacks();
 			
 			function refreshCallbacks() {
 				// Needed to add new buttons to jQuery-extended object
@@ -1456,10 +1455,11 @@ panning = false;
 				editBtns = $(editBtns.selector);
 				removeBtns.click(function() {
 				   var itemId = $(this).closest('tr').find('.id').text();
+				   console.log(itemId);
 				   contactList.remove('id', itemId);
 				});
 			}
-			
+			refreshCallbacks();
 			
 			if (typeof sessvars.DesignContainer === 'undefined'){
 				sessvars.DesignContainer = [];
@@ -1471,11 +1471,13 @@ panning = false;
 			function loadTable(){
 				for (var i = 0; i < sessvars.DesignContainer.length; i++){
 						var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
-						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs});
+						console.log(pointObject);
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: (sessvars.DesignContainer[i][0]).toFixed(2),Ra: (sessvars.DesignContainer[i][1]).toFixed(2),Rs: (pointObject.Rs).toFixed(2)});
 				}
 			}			
 			loadTable();
-			
+			refreshCallbacks();
+
 			}
 				//Info pop-ups		
 				var globalDesignCount = 0;
@@ -1565,6 +1567,9 @@ panning = false;
 							
 							refreshCallbacks();
 							sessvars.DesignContainer.push([pointObject.Rd,pointObject.Ra]);
+							sessvars.table.push(pointObject);
+							//alert(pointObject);
+
 						}
 					}
 				});	
