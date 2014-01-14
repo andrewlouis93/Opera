@@ -79,14 +79,14 @@
 	
 	
 		
-   
+						  //PGA, 0.2, 0.5, 1.0, 2.0
 		function NBCCGraph(PGA, one, two, three, four, F_a, F_r){
 	
 			//Will only be called with arguments when generate is clicked. 
 			if((NBCCGraph.arguments.length !=0)){
 				one = one*F_a;
 				three = three*F_r;
-				var d2 = [[0, one], [0.2, one], [0.5, two], [1.0, three],[2.0, four],[2.5,four]];
+				var d2 = [[0, one], [0.2, one], [0.5, two], [1.0, three],[2.0, four],[4.0,four/2],[5.0,four/2]];
 				//Following two lines for visco spectra!
 				var PGA = [[0,PGA]];
 				sessvars.NBCC_PGA = PGA;
