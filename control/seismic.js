@@ -156,7 +156,7 @@
 				var S_DS = S_s*F_a;
 				var S_D1 = S_1*F_r;
 				sessvars.temp = S_D1;
-				var PGA = 0.4*S_D1;
+				var PGA = 0.4*S_DS;
 				var T_S = S_D1/S_DS;
 				var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
 				var d3 = [[0, PGA]];
@@ -170,7 +170,7 @@
 					sessvars.ASCEPayload.push([i, (sessvars.temp/i)]);
 				}
 				//The 1/T^2 portion of the graph
-				for (var i = 1.0; i < 5; i += 0.1) {
+				for (var i = T_L; i < 5; i += 0.1) {
 					sessvars.ASCEPayload.push([i, (sessvars.temp/Math.pow(i,2))]);
 				}				
 				}
