@@ -171,7 +171,7 @@
 				}
 				//The 1/T^2 portion of the graph
 				for (var i = T_L; i < 5; i += 0.1) {
-					sessvars.ASCEPayload.push([i, (sessvars.temp/Math.pow(i,2))]);
+					sessvars.ASCEPayload.push([i, ((T_L*sessvars.temp)/Math.pow(i,2))]);
 				}				
 				}
 				// A null signifies separate line segments
