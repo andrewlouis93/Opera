@@ -178,21 +178,22 @@
 					sessvars.ASCEPayload.push([i, ((T_L*sessvars.temp)/Math.pow(i,2))]);
 				}				
 				}
-				// A null signifies separate line segments
 				plot = $.plot("#placeholder", [{data:sessvars.ASCEPayload,label:"x: 0 y: 0",
-										lines: { show: true },
-										points: { show: false },
-										},
-										{data:sessvars.ASCE_PGA,label:"&nbsp;PGA:&nbsp;&nbsp;"+(sessvars.ASCE_PGA[0][1]).toFixed(2),
-										 points: { show: true },
-										 
-										}],
-										{
-											crosshair:{mode:"x",color:'white',lineWidth:2},
-											xaxes: [{position:'bottom',axisLabel:'T(s)'}],
-											yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
-											grid:{hoverable:true,color:'white',clickable:true}
-										});
+				// A null signifies separate line segments
+											lines: { show: true },
+											points: { show: false },
+											},
+											{data:sessvars.ASCE_PGA,label:"&nbsp;PGA:&nbsp;&nbsp;"+(sessvars.ASCE_PGA[0][1]).toFixed(2),
+											 points: { show: true },
+											 
+											}],
+											{
+												crosshair:{mode:"x",color:'white',lineWidth:2},
+												xaxes: [{position:'bottom',axisLabel:'T(s)'}],
+												yaxes: [{position:'left',axisLabel:'Proper Acceleration (g)'}],
+												grid:{hoverable:true,color:'white',clickable:true}
+											});
+					
 										
 				$('.xaxisLabel').css('color','white');
 				$('.xaxisLabel').css('font-size','1.2em');
@@ -239,15 +240,19 @@
 				console.log('FRESH SESSION');
 				NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
 			}
-			else if (sessvars.standard == 'NBCC'){
+			else if ((sessvars.standard == 'NBCC')&&(typeof sessvars.NBCC_PGA != 'undefined')){
 				NBCCGraph();
 				standardSelect(2); //Display location box instead of inputs.
 				$("#dd span").text("NBCC Compatible"); //Change std label
 			}
-			else if (sessvars.standard == 'ASCE'){
+			else if ((sessvars.standard == 'ASCE')&&(typeof sessvars.ASCE != 'undefined')){
 				ASCEGraph();
 				standardSelect(1); //Display inputs instead of location.
 				$("#dd span").text("ASCE-7 Compatible"); //Change std label
+			}
+			else{
+				/*Undefined state where standard is selected, but user hasn't graphed yet*/
+				NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
 			}
 		});
 		
