@@ -236,7 +236,7 @@
 			console.log("PAGE LOADED");
 		
 			if (typeof sessvars.standard === 'undefined'){
-				console.log('FRESH SESSION')
+				console.log('FRESH SESSION');
 				NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
 			}
 			else if (sessvars.standard == 'NBCC'){
