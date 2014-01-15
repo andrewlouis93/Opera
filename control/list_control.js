@@ -17,7 +17,6 @@ sessvars.phi_f = [];
 		
 		// Init list
 		var contactList = new List('contacts', options);
-		//alert('Fixes made, bitches fucked.');
 			
 		var editBtn = $('#edit-btn').hide(),
 			removeBtns = $('.remove-item-btn'),
@@ -54,10 +53,10 @@ sessvars.phi_f = [];
 					var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
 					
 					if (sessvars.dampertype == "hyster"){
-						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs, Rd: pointObject.Rd, alpha: pointObject.alpha, last_param:pointObject.mud});
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: (sessvars.DesignContainer[i][0]).toFixed(2),Ra: (sessvars.DesignContainer[i][1]).toFixed(2),Rs: (pointObject.Rs).toFixed(2), Rd: (pointObject.Rd).toFixed(2), alpha: (pointObject.alpha).toFixed(2), last_param:(pointObject.mud).toFixed(2)});
 					}
 					else if (sessvars.dampertype == "visco"){
-						contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs, Rd: pointObject.Rd, alpha: pointObject.alpha, last_param:pointObject.x});					
+						contactList.add({id: Math.floor(Math.random()*110000),Rv: (sessvars.DesignContainer[i][0]).toFixed(2),Ra: (sessvars.DesignContainer[i][1]).toFixed(2),Rs: (pointObject.Rs).toFixed(2), Rd: (pointObject.Rd).toFixed(2), alpha: (pointObject.alpha).toFixed(2), last_param:(pointObject.x).toFixed(2)});					
 					}
 			}
 		}
