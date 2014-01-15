@@ -112,7 +112,10 @@
 
 			function damperdesign_payload(){
 			
-
+				/*Preliminaries*/
+				//On going from damperdesign.html->spectra.html, must undefined the DesignContainer. For atomicity. 
+				sessvars.DesignContainer = undefined;
+				
 				//sessvars.Tf = document.getElementById('Tf').value;
 				sessvars.Tfmin = Tf_Bounds.min;
 				sessvars.Tfmax = Tf_Bounds.max;
