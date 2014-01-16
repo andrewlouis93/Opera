@@ -162,7 +162,7 @@
 				/* From T_s -> T_L, we move at 1/T */
 				//var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS], [1.0, S_D1]];
 				
-				var d2 = [[0, PGA], [T_0, S_DS], [T_S, S_DS]];
+				var d2 = [[0, PGA], [parseFloat(T_0.toFixed(2)), S_DS], [parseFloat(T_S.toFixed(2)), S_DS]];
 				var d3 = [[0, PGA]];
 				
 				sessvars.ASCEPayload = d2.slice(0);
@@ -171,11 +171,11 @@
 				
 				//The 1/T portion of the graph
 				for (var i = T_S; i < T_L; i += 0.1) {
-					sessvars.ASCEPayload.push([i, (sessvars.temp/i)]);
+					sessvars.ASCEPayload.push([parseFloat(i.toFixed(2)), (sessvars.temp/i)]);
 				}
 				//The 1/T^2 portion of the graph
 				for (var i = T_L; i < 5; i += 0.1) {
-					sessvars.ASCEPayload.push([i, ((T_L*sessvars.temp)/Math.pow(i,2))]);
+					sessvars.ASCEPayload.push([parseFloat(i.toFixed(2)), ((T_L*sessvars.temp)/Math.pow(i,2))]);
 				}				
 				}
 				plot = $.plot("#placeholder", [{data:sessvars.ASCEPayload,label:"x: 0 y: 0",

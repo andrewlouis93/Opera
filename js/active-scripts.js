@@ -161,27 +161,34 @@ function grabPoint(x){
 	}
 	else if (sessvars.standard == "ASCE"){
 		//Four points. At 1s until T_L, y is 1/x
-		if ((x>=0) && (x<=sessvars.ASCEPayload[1][0])){
-			var temp = getPoint(sessvars.ASCEPayload[0][0],sessvars.ASCEPayload[0][1],sessvars.ASCEPayload[1][0],sessvars.ASCEPayload[1][1],x);
-			return [x,temp];	
-		}
-		else if ((x >= sessvars.ASCEPayload[1][0]) && (x <= sessvars.ASCEPayload[2][0])){
-			var temp = getPoint(sessvars.ASCEPayload[1][0],sessvars.ASCEPayload[1][1],sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],x);
-			return [x,temp];
-		}
-		else if ((x >= sessvars.ASCEPayload[2][0]) && (x <= 1)){
-			var temp = getPoint(sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],sessvars.ASCEPayload[3][0],sessvars.ASCEPayload[3][1],x);
-			return [x,temp];
-		}
-		else if (x>1){
-			return [x, (sessvars.temp/x)];
-		}
-	}	
 	
+		//16th January 2013 - Trying to extrapolate straight from the ASCEPayload
+		//If x is between 0 and 1 we do linear interpolation.
+		if ((x>0)&&(x<1)){
+			var zeropoint = sessvars.ASCEPayload[0];
+			var onepoint = sessvars.ASCEPayload[1];
+			
+			var interpolated_y = getPoint(zeropoint[0],zeropoint[1],onepoint[0],onepoint[1],x);
+			return [x,interpolated_y];
+		}
+		else{
+			//Look-up from ASCEPayload:
+			var my_x = x.toFixed(1);
+			
+			//Looking for the point from the points used to plot graph.
+			for (var i = 0; i < sessvars.ASCEPayload.length; i++){
+				if (my_x == sessvars.ASCEPayload[i][0].toFixed(1)){
+					return [x, sessvars.ASCEPayload[i][1]];
+				}
+			}
+		}
+	}
 	else{
 		console.log("Improperly initialized");
 	}
 }
+
+
 
 function calMaxResidual(p,mu1,mu2,DamperType){
 	var Rsm;
@@ -306,6 +313,11 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
         numb_iter = numb_iter + 1;
         //step2: compute Teff
         Teff = Tf*Math.sqrt(a*mud/(1-a+a*(mud/muf_cur))); //console.log("Teff is " + Teff);
+		
+		console.log("a " + a);
+		console.log("mud " + mud);
+		console.log("muf_cur " + muf_cur);
+		console.log("Tf " + Tf);
         if (Teff>4){
             Teff_flag=1;}
         else{
@@ -328,7 +340,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
             SaTi = spectralA([Ti EQ]);
             SaTe = spectralA([Teff EQ]);
             SaTf = spectralA([Tf EQ]);*/
-			
+			console.log(Ti);console.log(Teff);console.log(Tf);
             SaTi = (grabPoint(Ti))[1];//console.log("SaTi is " + SaTi);
             SaTe = (grabPoint(Teff))[1];//console.log("SaTe is " + SaTe);
             SaTf = (grabPoint(Tf))[1];//console.log("SaTf is " + SaTf);

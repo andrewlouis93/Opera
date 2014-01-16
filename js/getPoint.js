@@ -36,22 +36,27 @@ function grabPoint(x){
 	}
 	else if (sessvars.standard == "ASCE"){
 		//Four points. At 1s until T_L, y is 1/x
-		if ((x>=0) && (x<=sessvars.ASCEPayload[1][0])){
-			var temp = getPoint(sessvars.ASCEPayload[0][0],sessvars.ASCEPayload[0][1],sessvars.ASCEPayload[1][0],sessvars.ASCEPayload[1][1],x);
-			return [x,temp];	
+	
+		//16th January 2013 - Trying to extrapolate straight from the ASCEPayload
+		//If x is between 0 and 1 we do linear interpolation.
+		if ((x>0)&&(x<1)){
+			var zeropoint = sessvars.ASCEPayload[0];
+			var onepoint = sessvars.ASCEPayload[1];
+			
+			var interpolated_y = getPoint(zeropoint[0],zeropoint[1],onepoint[0],onepoint[1],x);
+			return [x,interpolated_y];
 		}
-		else if ((x >= sessvars.ASCEPayload[1][0]) && (x <= sessvars.ASCEPayload[2][0])){
-			var temp = getPoint(sessvars.ASCEPayload[1][0],sessvars.ASCEPayload[1][1],sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],x);
-			return [x,temp];
+		else{
+			//Look-up from ASCEPayload:
+			var my_x = x.toFixed(1);
+			
+			//Looking for the point from the points used to plot graph.
+			for (var i = 0; i < sessvars.ASCEPayload.length; i++){
+				if (my_x == sessvars.ASCEPayload[i][0].toFixed(1)){
+					return [x, sessvars.ASCEPayload[i][1]];
+				}
+			}
 		}
-		else if ((x >= sessvars.ASCEPayload[2][0]) && (x <= 1)){
-			var temp = getPoint(sessvars.ASCEPayload[2][0],sessvars.ASCEPayload[2][1],sessvars.ASCEPayload[3][0],sessvars.ASCEPayload[3][1],x);
-			return [x,temp];
-		}
-		else if (x>1){
-			return [x, (sessvars.temp/x)];
-		}
-
 	}
 	else{
 		console.log("Improperly initialized");
