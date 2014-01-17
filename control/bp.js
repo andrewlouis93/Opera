@@ -5,7 +5,7 @@ function getIndexFromID(string,slider){
 					object.mode = "target";
 					temp = string.slice(13);
 					temp = parseFloat(temp);
-					console.log('target index ' + temp + ' target mode ' + object.mode);
+					//console.log('target index ' + temp + ' target mode ' + object.mode);
 				}
 				else if (slider == "my-slider"){
 					object.mode = "spec";
@@ -165,7 +165,8 @@ function getIndexFromID(string,slider){
 					loadTable();
 				}
 	
-				setInterval(function(){timeoutFunction()},1000);
+				$( "#go" ).click(timeoutFunction);
+				//setInterval(function(){timeoutFunction()},1000);
 				contactList.remove('id',1); 
 				refreshCallbacks();
 				loadTable();	

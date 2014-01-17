@@ -1,30 +1,4 @@
-//sessvars.n -> number of storey_count
-//sessvars.Tf -> Tf
-//sessvars.Vf -> Vf
-//sessvars.phi_f -> [ ] user's slider input.
-//pointObject that contains the rest of the point parameters. 
-
-/*
-sessvars.dampertype = "hyster"
-sessvars.Tf = 1.72;
-var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
-sessvars.Vf = 0.49;
-sessvars.x = 0.23; //Greek E (pronouned C)
-sessvars.alpha = 0.2;
-sessvars.mu_d = 10;
-sessvars.Rd = 0.545;
-sessvars.Rv = 0.731;
-sessvars.storey_count = 3;
-sessvars.SdTf = 0.25;
-sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
-sessvars.phi_f = [0.28,0.68,1];
-sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
-sessvars.masses = [295617,295617,159735];
-*/
-//sessvars.dampertype = "hyster"
-
 function activateSheargen(){
-//alert('THIS SHIT JUST HAPPENED');
 
 sessvars.Tf = parseFloat(sessvars.pointObject.Tf);
 var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
@@ -327,29 +301,29 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 		//You need regular Vf strength to calculate S14-24
 		//var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
 		
-		while (typeof sessvars.n === 'undefined'){
+		var delimit = prompt('Enter the Vf strength for each storey going from first storey to the last like so: 0.34,0.32,0.34');
+		sessvars.n = delimit.split(',');
+		
+		while (sessvars.n.length != sessvars.storey_count){
 			var delimit = prompt('Enter the Vf strength for each storey going from first storey to the last like so: 0.34,0.32,0.34');
 			sessvars.n = delimit.split(',');
 		}
 		
-		if (typeof sessvars.n === 'undefined'){
-			return;
+
+
+		for (var i = 0; i < sessvars.n.length; i++){
+			sessvars.n[i] = parseFloat(sessvars.n[i]);
 		}
-		else{
-			for (var i = 0; i < sessvars.n.length; i++){
-				sessvars.n[i] = parseFloat(sessvars.n[i]);
-			}
-			
-			var reg_temp = sessvars.n;
-			
-			//reg_temp is Vf,i
-			for (var i = 0; i < sessvars.storey_count; i++)
-			{
-				var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
-				Vd.push(temp);
-			}
-			return Vd;
+		
+		var reg_temp = sessvars.n;
+		
+		//reg_temp is Vf,i
+		for (var i = 0; i < sessvars.storey_count; i++)
+		{
+			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
+			Vd.push(temp);
 		}
+		return Vd;
 		
 	}
 }
