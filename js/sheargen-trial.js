@@ -326,25 +326,31 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 		console.log('in irrreguarrar');
 		//You need regular Vf strength to calculate S14-24
 		//var reg_temp = calculateVf("regular",Kf_frame); //Check this, and the delta i under predictions. --> This must be entered in by the user! If irregular.
-		var n = [];
-		while (n.length != storey_count){
+		
+		while (typeof sessvars.n === 'undefined'){
 			var delimit = prompt('Enter the Vf strength for each storey going from first storey to the last like so: 0.34,0.32,0.34');
-			var n = delimit.split(',');
+			sessvars.n = delimit.split(',');
 		}
 		
-		for (var i = 0; i < n.length; i++){
-			n[i] = parseFloat(n[i]);
+		if (typeof sessvars.n === 'undefined'){
+			return;
+		}
+		else{
+			for (var i = 0; i < sessvars.n.length; i++){
+				sessvars.n[i] = parseFloat(sessvars.n[i]);
+			}
+			
+			var reg_temp = sessvars.n;
+			
+			//reg_temp is Vf,i
+			for (var i = 0; i < sessvars.storey_count; i++)
+			{
+				var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
+				Vd.push(temp);
+			}
+			return Vd;
 		}
 		
-		var reg_temp = n;
-		
-		//reg_temp is Vf,i
-		for (var i = 0; i < sessvars.storey_count; i++)
-		{
-			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
-			Vd.push(temp);
-		}
-		return Vd;
 	}
 }
 

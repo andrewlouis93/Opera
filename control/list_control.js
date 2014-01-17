@@ -1,7 +1,4 @@
-sessvars.phi_f = [];
-	sessvars.di = [];
-	sessvars.masses = [];
-			
+		
 	function checkStoreyInputs(){
 			if ((document.getElementById('storey_count').value) && (document.getElementById('storey_height').value)){
 				return true;
@@ -12,6 +9,9 @@ sessvars.phi_f = [];
 	}
 	
 	$(document).ready(function() {
+		sessvars.phi_f = [];
+		sessvars.di = [];
+		sessvars.masses = [];
 	
 		var options = {valueNames: [ 'id', 'Rv', 'Ra', 'Rs','Rd','alpha','last_param' ]};		
 		
