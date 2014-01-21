@@ -235,6 +235,8 @@
 		// Call on page load
 		$(document).ready(function() {
 			console.log("PAGE LOADED");
+			//Clearing out sessvars
+			sessvars.$.clearMem()
 		
 			if (typeof sessvars.standard === 'undefined'){
 				console.log('FRESH SESSION');

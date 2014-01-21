@@ -7,8 +7,13 @@ sessvars.Vf = parseFloat(sessvars.pointObject.Vf);
 if (sessvars.dampertype == "visco"){
 	sessvars.x = parseFloat(sessvars.pointObject.x);
 }
+else if (sessvars.dampertype == "hyster"){
+	sessvars.mu_d = parseFloat(sessvars.pointObject.mud);	
+}
+else{
+	alert("Undefined state! Please start from the beginning");
+}
 sessvars.alpha = parseFloat(sessvars.pointObject.alpha);
-sessvars.mu_d = parseFloat(sessvars.pointObject.mud);
 sessvars.Rd = parseFloat(sessvars.pointObject.Rd);
 sessvars.Rv = parseFloat(sessvars.pointObject.Rv);
 //sessvars.storey_count = 3;
@@ -317,6 +322,14 @@ function calculateVd_i(interstoreydisp,Kd,Vf_strength,flag,Kf_frame){
 		{
 			var temp = interstoreydisp[i]*(Kd[i]/sessvars.mu_d) + Vf_strength[i] - reg_temp[i];
 			Vd.push(temp);
+			
+			if (isNaN(temp)){
+				console.log('interstorey[i] ' + interstoreydisp[i]);
+				console.log('Kd[i] ' + Kd[i]);
+				console.log('sessvars.mu_d ' + sessvars.mu_d);
+				console.log('Vf_strength[i] ' + Vf_strength[i]);
+				console.log('reg_temp[i] ' + reg_temp[i]);
+			}
 		}
 		return Vd;
 		
@@ -354,9 +367,19 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 	}
 	//Calculating Kf_frame
 	var Kf_frame = calculateKf(flag);
+	
+	if (isNaN(Kf_frame[0])){
+		alert("Kf_frame is not a number");
+	}
+	
 	sessvars.Kf_frame = Kf_frame;
 	//Calculating Vf --> Pass in Kf_frame!
 	var Vf_strength = calculateVf(flag,Kf_frame);
+	
+	if (isNaN(Vf_strength[0])){
+		alert("Vf_strength is not a number");
+	}
+	
 	sessvars.Vf_strength = Vf_strength;
 	
 	//S14 - 19

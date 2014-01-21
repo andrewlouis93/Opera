@@ -141,6 +141,16 @@
 				
 				$.noConflict();
 				jQuery(document).ready(function($) {
+				
+				//Clearing out sessvars
+				for (element in sessvars){
+						if (element == "temp" || element == "ASCEPayload" || element == "ASCE_PGA" || element == "ASCE_PGA" || element == "NBCC_PGA" || element == "NBCCPayload" || element == "Tlval" || element == "dampertype" || element == "standard" || element == "$"){
+							;
+						}
+						else{
+							delete sessvars[element];
+						}
+				}
 								// Code that uses jQuery's $ can follow here.
 								//Tf knobs -> Tf dial, Vf knobs -> Vf dial
 								
