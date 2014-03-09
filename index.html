@@ -22,6 +22,7 @@
 	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/iThing.css" type="text/css" />
 
+	<!-- Other libraries below --> 
     <script src="lib/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/sessvars.js"></script>	
 	<script type='text/javascript' > 
@@ -37,6 +38,7 @@
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.navigate.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/getPoint.js"></script>
 	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
+	<script language="javascript" type="text/javascript" src="control/list_control.js"></script>		
 	<script language="javascript" type="text/javascript" src="control/seismic.js"></script>
 	<script src="lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="js/jQAllRangeSliders-min.js"></script>	
@@ -51,7 +53,6 @@
 
       <!-- Begin page content -->
 	  <span style="margin-top:18px;margin-left:95%;float:right;font-size:47px;opacity:0.7;color:#FF2B32;position:absolute;">
-		<a href = "seismix.html" style="text-decoration: none;color:#FF2B32; opacity:0.7;"><i class="icon-circle-arrow-right"></i></a>
 	  </span>
 
       <div class="container">
@@ -296,6 +297,8 @@
 		<div id="table">
 		</div>
 			<div class="basic_form_spectra">
+				<a id="navigator_spectra"><i class="icon-circle-arrow-right"></i></a>
+
 				<span class="spectra_title">
 						Spectra
 				</span> 
@@ -357,7 +360,49 @@
 						</tbody>
 					</table>
 				</div>	
-	<!-- list begins here -->			
+	<!-- list begins here -->	
+				<div class="alert" style="position:fixed;left:30%;top:25px;">
+							<strong>Error!</strong> Select one design choice and building information before proceeding
+				</div>
+				<div id="basic_form_list" class="basic_form">
+					<a id="navigator"><i class="icon-circle-arrow-right"></i></a>
+					<span class="list_title">
+							Design Choices
+					</span>
+					<div id="inline_container">
+						<input id="storey_count" type="number" placeholder="Storey Count">
+						<input id="storey_height" type="number" step="any" placeholder="Storey Height">		
+					</div>
+					<div id="contacts2">
+						<table>
+							<thead>
+								<tr>
+									<th class="sort" data-sort="Rv">Rv</th> <!-- Name, Age, City ==> Rv, Ra, Rs -->
+									<th class="sort" data-sort="Ra">Ra</th>
+									<th class="sort" data-sort="Rs">Rs</th>
+									<th class="sort" data-sort="Rd">Rd</th>
+									<th class="sort" data-sort="alpha">&alpha;</th>
+									<th id = "last_param" class="sort" data-sort="last_param">Rs</th>
+
+								</tr>
+							</thead>
+							<tbody class="list">
+								<tr>
+									<!-- The following entry needs to be there as a template for some reason? It is removed on page load. -->
+									<td class="id" style="display:none;">1</td>
+									<td class="Rv user-def-element">0</td>
+									<td class="Ra user-def-element">1</td>
+									<td class="Rs user-def-element">2</td>
+									<td class="Rd user-def-element">2</td>
+									<td class="alpha user-def-element">2</td>
+									<td class="last_param user-def-element">2</td>									
+									<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+	<!-- Building Parameters Below -->			
       <div id="push"></div>
     </div>
 

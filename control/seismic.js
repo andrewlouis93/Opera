@@ -305,7 +305,16 @@ var standardFlag = "NBCC";
 		var BC = new DropDown( $('#BritishColumbia') );
 		var SK = new DropDown( $('#Sasketchewan') );
 		
+
+		//invoke load table
+		$("#navigator_spectra").click(function(){
+			startListControl();
+		});
+
+
 		$(document).click(function() {
+
+
 			// all dropdowns
 			$('.wrapper-dropdown-3').removeClass('active');
 			

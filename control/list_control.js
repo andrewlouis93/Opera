@@ -1,7 +1,4 @@
-sessvars.phi_f = [];
-	sessvars.di = [];
-	sessvars.masses = [];
-			
+		
 	function checkStoreyInputs(){
 			if ((document.getElementById('storey_count').value) && (document.getElementById('storey_height').value)){
 				return true;
@@ -11,14 +8,15 @@ sessvars.phi_f = [];
 			}
 	}
 	
-	$(document).ready(function() {
-		var options = {
-			valueNames: [ 'id', 'Rv', 'Ra', 'Rs' ]
-		};
+	function startListControl() {
+		sessvars.phi_f = [];
+		sessvars.di = [];
+		sessvars.masses = [];
+	
+		var options = {valueNames: [ 'id', 'Rv', 'Ra', 'Rs','Rd','alpha','last_param' ]};		
 		
 		// Init list
-		var contactList = new List('contacts', options);
-		//alert('Fixes made, bitches fucked.');
+		var contactList2 = new List('contacts2', options);
 			
 		var editBtn = $('#edit-btn').hide(),
 			removeBtns = $('.remove-item-btn'),
@@ -46,19 +44,34 @@ sessvars.phi_f = [];
 			editBtns = $(editBtns.selector);
 			removeBtns.click(function() {
 			   var itemId = $(this).closest('tr').find('.id').text();
-			   contactList.remove('id', itemId);
+			   contactList2.remove('id', itemId);
 			});
 		}
 			
 		function loadTable(){
+			alert("caller is " + arguments.callee.caller.name);
 			for (var i = 0; i < sessvars.DesignContainer.length; i++){
 					var pointObject = lookupTable(sessvars.table,sessvars.DesignContainer[i][0],sessvars.DesignContainer[i][1]);
-					contactList.add({id: Math.floor(Math.random()*110000),Rv: sessvars.DesignContainer[i][0],Ra: sessvars.DesignContainer[i][1],Rs: pointObject.Rs});
+					
+					if (sessvars.dampertype == "hyster"){
+						contactList2.add({id: Math.floor(Math.random()*110000),Rv: (sessvars.DesignContainer[i][0]).toFixed(2),Ra: (sessvars.DesignContainer[i][1]).toFixed(2),Rs: (pointObject.Rs).toFixed(2), Rd: (pointObject.Rd).toFixed(2), alpha: (pointObject.alpha).toFixed(2), last_param:(pointObject.mud).toFixed(2)});
+					}
+					else if (sessvars.dampertype == "visco"){
+						contactList2.add({id: Math.floor(Math.random()*110000),Rv: (sessvars.DesignContainer[i][0]).toFixed(2),Ra: (sessvars.DesignContainer[i][1]).toFixed(2),Rs: (pointObject.Rs).toFixed(2), Rd: (pointObject.Rd).toFixed(2), alpha: (pointObject.alpha).toFixed(2), last_param:(pointObject.x).toFixed(2)});					
+					}
 			}
 		}
-		contactList.remove('id',1); 
+		contactList2.remove('id',1); 
 		refreshCallbacks();
 		loadTable();	
+		
+		//Table symbol
+		if (sessvars.dampertype == "hyster"){
+			$("#last_param").html("&mu;"+"d".sub())		
+		}
+		else if (sessvars.dampertype == "visco"){
+			$("#last_param").html("&epsilon;")	
+		}
 		
 		//Control shit
 		$(".list tr").click(function(){
@@ -81,4 +94,4 @@ sessvars.phi_f = [];
 				$(".alert").fadeOut(10000);
 			}
 		});
-	});
+	}
