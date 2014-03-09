@@ -1,3 +1,45 @@
+			/*Payload to be carried to the next page*/
+			sessvars.dampertype = "" ;
+			sessvars.Tf;
+			sessvars.Tfmin;
+			sessvars.Tfmax;
+			
+			sessvars.Vf;
+			sessvars.Vmin;
+			sessvars.Vmax;
+				
+			function hysteresis(){
+				var visco = document.getElementById('visco_damper');
+				visco.style.display = 'none';
+				
+				var hysteresis = document.getElementById('hyster_damper');
+				hysteresis.style.display = 'block';
+				
+				//Flag for spectra generator
+				sessvars.dampertype = "hyster";
+			}
+			
+			function visco(){
+				var hysteresis = document.getElementById('hyster_damper');
+				hysteresis.style.display = 'none';
+				
+				var visco = document.getElementById('visco_damper');
+				visco.style.display = 'block';
+				
+				//Flag for spectra generator
+				sessvars.dampertype = "visco";
+			}
+			
+			function non_linear()
+			{
+				//upload_allow=true;
+			}
+			
+			function pspectra()
+			{
+				//upload_allow=false;
+			}
+
 var standardFlag = "NBCC";
 		var locationFlag = "";
 		var provinceFlag = "";
@@ -77,7 +119,25 @@ var standardFlag = "NBCC";
 					return this.index;
 				}
 			}
+			function damperdesign_payload(){
+			
 
+				//sessvars.Tf = document.getElementById('Tf').value;
+				sessvars.Tfmin = Tf_Bounds.min;
+				sessvars.Tfmax = Tf_Bounds.max;
+				
+
+				//sessvars.Vf = document.getElementById('Vf').value;
+				sessvars.Vmin = Vf_Bounds.min;
+				sessvars.Vmax = Vf_Bounds.max;
+				
+				if((typeof sessvars.dampertype === 'undefined') || (sessvars.dampertype == "")){
+				   alert("You haven't selected damper type.");
+				 }
+				 else{
+					document.location.href='spectra.html';
+				 }
+			}
 	$(function() {
 	
 	
@@ -227,11 +287,17 @@ var standardFlag = "NBCC";
 		// Call on page load
 		$(document).ready(function() {
 			NBCCGraph(0.059, 0.2, 0.056, 0.023, 0.006,1,1);
+
+
+
+									
 		});
 		
 
 		/*Dropdown list stuff*/
 		var dd = new DropDown( $('#dd') );
+		var dd_1 = new DropDown( $('#dd_1') );
+		var ff_1 = new DropDown( $('#ff_1') );
 		var ff = new DropDown( $('#ff') );
 		var hh = new DropDown( $('#hh') );
 		var oo = new DropDown( $('#oo') );
@@ -289,6 +355,37 @@ var standardFlag = "NBCC";
 																NBCCGraph(NBCCDatabase[locationFlag][0],NBCCDatabase[locationFlag][1],NBCCDatabase[locationFlag][2],NBCCDatabase[locationFlag][3],NBCCDatabase[locationFlag][4],1,1);
 															}
 														}
+
+													//Loading the RangeSliders
+												    $("#Tf_spinners").editRangeSlider({
+															defaultValues:{min: 0.6, max: 2},
+															formatter:function(val){
+																	var value = Math.round(val * 100) / 100;
+																	console.log("value is "+value);
+																	decimal = value - Math.round(val);
+																	Tf_Bounds = $("#Tf_spinners").editRangeSlider("values");
+
+																	return decimal == 0 ? value.toString() + ".0" : value.toString();
+															}
+													});
+													
+													$("#Vf_spinners").editRangeSlider({
+															defaultValues:{min: 50, max: 67},
+															formatter:function(val){
+																	var value = (Math.round(val));
+																	Vf_Bounds =  $("#Vf_spinners").editRangeSlider("values");
+																	Vf_Bounds.min = Vf_Bounds.min / 100;
+																	Vf_Bounds.max = Vf_Bounds.max / 100;
+																	console.log("value is "+JSON.stringify(Vf_Bounds));
+																	decimal = value - Math.round(val);
+																	return decimal == 0 ? value.toString() + ".0" : value.toString();
+															}
+													}
+													);
+													
+													//Default bounds
+													$("#Tf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 4});
+													$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 30, max: 100});															
 													}); 
 													
 		$('#navigator').click(function(){
