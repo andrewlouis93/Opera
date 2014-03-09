@@ -135,7 +135,8 @@ var standardFlag = "NBCC";
 				   alert("You haven't selected damper type.");
 				 }
 				 else{
-					document.location.href='spectra.html';
+				 	//Initialize spectra.
+					startSpectra();
 				 }
 			}
 	$(function() {
@@ -157,7 +158,7 @@ var standardFlag = "NBCC";
 				sessvars.NBCC_PGA = PGA;
 				
 			
-				plot =  $.plot("#placeholder", [{data:d2, label:"x: 0 y: 0",
+				plot =  $.plot("#placeholder_0", [{data:d2, label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
 										},
@@ -178,7 +179,7 @@ var standardFlag = "NBCC";
 					$('.yaxisLabel').css('color','white');
 					$('.xaxisLabel').css('font-size','1.2em');
 
-				 var legends = $("#placeholder .legendLabel");
+				 var legends = $("#placeholder_0 .legendLabel");
 					legends.each(function () {
 						// fix the widths so they don't jump around
 						$(this).css('width', $(this).width());
@@ -200,7 +201,7 @@ var standardFlag = "NBCC";
 						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ y.toFixed(2));
 				 }
 				
-				$("#placeholder").bind("plothover",  function (event, pos, item) {
+				$("#placeholder_0").bind("plothover",  function (event, pos, item) {
 						latestPosition = pos;
 							if (!updateLegendTimeout){
 								updateLegendTimeout = setTimeout(updateLegend, 50);
@@ -232,7 +233,7 @@ var standardFlag = "NBCC";
 				}				
 
 				// A null signifies separate line segments
-				plot = $.plot("#placeholder", [{data:d2,label:"x: 0 y: 0",
+				plot = $.plot("#placeholder_0", [{data:d2,label:"x: 0 y: 0",
 										lines: { show: true },
 										points: { show: false },
 										},
@@ -253,7 +254,7 @@ var standardFlag = "NBCC";
 				$('.yaxisLabel').css('color','white');
 				$('.xaxisLabel').css('font-size','1.2em');
 
-				var legends = $("#placeholder .legendLabel");
+				var legends = $("#placeholder_0 .legendLabel");
 					legends.each(function () {
 						// fix the widths so they don't jump around
 						$(this).css('width', $(this).width());
@@ -275,7 +276,7 @@ var standardFlag = "NBCC";
 						legends.eq(0).text(series.label ="x: " + (pos.x).toFixed(2)+" y: "+ y.toFixed(2));
 				 }
 				
-				$("#placeholder").bind("plothover",  function (event, pos, item) {
+				$("#placeholder_0").bind("plothover",  function (event, pos, item) {
 						latestPosition = pos;
 							if (!updateLegendTimeout){
 								updateLegendTimeout = setTimeout(updateLegend, 50);

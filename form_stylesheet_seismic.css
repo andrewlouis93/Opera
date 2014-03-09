@@ -8,13 +8,32 @@ a:hover{
 .tickLabel {color:white ;}
 .legendLabel{color:white;}
 		
-#seismic_title{
+.seismic_title{
 	display:block;
 	color:white;
 	font-family:'Lato';
 	font-size:40px;
 	position:absolute;
 	margin-top:-75px;
+}
+
+.spectra_title{
+	display:block;
+	color:white;
+	font-family:'Lato';
+	font-size:40px;
+	position:absolute;
+	margin-top:-85px;
+}
+
+#title{
+	display:block;
+	color:white;
+	font-family:'Lato';
+	font-size:40px;
+	float:left;
+	position:fixed;
+	margin-top:-100px;
 }
 
 #textInput{
@@ -39,6 +58,7 @@ a:hover{
 	margin-top:1000px;
 }
 
+
 .basic_form{
 	color:white;
 	background:rgba(0,0,0,0.3);
@@ -50,11 +70,62 @@ a:hover{
 	padding:30px;
 }
 
+
 .form_text{
 	margin-left:3%;
 	margin-top:3%;
 	margin-right:1%;
 	margin-bottom:1%;
+}
+
+
+
+@-moz-document url-prefix()
+{
+
+	.basic_form_spectra{
+		color:white;
+		background:rgba(0,0,0,0.3);
+		padding:50px;
+		top:11%;
+		width:1150px;
+		margin-top:5px;
+		margin-left:-275px;
+		height:83%; /*height:600px*/
+	}
+	
+	#contacts{
+		color:white;
+		margin-left:-334px;
+		height:500px;
+		float:left;
+		margin-top:100px;
+		position:relative;
+	}	
+
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{ 
+	.basic_form_spectra{
+		color:white;
+		background:rgba(0,0,0,0.3);
+		padding:50px;
+		top:11%;
+		width:900px;
+		margin-top:5px;
+		margin-left:210px;
+		height:83%; /*height:600px*/
+	}
+	
+	#contacts{
+		color: white;
+		/* margin-left: -70px; */
+		height: 500px;
+		float: left;
+		margin-top: -600px;
+		position: relative;
+	}	
 }
 
 
@@ -74,12 +145,33 @@ a:hover{
 	display:inline;
 }
 
+
+.list tr{
+	color:white;
+	background:#89181C;
+}
+
+.list tr:hover td{
+	color:#fe2b32;
+	background:black;
+	opacity:0.9;
+}
+
+table, th, td{
+	border: 1px solid white;
+	text-align:center;
+}
+
+#contacts table{
+	width:100%;
+}
+
+
 #dd_1{
 	z-index:2;
 	width:100%;
 	float:left;
 	position:relative;
-	
 	margin-top:-50px;
 }
 
@@ -420,6 +512,146 @@ a:hover{
 	position:absolute;
 }
 
+
+.regular_text{
+	font-size:19px;
+	font-family: 'Arvo', serif;
+	line-height:150%;
+}
+
+.about_subheading{
+	color:#FF2B32;
+	opacity:0.7;
+}
+
+.spectrum_leg{
+	font-family:'Lato';font-size:23px;
+	margin-left:65px;
+	margin-top:25px;
+	position:absolute;
+	
+	
+}
+@-moz-document url-prefix()
+{
+	#Tf_nav{
+		width:150px;
+		height:60px;
+		top:73%;
+		left:25%;
+		position:absolute;
+	}
+
+	#Vf_nav{
+		width:150px;
+		height:60px;
+		top:73%;
+		right:23%;
+		position:absolute;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	#Tf_nav{
+		width:150px;
+		height:60px;
+		top:85%;
+		left:25%;
+		position:absolute;
+	}
+
+	#Vf_nav{
+		width:150px;
+		height:60px;
+		top:85%;
+		right:23%;
+		position:absolute;
+	}
+}
+
+#Tf_right{
+	left:75%;
+	position:absolute;
+}
+
+#Tf_left{
+	left:0%;
+	position:absolute;
+}
+
+
+
+#Vf_right{
+	left:75%;
+	position:absolute;
+}
+
+#Vf_left{
+	left:0%;
+	position:absolute;
+}
+
+.middle_text{
+	font-family:'Lato';
+	font-size:26px;
+	margin-top:15%;
+	margin-left:40%;
+	position:absolute;
+}
+
+#nav_next{
+	/*Positioning at the bottom right corner*/
+	bottom:40px;
+	right:30px;
+}
+
+#nav_rev{
+	bottom:40px;
+	right:100px;
+}
+
+
+
+.about_nav{
+	color:#FF2B32;
+	opacity:0.7;
+	font-size:5em;
+	text-decoration:none;
+	position:absolute;
+}
+
+.about_nav:hover{
+	color:#FF2B32;
+	opacity:1;
+	text-decoration:none;
+}
+
+.remove_link_decor{
+	color:#FF2B32;
+	opacity:0.8;
+	text-decoration:none;
+}
+
+.remove_link_decor:hover{
+	color:#FF2B32;
+	opacity:1;
+	text-decoration:none;
+}
+
+#first-about-text{
+	display:block;
+}
+
+#second-about-text{
+	display:none;
+}
+
+#third-about-text{
+	display:none;
+}
+
+
 #dev_block{
 	text-align:center;
 	top:45%;
@@ -433,20 +665,6 @@ a:hover{
 	
 }
 
-
-#dev_block{
-	text-align:center;
-	top:45%;
-	height:50%;
-	width:60%;
-	left:19%;
-	color:black;
-	margin:0 auto;
-	/*background:yellow;*/
-	position:absolute;
-	display:block;
-	
-}
 
 #text-inputs-American{
 	top:10px;
@@ -517,7 +735,7 @@ input[type=number] {
 
 #elastic_period{
 	margin-top:70px;
-	margin-right:2%;
+	left:25px;
 	float:right;
 	position:relative;
 }
@@ -576,7 +794,47 @@ input[type=number] {
 	cursor:pointer;
 }
 
-#placeholder{
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+
+#Tf1_label{
+	font-family:'Lato';
+	font-size:40px;
+	position:absolute;
+	margin-top:90px;
+	margin-left:890px;
+}
+
+#Tf2_label{
+	font-family:'Lato';
+	font-size:40px;
+	position:absolute;
+	margin-top:325px;
+	margin-left:890px;
+}
+}
+
+@-moz-document url-prefix() {
+
+#Tf1_label{
+	font-family:'Lato';
+	font-size:40px;
+	position:absolute;
+	margin-top:90px;
+	margin-left:890px;
+}
+
+#Tf2_label{
+	font-family:'Lato';
+	font-size:40px;
+	position:absolute;
+	margin-top:325px;
+	margin-left:890px;
+}
+
+}
+
+#placeholder_0{
 	margin-top:60px;
 	margin-left:auto;
 	margin-right:auto;
@@ -585,8 +843,82 @@ input[type=number] {
 	position:relative;
 }
 
+
+#Vf1_label{
+	font-size:35px;
+	font-family:'Lato';
+	color:white;
+	position:absolute;
+	margin-top:-30px;
+	margin-left:15%;
+}
+
+#Vf2_label{
+	font-size:35px;
+	font-family:'Lato';
+	margin-top:-30px;
+	margin-left:52%;
+	color:white;
+	position:absolute;
+}
+
+#placeholder{
+	margin-top:5px;
+	width:50%;
+	height:200px;
+	float:left;
+	position:relative;
+}
+
+.xbutton {
+		position: absolute;
+		cursor: pointer;
+	}
+
+
+#placeholder2{
+	margin-top:5px;
+	width:50%;
+	height:200px;
+	float:right;
+	position:relative;
+}
+#placeholder3{
+	width:50%;
+	height:200px;
+	float:left;
+	position:relative;
+}
+#placeholder4{
+	width:50%;
+	height:200px;
+	float:right;
+	position:relative;
+}
+
 /*This is for styling the legend*/
-#placeholder > div.legend > table {
+#placeholder_0 > div.legend > table {
+	background:black;
+	width:115px;
+	padding-right:4px;
+	color:white;
+}
+
+#placeholder_1 > div.legend > table {
+	background:black;
+	width:115px;
+	padding-right:4px;
+	color:white;
+}
+
+#placeholder_2 > div.legend > table {
+	background:black;
+	width:115px;
+	padding-right:4px;
+	color:white;
+}
+
+#placeholder_3 > div.legend > table {
 	background:black;
 	width:115px;
 	padding-right:4px;
@@ -603,9 +935,7 @@ input[type=number] {
 }
 
 #generate2_pos{
-	text-align:center;
-	margin:0 auto;
-	position:relative;
+	top:50px;
 }
 
 #hyster_damper{

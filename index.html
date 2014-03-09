@@ -27,12 +27,16 @@
 	<script type='text/javascript' > 
 		var upload_allow = false; 
 	</script>
+	<script language="javascript" type="text/javascript" src="js/list.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/numeric-1.2.6.min.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/database.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/bootstrap.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.crosshair.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.navigate.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/getPoint.js"></script>
+	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
 	<script language="javascript" type="text/javascript" src="control/seismic.js"></script>
 	<script src="lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="js/jQAllRangeSliders-min.js"></script>	
@@ -90,7 +94,7 @@
 
 <div id="basic_form_seismic" class="basic_form">
 			
-				<span id="seismic_title">
+				<span class="seismic_title">
 						Seismic Demand
 				</span>
 					<br><br>
@@ -218,14 +222,14 @@
 						</div>
 						
 						<!-- Woohoo! Graph! -->
-						<div id="placeholder"></div> 
+						<div id="placeholder_0"></div> 
 			</div>
      </div>
 <!-- Damper Design Starts Here -->
-				<span id="seismic_title">
-						Damper Design Parameters
-				</span>
 			<div class="basic_form">
+					<span class="seismic_title">
+						Damper Design Parameters
+					</span>
 					<!--First drop down menu-->
 					<div id ="super_left_container">
 						<div id="damper_options">
@@ -288,6 +292,72 @@
 			
      </div>
  <!-- Spectra Starts Here -->
+
+		<div id="table">
+		</div>
+			<div class="basic_form_spectra">
+				<span class="spectra_title">
+						Spectra
+				</span> 
+				
+				<!-- Tf, Vf labels -->
+				
+				<div id="Tf1_label">Tf1</div>
+
+				<div id="placeholder"></div> 
+								<div id="Vf1_label">Vf1</div>
+
+				<div id="placeholder2"></div>
+								<div id="Tf2_label">Tf2</div>
+
+				<div id="placeholder3"></div>
+								<div id="Vf2_label">Vf2</div>
+
+				<div id="placeholder4"></div>
+				
+				<span id="Tf_nav">
+					<i id="Tf_right" onclick="Tf_rightAction()" class="icon-double-angle-right about_nav"></i>
+					<i id="Tf_left"  onclick="Tf_leftAction()" class="icon-double-angle-left about_nav"></i>
+					<span class="spectrum_leg">T<sub>f</sub></span>
+				</span>
+				
+				<span id="Vf_nav">
+
+					<i id="Vf_right"  onclick="Vf_rightAction()" class="icon-double-angle-right about_nav"></i>
+					<i id="Vf_left"   onclick="Vf_leftAction()" class="icon-double-angle-left about_nav"></i>
+					<span class="spectrum_leg">V<sub>f</sub></span>
+				</span>
+			</div>
+				<div id="contacts">
+					<table>
+						<thead>
+							<tr>
+								<th class="sort" data-sort="Rv">Rv</th> 
+								<th class="sort" data-sort="Ra">Ra</th>
+								<th class="sort" data-sort="Rs">Rs</th>
+								<th class="sort" data-sort="alpha">&alpha;</th>
+								<th id="third_param" class="sort" data-sort="third_param">third_param</th>
+								<th id="Tf" class="sort" data-sort="Tf">T<sub>f</sub></th>								
+								<th id="Vf" class="sort" data-sort="Vf">V<sub>f</sub></th>									
+							</tr>
+						</thead>
+					
+						<tbody class="list">
+							<tr>
+								<td class="id" style="display:none;">1</td>
+									<td class="Rv user-def-element">0.29</td>
+									<td class="Ra user-def-element">0.34</td>
+									<td class="Rs user-def-element">0.45</td>
+									<td class="alpha user-def-element">0.45</td>
+									<td class="third_param user-def-element">0.50</td>
+									<td class="Tf user-def-element">0.34</td>
+									<td class="Vf user-def-element">21%</td>
+									<td class="remove"><a style="color:white;cursor:pointer;cursor:hand;text-decoration:none;"><i class="icon-remove remove-item-btn"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>	
+	<!-- list begins here -->			
       <div id="push"></div>
     </div>
 

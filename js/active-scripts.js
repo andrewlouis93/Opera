@@ -331,6 +331,7 @@ function hyst_SPECTRA(a, mu_d, Tf, Vf, SdTf, EQ, option1){
 			
             SaTi = (grabPoint(Ti))[1];//console.log("SaTi is " + SaTi);
             SaTe = (grabPoint(Teff))[1];//console.log("SaTe is " + SaTe);
+
             SaTf = (grabPoint(Tf))[1];//console.log("SaTf is " + SaTf);
 			sessvars.SaTf = SaTf;// For the final module.
 			
@@ -721,11 +722,6 @@ function visc_SPECTRA(a,x,Tf,Vf,SaTf,EQ,option1,option2,option3){
 					document.getElementById('Vf2_label').innerHTML = (sessvars.Vf_index[sessvars.currVf]*100).toFixed(2)+"%";	
 		}
 		
-
-
-/*GRAPHING AND CONTROL PORTION OF SPECTRA.HTML*/
-		sessvars.Tf_index = numeric.linspace(sessvars.Tfmin,sessvars.Tfmax,6);
-		sessvars.Vf_index = numeric.linspace(sessvars.Vmin,sessvars.Vmax,6);
 		
 
 function LocalSafeCount(val,op,limit){
@@ -1421,9 +1417,12 @@ panning = false;
 			
 				
 
-			$(document).ready(function() {
+			function startSpectra() {
+            /*GRAPHING AND CONTROL PORTION OF SPECTRA.HTML*/
+            sessvars.Tf_index = numeric.linspace(sessvars.Tfmin,sessvars.Tfmax,6);
+            sessvars.Vf_index = numeric.linspace(sessvars.Vmin,sessvars.Vmax,6);			
 			
-			var options;
+            var options;
 			sessvars.interpolated_obj="";
 			if (sessvars.dampertype == "hyster"){
 				var name_temp = "&mu;"+"d".sub();
@@ -1442,7 +1441,6 @@ panning = false;
 			
 			// Init list
 			var contactList = new List('contacts', options);
-			//alert('Fixes made, bitches fucked.');
 			
 			var editBtn = $('#edit-btn').hide(),
 				removeBtns = $('.remove-item-btn'),
@@ -1572,4 +1570,4 @@ panning = false;
 					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[0],'#placeholder3');
 					visc_graph(sessvars.Tf_index[1],sessvars.Vf_index[1],'#placeholder4');
 				}	
-			});
+			}
