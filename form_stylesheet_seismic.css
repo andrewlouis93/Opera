@@ -96,6 +96,28 @@ a:hover{
 }
 
 
+@-moz-document url-prefix()
+{
+
+	.floor_mass{
+		margin-top: -25px !important;
+		left: 40%;
+		position: absolute;
+		height: 30px !important;
+	}
+
+}
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+
+	.floor_mass{
+		margin-top: -25px !important;
+		left: 40%;
+		position: absolute;
+		height: 30px !important;
+	}
+
+}
 
 @-moz-document url-prefix()
 {
@@ -1045,4 +1067,30 @@ input[type=number] {
 	color:red;
 	background:black;
 	opacity:0.9;
+}
+
+/* Building params CSS below */
+#bldg_specs
+{
+	width:200px;
+	float:left;
+	margin-left:5%;
+}
+			
+#bldg_target{
+	width:200px;
+	float:left;
+	/*margin-right:15%;*/
+	margin-left:1%;
+}
+
+.custom_label{
+	font-family:'Lato';
+	font-size:2em;
+	text-align:center;
+}
+
+
+#contacts3{
+	float:right;
 }

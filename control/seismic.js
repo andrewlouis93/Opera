@@ -306,9 +306,25 @@ var standardFlag = "NBCC";
 		var SK = new DropDown( $('#Sasketchewan') );
 		
 
-		//invoke load table
+
 		$("#navigator_spectra").click(function(){
 			startListControl();
+		});
+
+		//invoke load table
+		$('#navigator').click(function(){
+			if (sessvars.pointObject && checkStoreyInputs()){
+				$(".alert").fadeOut();
+				sessvars.storey_count = parseFloat(document.getElementById('storey_count').value);
+				sessvars.storey_height = parseFloat(document.getElementById('storey_height').value);
+				console.log('Proceed');
+
+				startBP();
+			}
+			else{
+				$(".alert").fadeIn();
+				$(".alert").fadeOut(10000);
+			}
 		});
 
 
@@ -397,7 +413,8 @@ var standardFlag = "NBCC";
 													$("#Tf_spinners").editRangeSlider("option", "bounds", {min: 0.3, max: 4});
 													$("#Vf_spinners").editRangeSlider("option", "bounds", {min: 30, max: 100});															
 													}); 
-													
+				
+		/*											
 		$('#navigator').click(function(){
 				if (standardFlag == "ASCE")
 				{
@@ -430,4 +447,6 @@ var standardFlag = "NBCC";
 						}
 				}
 		});
+
+		*/
 	});

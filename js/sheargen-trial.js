@@ -18,13 +18,12 @@ sessvars.storey_count = 3;
 sessvars.SdTf = 0.25;
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
 sessvars.phi_f = [0.28,0.68,1];
-sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
+sessvars.storey_height = 4.31; 
 sessvars.masses = [295617,295617,159735];
 */
 //sessvars.dampertype = "hyster"
 
 function activateSheargen(){
-//alert('THIS SHIT JUST HAPPENED');
 
 sessvars.Tf = parseFloat(sessvars.pointObject.Tf);
 var constant = Math.pow((2*Math.PI/sessvars.Tf),2);
@@ -42,7 +41,7 @@ sessvars.SdTf = parseFloat(sessvars.pointObject.SdTf);
 sessvars.SaTf = (0.25/9.81)*Math.pow((2*Math.PI/sessvars.Tf),2);
 
 //sessvars.phi_f = [0.28,0.68,1];
-//sessvars.storey_height = 4.31; //THESE MIGHT NEED TO BE ENTERED INDIVIDUALLY. YA BISH.
+//sessvars.storey_height = 4.31; 
 //sessvars.masses = [295617,295617,159735];
 
 
@@ -430,7 +429,6 @@ function sheargen(){ //arguments: Tf,Vf,alpha, mu,Rd,Rv,n,SdTf
 		//VISCO CALCULATIONS
 		//14-26
 		
-		console.log('ARE YOU IN HURR');
 		var Ti = sessvars.Tf*Math.sqrt(sessvars.alpha);
 		Kd = calculateKd_visco(Ti,di,delta_di,Kf_frame);
 		

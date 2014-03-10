@@ -21,6 +21,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 	<link href='fonts/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/iThing.css" type="text/css" />
+	<link href='dragdealer/dragdealer.css' rel='stylesheet' type='text/css'>
 
 	<!-- Other libraries below --> 
     <script src="lib/jquery-1.7.1.min.js"></script>
@@ -36,9 +37,12 @@
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.crosshair.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.flot.navigate.js"></script>	
+	<script language="javascript" type="text/javascript" src="dragdealer/dragdealer.js"></script>	
 	<script language="javascript" type="text/javascript" src="js/getPoint.js"></script>
 	<script language="javascript" type="text/javascript" src="js/active-scripts.js"></script>
-	<script language="javascript" type="text/javascript" src="control/list_control.js"></script>		
+	<script language="javascript" type="text/javascript" src="js/sheargen-trial.js"></script>	
+	<script language="javascript" type="text/javascript" src="control/list_control.js"></script>	
+	<script language="javascript" type="text/javascript" src="control/bp.js"></script>	
 	<script language="javascript" type="text/javascript" src="control/seismic.js"></script>
 	<script src="lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="js/jQAllRangeSliders-min.js"></script>	
@@ -402,7 +406,48 @@
 						</table>
 					</div>
 				</div>
-	<!-- Building Parameters Below -->			
+	<!-- Building Parameters Below -->	
+				<div class="basic_form">
+					<span class="seismic_title">
+							Building Parameters
+					</span>
+					<div id="bldg_specs">
+						<div class="custom_label">Specification</div><br>
+					</div>
+
+					<div id="bldg_target">
+						<div class="custom_label">Target</div><br>
+					</div>
+
+					<div id="contacts3">
+						<table>
+							<thead>
+								<tr>
+									<th class="sort" data-sort="Kf">Kf</th>
+									<th class="sort" data-sort="Vf">Vf</th>
+									<th class="Kd sort" data-sort="Kd">Kdi</th>
+									<th class="Vd sort" data-sort="Vd">Vdi</th>
+									<th class="Cd sort" data-sort="Cd">Cdi</th>									
+								</tr>
+							</thead>
+							<tbody class="list">
+								<tr>
+									<!-- The following entry needs to be there as a template for some reason? It is removed on page load. -->
+									<td class="id" style="display:none;">1</td>
+									<td class="Kf user-def-element">1</td>
+									<td class="Vf user-def-element">2</td>
+									<td class="Kd user-def-element">3</td>
+									<td class="Vd user-def-element">4</td>
+									<td class="Cd user-def-element">5</td>									
+									<!--<td class="remove"><button class="remove-item-btn">Remove</button></td>--> 
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				
+				<button id="go">Go</button>
+				</div>
+	<!-- markup end -->						
       <div id="push"></div>
     </div>
 

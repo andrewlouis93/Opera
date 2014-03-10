@@ -81,17 +81,5 @@
 			 
 			sessvars.pointObject = lookupTable(sessvars.table,x,y);
 		});
-		$('#navigator').click(function(){
-			if (sessvars.pointObject && checkStoreyInputs()){
-				$(".alert").fadeOut();
-				sessvars.storey_count = parseFloat(document.getElementById('storey_count').value);
-				sessvars.storey_height = parseFloat(document.getElementById('storey_height').value);
-				console.log('Proceed');
-				window.location.href = "buildingparams.html";
-			}
-			else{
-				$(".alert").fadeIn();
-				$(".alert").fadeOut(10000);
-			}
-		});
+
 	}

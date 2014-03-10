@@ -5,7 +5,7 @@ function getIndexFromID(string,slider){
 					object.mode = "target";
 					temp = string.slice(13);
 					temp = parseFloat(temp);
-					console.log('target index ' + temp + ' target mode ' + object.mode);
+					//console.log('target index ' + temp + ' target mode ' + object.mode);
 				}
 				else if (slider == "my-slider"){
 					object.mode = "spec";
@@ -83,7 +83,7 @@ function getIndexFromID(string,slider){
 			}
 			
 			/*<input class='floor_mass' type='number' step='any' placeholder='mass'><span>*/
-			$(document).ready(function() {
+			function startBP(){
 			
 				var pageLoad = false;
 
@@ -112,7 +112,7 @@ function getIndexFromID(string,slider){
 				};
 				
 				// Init list
-				var contactList = new List('contacts', options);
+				var contactList3 = new List('contacts3', options);
 				//alert('Fixes made, bitches fucked.');
 					
 				var editBtn = $('#edit-btn').hide(),
@@ -125,14 +125,14 @@ function getIndexFromID(string,slider){
 					editBtns = $(editBtns.selector);
 					removeBtns.click(function() {
 					   var itemId = $(this).closest('tr').find('.id').text();
-					   contactList.remove('id', itemId);
+					   contactList3.remove('id', itemId);
 					});
 				}
 					
 				function loadTable(){
 					
 					//Clears list. Since it keeps updating. 
-					contactList.clear();
+					contactList3.clear();
 					
 					if ((sessvars.Kf_frame != null) && (sessvars.Vf_strength != null)){
 						for (var i = 0; i < sessvars.storey_count; i++){
@@ -140,10 +140,10 @@ function getIndexFromID(string,slider){
 									
 									//Here is where the magic happens.
 									if (sessvars.dampertype == "hyster"){
-										contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Vd:sessvars.Vd[i].toFixed(2)});
+										contactList3.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Vd:sessvars.Vd[i].toFixed(2)});
 									}
 									else if (sessvars.dampertype == "visco"){
-										contactList.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Cd:sessvars.Ci[i].toFixed(2)});
+										contactList3.add({id: Math.floor(Math.random()*110000),Kf: sessvars.Kf_frame[i].toFixed(2),Vf: sessvars.Vf_strength[i].toFixed(2),Kd:sessvars.Kd[i].toFixed(2),Cd:sessvars.Ci[i].toFixed(2)});
 									}
 								}
 						}
@@ -165,22 +165,19 @@ function getIndexFromID(string,slider){
 					loadTable();
 				}
 	
-				setInterval(function(){timeoutFunction()},1000);
-				contactList.remove('id',1); 
+				$( "#go" ).click(timeoutFunction);
+				//setInterval(function(){timeoutFunction()},1000);
+				contactList3.remove('id',1); 
 				refreshCallbacks();
 				loadTable();	
 				//Control shit
 				
 				var allow = false;
-				$('#navigator').click(function(){
-					window.location.href = "list.html";
-					console.log(allow + 'in navigator');
-				});
-			
+
 				window.onbeforeunload = function() {
 					console.log(allow + 'in refreshwindowfunction');
 					if (allow = false){
 						return "Refreshing this page will clear session stored data, and the user may have to start this Opera session from the beginning. Are you still willing to proceed?";
 					}
 				};
-			});
+			}
